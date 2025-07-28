@@ -151,15 +151,25 @@
 
 ## Stories
 * repo, readme and story outlines
+* ### STATUS: COMPLETE
+* ### note: stories only eist up to implementing classic blackjack
 
 * Purchase advantageblackjack URL from Google (ABJ)
   * There should be an option from google for an email associated with ABJ. Take it.
   * If there is no email address option associated with ABJ, then create a gmail account
+  * ### STATUS: COMPLETE
+  * ### notes:
+    * google was purchased by squarespace
+    * advantageblackjack.com was purchased ($14) through squarespace
+    * log into squarespace account with mikedowd300@gmail.com
+    * email account is advantageblackjack@gmail.com
 
 * Create angular app (ABJ) with "Hello Advantage Blackjack" as content and deploy
   * Update to latest version of angular and node
+    * ### STATUS: COMPLETE
   * Replace app component content with "Hello Advantage Blackjack"
-  * deploy from gitlab pages to the URL
+    * ### STATUS: COMPLETE
+  * deploy from gitlab pages to www.advantageblackjack.com 
 
 * Create email.js account for ABJ
 
