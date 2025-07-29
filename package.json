@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:deploy": "ng build --output-path docs --base-href /advantage-blackjack",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
