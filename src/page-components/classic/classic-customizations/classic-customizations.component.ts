@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'classic-customizations',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterOutlet],
   templateUrl: './classic-customizations.component.html',
   styleUrl: './classic-customizations.component.scss'
 })
