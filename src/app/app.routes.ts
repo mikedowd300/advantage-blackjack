@@ -16,6 +16,7 @@ import { ClassicCustomizationsTableComponent } from '../page-components/classic/
 import { ClassicCustomizationsTippingComponent } from '../page-components/classic/classic-customizations/classic-customizations-tipping/classic-customizations-tipping.component';
 import { ClassicCustomizationsUnitResizingComponent } from '../page-components/classic/classic-customizations/classic-customizations-unit-resizing/classic-customizations-unit-resizing.component';
 import { ClassicCustomizationsWongingComponent } from '../page-components/classic/classic-customizations/classic-customizations-wonging/classic-customizations-wonging.component';
+import { ClassicCustomizationsComponent } from '../page-components/classic/classic-customizations/classic-customizations.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'customizations',
-        component: ClassicComponent,
+        component: ClassicCustomizationsComponent,
         children: [
           {
             path: 'conditions',
@@ -91,7 +92,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'double-up',
+    path: 'doubleup',
     component: DoubleupComponent,
     children: [
       {
