@@ -1,0 +1,28 @@
+:host {
+
+  .select-dropdown-wrapper {
+    padding: 6px 6px 6px 0;
+    max-width: 212px;
+    overflow: hidden;
+    background-color: transparent;
+    outline: none;
+  
+    label {
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+  
+    select {
+      padding: 6px;
+      width: 200px;
+      max-width: 200px;
+      border-radius: 3px;
+      border: 1px solid white;
+  
+      &:hover, &:focus {
+        border: 1px solid black;
+        outline: none;
+      }
+    }
+  }
+}

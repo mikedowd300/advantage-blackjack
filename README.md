@@ -170,50 +170,128 @@
   * Replace app component content with "Hello Advantage Blackjack"
     * ### STATUS: COMPLETE
   * deploy from gitlab pages to www.advantageblackjack.com 
+    * ### STATUS: COMPLETE
+    * ### DOCUMENTATION
+      * #### Set Up The DNS records
+        * this involves going to the domain manager for advantageblackjack.com (https://account.squarespace.com/domains/managed/advantageblackjack.com)
+        * Clicking the DNS link from there will take you to DNS settings (https://account.squarespace.com/domains/managed/advantageblackjack.com/dns/dns-settings)
+        * Delete the records provided by squarespace
+        * create 4 new record with information from the github repo (https://github.com/<git hub account name>/<repo name>)
+          * go to "settings" currently found in the top nav bar
+          * click on "Pages" currently located in the side nav (https://github.com/<git hub account name>/<repo name>/settings/pages)
+          * click "Learn more about configuring custom domains."
+          * click "Managing a custom domain for your GitHub Pages site" (https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+          * scroll down to the 4 IP address found under "To create A records, point your apex domain to the IP addresses for GitHub Pages." - These are real IP addresses, not examples.
+          * In squarespace, create a new record for each IP address
+            * HOST - value is "@"
+            * TYPE - value is "A"
+            * PRIORITY - ignore
+            * TTL - ignore
+            * DATA - an IP address from github
+          * create a 5th record with the following values
+            * HOST - value is "WWW"
+            * TYPE - value is "CNAME"
+            * PRIORITY - ignore
+            * TTL - ignore
+            * DATA - <name of github account>.github.io
+      * Deploy from github using ng deploy
+        * This youtube video explains almost all the steps, except it will not deploy to a custom domain - https://www.google.com/search?q=deploy+angular+from+github+pages&sca_esv=15864d34a86b306d&source=lnt&tbs=qdr:y&sa=X&ved=2ahUKEwjRwoWNkuGOAxVw4ckDHX9zBhAQpwV6BAgEEAo&biw=1591&bih=677&dpr=1#fpstate=ive&vld=cid:ec5ee4d4,vid:l_d3G-P2XG8,st:0
+        * In pages (https://github.com/<git hub account name>/<repo name>/settings/pages) set:
+          * source - "deploy from branch"
+          * branch - "gh-pages" - automatically generated with "ng deploy"
+          * path - '/(root)'
+          * Custom Domain - advantageblackjack.com
+          * save
+        * The only variance from the video is that in angular json, for options, since this is a custom site, for "options", the value should be: 
+        { "cname": "advantageblackjack.com" }
+        * If setup correctly, running "ng deploy" from the comman line will deploy the app to the squarespace site.
 
-* Create email.js account for ABJ
+
+* Create email.js account for ABJ and document
+  * ### STATUS: COMPLETE
+  * ### DOCUMENTATION
+    * public key: e6uXNkHPbiTl67p1p
+    * service ID: abj_feedback_service
+    * template ID: template_34sqcm7
+    * Installed via NPM
 
 * Create feedback service and temporary component for testing email.js
   * write service with the suggested email.js code
+    * ### STATUS: OPEN - to be completed with feedback component
+    * The code the service will need is currently part of the app component
   * use email address associated with the website
-  * add component or section that uses email.js service to the app component
+    * ### STATUS: COMPLETE
+  * add temporary component or section that uses email.js service to the app component
+    * ### STATUS: COMPLETE
 
 * Find an appropriate tab image
   * store in '/public' folder
+  * ### STATUS: COMPLETE
 
 * Determine styleguide
   * document here
   * create shared styles file
   * File will grow as guidelines are expanded
+  * ### ADDED CODE FOR CUSTOM SELECT COMPONENT
 
-* Make shared dropdown component
+* Make shared select dropdown component
   * follow / create the styleguide
   * parent should be aware of selection
+  * ### STATUS: COMPLETE
 
-* Make a shared page component
+* Make a page class
   * follow / create the styleguide
+  * ### STATUS: COMPLETE
 
 * Create the following routes and page components
+  * '/home'
   * '/classic/home'
   * '/classic/customizations'
+  * '/classic/customizations'
+  * '/classic/customizations/conditions'
+  * '/classic/customizations/player'
+  * '/classic/customizations/table'
+  * '/classic/customizations/bet-spread'
+  * '/classic/customizations/play-chart'
+  * '/classic/customizations/unit-resizing'
+  * '/classic/customizations/wonging'
+  * '/classic/customizations/tipping'
+  * '/classic/customizations/custom-counting-system'
+  * '/classic/customizations/insurance-plan'
   * '/classic/simulation'
-  * '/classic/index-charts'
+  * '/classic/simulation-results'
   * '/classic/practice'
   * '/classic/speed-practice'
   * '/double-up/home'
   * '/double-up/customizations'
+  * '/double-up/customizations/conditions'
+  * '/double-up/customizations/player'
+  * '/double-up/customizations/table'
+  * '/double-up/customizations/bet-spread'
+  * '/double-up/customizations/play-chart'
+  * '/double-up/customizations/unit-resizing'
+  * '/double-up/customizations/wonging'
+  * '/double-up/customizations/tipping'
+  * '/double-up/customizations/custom-counting-system'
+  * '/double-up/customizations/insurance-plan'
   * '/double-up/simulation'
-  * '/double-up/index-charts'
+  * '/double-up/simulation-results'
   * '/double-up/practice'
   * '/double-up/speed-practice'
+* ### STATUS: PARTIALLY COMPLETE - CARRY REMAINDER INTO LATER TICKET
+* ### '/double-up/' most components are not made, but routes are.
+* ### '/double-up/' routes currently point to '/classic' components (for the most part).
+* ### '/double-up/' component completion will be completed after '/classic' is complete
 
 * Make routes, header and header navigation
   * component should use its own style
-  * default route is classic blackjack, ('/classic')
-  * selecting blackjack variation should change the route
+  * default route is home, ('/')
+    * '/' is version agnostic
+    * Should explain what the site can be used for
+  * selecting blackjack variation should change the route to the variation page
   * blackjack variation should be set from header, in a dropdown
   * the header should contain links to:
-    * Home
+    * Home / Intro
     * Customizations
     * Simulations
     * Index Chart
@@ -348,7 +426,8 @@
 * Create 52 files with images of every card
   * store in /public/card-images
   * The name of the page should follow a pattern so that the files can be systematically accessed
-  * consistantly use .svg, .png or .jpg
+  * consistantly use .svg, .png or .jpg - Uses .png
+  * ### STATUS: COMPLETE
 
 * Create a local storage (LS) service
   * Include a method to check how much space is left in LS (just in case)
@@ -388,6 +467,24 @@
     * for later analysis by "Perfect Play" 
     * beyond MVP
     * th string would most likely be stored with the players hand, not in the show itself - TBD
+
+* ## NOTE - New Result Festure - "What if" betspreads
+  * The results of a specific simulation can be adjusted to reflect 
+    * a different betspread
+    * if the user could see the burn card
+    * if the user could see the botton card
+  * The feature will be available through '/double-up/simulation/results' page
+
+* ## NOTE - New Result Festure - "What if" same shoe with different anything / everything
+  * The card order will be stored for each fresh shoe
+  * After a simulation, the player may run the same shoes as the original simulation, but with changes to ANY set of conditions, strategy or number/type of players.
+  * The same order of cards will be dealt, but the hands may be different, potentialy very different, based on the changes.
+    * The idea is to see if that, since the cards will have the exact same order, the positive and negative counts will be similar, so what will it do to the overall results of a shoe.
+    * HOW TO MEASURE / DISPLAY THE RESULTS OF EACH SHOW COMPARED TO THE ORIGINAL
+  * The feature will be available through '/double-up/simulation/results' page
+
+* ## NOTE - Allow for a strategy where a player wongs out completely.
+  * A ploppy should be at the table to eat cards while the player is wonged out.
 
 ------------------------------ CLASSIC BLACKJACK ----------------------------------
 

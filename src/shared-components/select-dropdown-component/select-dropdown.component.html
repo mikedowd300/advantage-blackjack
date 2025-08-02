@@ -1,0 +1,9 @@
+<div class="select-dropdown-wrapper flex-column">
+  <label>{{ label }}</label>
+  <select [(ngModel)]="selectValue" (change)="sendMessage(selectValue)">    
+    <option disabled selected>{{ selectValue }}</option>
+  @for(option of options; track option) {
+    <option [value]="option">{{ option }}</option>
+  }
+  </select>
+</div>
