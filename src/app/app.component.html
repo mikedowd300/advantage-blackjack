@@ -1,3 +1,19 @@
-<div>
+<div class="page">
   Hello, Advantage Blackjack
+  <br>
+  <button (click)="sendEmail()">Test Email</button>
+  <br>
+  <div class="flex">
+    <select-dropdown
+      [selectValue]="testSelectValue"
+      (messageEvent)="receiveTestMessage($event)"
+    ></select-dropdown>
+    <select-dropdown
+      [selectValue]="testSelectValue"
+      (messageEvent)="receiveTestMessage($event)"
+    ></select-dropdown>
+  </div>
+  <span>{{testSelectValue}}</span>
+
+  <router-outlet />
 </div>
