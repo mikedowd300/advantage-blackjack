@@ -285,27 +285,28 @@
 
 * Make routes, header and header navigation
   * component should use its own style
-  * default route is home, ('/')
-    * '/' is version agnostic
-    * Should explain what the site can be used for
+  * default route is home, and explains what the site offers
   * selecting blackjack variation should change the route to the variation page
-  * blackjack variation should be set from header, in a dropdown
-  * the header should contain links to:
-    * Home / Intro
+  * blackjack variation should be set from header via tabs
+    * Home
+    * classic
+    * doubleup
+  * Clicking a tab should take the user to the url/page for the variation
+  * The link in the header to which the player has navigated should be removed from the tab options
+  * make sure navigating to a link or using the back button does not reload the app
+
+* Make page header as a second level of navigation for 'classic' and 'doubleup'
+  * page headers should contain links to:
     * Customizations
     * Simulations
     * Index Chart
     * Practice
     * Speed Practice
-  * Clicking a link should take the user to the url for the variation and the link
-  * The link in the header to which the player has navigated, should be underlined
-  * Any other routes should be caught by the route guard and return the user to '/classic/home'
-  * A back button should appear to take the user to the previous page when applicable - this may involve its own routing service
-  * make sure navigating to a link or using the back button does not reload the app
 
 * Make an option in the header to set a variation as default
   * The default variation is kept in local storage
   * if no default option exists, then "classic" is the default variation
+  * ### STATUS: COMPLETE
 
 * Create a route and page component for "/about-us" 
   * content will be part of another ticket
@@ -429,6 +430,8 @@
   * consistantly use .svg, .png or .jpg - Uses .png
   * ### STATUS: COMPLETE
 
+* Create a route guard
+
 * Create a local storage (LS) service
   * Include a method to check how much space is left in LS (just in case)
   * For the preferred game variation:
@@ -485,6 +488,10 @@
 
 * ## NOTE - Allow for a strategy where a player wongs out completely.
   * A ploppy should be at the table to eat cards while the player is wonged out.
+
+* ## NOTE - Decide if a back button should appear to take the user to the previous page. 
+  * This would be to keep or not keep the same state when going back and forth between conditions and strategies
+  * This will be easier to imagine once the pages populating from local storage existare functional
 
 ------------------------------ CLASSIC BLACKJACK ----------------------------------
 

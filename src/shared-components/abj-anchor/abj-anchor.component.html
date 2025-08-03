@@ -1,0 +1,12 @@
+<div
+  class="abj-anchor"
+  [class.is-tab]="isTab"
+  [class.on-light]="onLightBackground"
+>
+  @if(routerLink !== '') {
+    <a [routerLink]="routerLink">{{ text}}</a>
+  }
+  @else {
+    <a (click)="handleAction(linkUrl)">{{ text }}</a>
+  }
+</div>

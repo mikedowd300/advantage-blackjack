@@ -1,0 +1,29 @@
+:host {
+  .abj-anchor {
+    display: inline-block;
+    margin-right: 12px;
+
+    &.is-tab {
+      padding: 0;
+      box-sizing: border-box;
+      margin-right: 0;
+      border: 1px solid black;
+
+      a {
+        display: block;
+        padding: 12px;
+      }
+    }
+
+    &:not(.on-light) {
+      &.is-tab {
+        border: 1px solid white;
+
+        &:hover {
+          background-color: #555555;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
