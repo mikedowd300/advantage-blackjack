@@ -1,0 +1,51 @@
+:host {
+  
+  .abj-button-wrapper {
+    border-radius: 3px;
+
+    button {
+      border: none;
+      padding: 4px;
+      background-color: transparent;
+      width: 120px;
+      font-size: 16px;
+
+      &:hover {
+        background-color: #555555;
+        cursor: pointer;
+        color: white;
+      }
+    }
+
+    &.primary {
+      border: 1px solid gray;
+      background-color: gray;
+
+      button {
+        padding: 8px;
+        background-color: transparent;
+
+        &:hover {
+          background-color: #555555;
+          cursor: pointer;
+          color: white;
+        }
+      }
+
+      &:not(.on-light) {
+        border: 1px solid white;
+        background-color: white;
+
+        button {
+          color: black;
+
+          &:hover {
+            background-color: #555555;
+            cursor: pointer;
+            color: white;
+          }
+        }
+      }
+    }   
+  }
+}

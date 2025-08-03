@@ -1,0 +1,29 @@
+<div class="abj-header flex-column">
+  <div class="header-text flex-column">
+    <h1>{{title}}</h1>
+    <div class="flex tag-button-wrapper">
+    @if(currentVariation !== storedVariation) {
+      <div class="button-wrapper flex-column">
+        <abj-button 
+          (action)="setDefaultVariation()"
+          text="Set as Default"
+          [primary]="true"
+          [onLightBackground]="false"
+        ></abj-button>
+      </div>
+    }
+      <p><i>{{tagLine}}</i></p>
+    </div>
+  </div>
+  <div class="nav-wrapper">
+  @for(link of urlLinks; track link.url) {
+    <abj-anchor
+      [text]="link.title"
+      [isTab]="true"
+      [onLightBackground]="false"
+      (action)="handleVariationSelection(link.url)"
+      [linkUrl]="link.url"
+    ></abj-anchor>
+  }
+  </div>
+</div>

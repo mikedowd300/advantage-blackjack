@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PageService } from '../../../services/page.service';
 
 @Component({
   selector: 'classic-customizations',
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ClassicCustomizationsComponent implements OnInit {
 
-  constructor() {}
+  constructor(private pageService: PageService) {}
 
   ngOnInit(): void {}
 }

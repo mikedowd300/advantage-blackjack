@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SelectDropdownComponent } from './../shared-components/select-dropdown-component/select-dropdown.component'
+import { ABJSelectComponent } from '../shared-components/abj-select/abj-select.component';
+import { HeaderComponent } from '../header-component/header.component'
 import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SelectDropdownComponent],
+  imports: [RouterOutlet, ABJSelectComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
