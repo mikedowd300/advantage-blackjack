@@ -14,6 +14,7 @@ export class ABJAnchorComponent implements OnInit {
   @Input() onLightBackground: boolean = true;
   @Input() routerLink: string = '';
   @Input() linkUrl: string = '';
+  @Input() textWrap: boolean = true;
   @Output() action = new EventEmitter<any>();
 
   ngOnInit(): void {}

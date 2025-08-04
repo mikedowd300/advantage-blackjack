@@ -9,9 +9,23 @@
       margin-right: 0;
       border: 1px solid black;
 
+      &:hover {
+        background-color: #555555;
+        color: white;
+        cursor: pointer;
+      }
+
       a {
         display: block;
         padding: 12px;
+
+        p {
+          margin: 0;
+
+          &:not(.wrap) {
+            white-space: nowrap;
+          }
+        }
       }
     }
 

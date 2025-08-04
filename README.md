@@ -233,6 +233,10 @@
   * create shared styles file
   * File will grow as guidelines are expanded
   * ### ADDED CODE FOR CUSTOM SELECT COMPONENT
+  * ### COMPLETE CUSTOM SHARED COMPONENTS
+    * #### select - abj-select
+    * #### anchor - abj-anchor
+    * #### button - abj-button
 
 * Make shared select dropdown component
   * follow / create the styleguide
@@ -242,6 +246,7 @@
 * Make a page class
   * follow / create the styleguide
   * ### STATUS: COMPLETE
+  * ### NOTE - THIS MAY BE TWEEKED OR ADDED TO AS NEEDED
 
 * Create the following routes and page components
   * '/home'
@@ -286,14 +291,16 @@
 * Make routes, header and header navigation
   * component should use its own style
   * default route is home, and explains what the site offers
+    * ### WILL BE COMPLETED IN ANOTHER STORY
   * selecting blackjack variation should change the route to the variation page
   * blackjack variation should be set from header via tabs
-    * Home
+    * home
     * classic
     * doubleup
-  * Clicking a tab should take the user to the url/page for the variation
+  * Clicking a variation tab should take the user to the url/page for that variation
   * The link in the header to which the player has navigated should be removed from the tab options
-  * make sure navigating to a link or using the back button does not reload the app
+  * make sure navigating to a link does not reload the app
+* ### STATUS: COMPLETE
 
 * Make page header as a second level of navigation for 'classic' and 'doubleup'
   * page headers should contain links to:
@@ -302,10 +309,12 @@
     * Index Chart
     * Practice
     * Speed Practice
+* ### STATUS: COMPLETE
 
 * Make an option in the header to set a variation as default
   * The default variation is kept in local storage
-  * if no default option exists, then "classic" is the default variation
+  * if no default option exists, then "home" is the default variation
+  * a specific feature may NOT be included in the default url
   * ### STATUS: COMPLETE
 
 * Create a route and page component for "/about-us" 
@@ -471,6 +480,14 @@
     * beyond MVP
     * th string would most likely be stored with the players hand, not in the show itself - TBD
 
+* For Feature Navigation on a page create a hamburger menu
+  * Select a screen width for the menu to go into hamburger mode
+  * Include hamburger menu icon
+  * Clicking the hamburger menu icon will drop the menu selection down vertically
+  * an "X" at the top of the dropdown will close the dropdown and restore the hamburger icon
+  * MVP includes no animation for the dropdown
+  * This story can carry over into the next stage if needed
+
 * ## NOTE - New Result Festure - "What if" betspreads
   * The results of a specific simulation can be adjusted to reflect 
     * a different betspread
@@ -493,9 +510,25 @@
   * This would be to keep or not keep the same state when going back and forth between conditions and strategies
   * This will be easier to imagine once the pages populating from local storage existare functional
 
+-------------------------------- ROOT HOME PAGE -----------------------------------
+* Explains why this site exists
+* Explain what this site became
+
 ------------------------------ CLASSIC BLACKJACK ----------------------------------
 
 * Create stories for classic blackjack
 
+----------------------- INSTRUCTIONS TO ADD A NEW VARIATION  ----------------------
+
+* Add a variation tab to HeaderService
+  * This will add the variation to the header which may create a need for responsive CSS as some breakpoint
+* Add a route for the new variations in 'advantage-blackjack/src/app/app.routes.ts'
+* Add routes for the features that apply
+  * Customizations
+  * Simulations
+  * Index Chart
+  * Practice
+  * Speed Practice
+* Update the content in the "home" page to include info about the new variation
 
 

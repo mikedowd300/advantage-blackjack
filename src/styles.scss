@@ -21,19 +21,40 @@ body {
   // TODO: ACCOUNT FOR FOOTER
   box-sizing: border-box;
   width: 100%;
+  max-width: 840px;
   height: calc(100vh - 153px);
   max-height: calc(100vh - 153px);
+  margin: 0 auto;
   overflow: scroll;
   padding: 16px;
   overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &.with-nav {
+    height: calc(100vh - 153px - 42px);
+    max-height: calc(100vh - 153px - 42px);
+  }
 }
 
 .endless-page {
   box-sizing: border-box;
   width: 100%;
+  max-width: 840px;
   min-height: calc(100vh - 153px);
+  margin: 0 auto;
   padding: 16px;
   overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &.with-nav {
+    min-height: calc(100vh - 153px - 42px);
+  }
 }
 
 

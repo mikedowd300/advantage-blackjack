@@ -1,0 +1,12 @@
+<div class="feature-nav">
+  @for(link of featureLinks; track link) {
+    <abj-anchor
+      [text]="link.title"
+      [isTab]="true"
+      [onLightBackground]="true"
+      (action)="handleVariationSelection(link.url)"
+      [linkUrl]="link.url"
+      [textWrap]="false"
+    ></abj-anchor>
+  }
+</div>

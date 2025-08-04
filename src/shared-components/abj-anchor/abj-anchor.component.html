@@ -4,9 +4,9 @@
   [class.on-light]="onLightBackground"
 >
   @if(routerLink !== '') {
-    <a [routerLink]="routerLink">{{ text}}</a>
+    <a [routerLink]="routerLink"><p [class.wrap]="textWrap">{{ text }}</p></a>
   }
   @else {
-    <a (click)="handleAction(linkUrl)">{{ text }}</a>
+    <a (click)="handleAction(linkUrl)"><p [class.wrap]="textWrap">{{ text }}</p></a>
   }
 </div>
