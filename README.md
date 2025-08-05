@@ -315,11 +315,26 @@
   * The default variation is kept in local storage
   * if no default option exists, then "home" is the default variation
   * a specific feature may NOT be included in the default url
-  * ### STATUS: COMPLETE
+* ### STATUS: COMPLETE
 
 * Create a route and page component for "/about-us" 
   * content will be part of another ticket
   * add this route to the route guard with no restrictions
+* ### STATUS: COMPLETE
+
+* Create a route and page component for "/feedback" 
+  * content will be part of another ticket
+  * add this route to the route guard with no restrictions
+* ### STATUS: COMPLETE
+
+* Create a route and page component for "/faqs" 
+  * content will be part of another ticket
+  * add this route to the route guard with no restrictions
+* ### STATUS: COMPLETE
+
+* Create a shared button component
+  * The parent controls the action when the button emits
+  * ### STATUS: COMPLETE
 
 * Create a shared text-area component
   * The parent becomes aware of the text-area content when the text-area emits onchanges
@@ -327,9 +342,84 @@
 * Create a shared text-input component
   * The parent becomes aware of the text content when the input emits onchanges
 
-* Create a shared button component
-  * The parent controls the action when the button emits
+* Create the footer
+  * The footer will appear at the bottom of a pages content. If the page has no, or very littly content, then the footer will appear at the bottom of the screen.
+  * The user can not scroll past the footer.
+  * The footer will have links to the following existing pages
+    * '/about-us'
+    * '/feedback'
+  * make sure navigating to a link does not reload the app
 
+* Create 52 files with images of every card
+  * store in /public/card-images
+  * The name of the page should follow a pattern so that the files can be systematically accessed
+  * consistantly use .svg, .png or .jpg - Uses .png
+* ### STATUS: COMPLETE
+
+* Create a route guard
+  * The guard should grow as pages are added
+  * This story can carry over into the next stage if needed
+* ### STATUS: IN PROGRESS - to be added to as needed
+
+* Create a local storage (LS) service
+  * Include a method to check how much space is left in LS (just in case)
+  * For the preferred game variation:
+    * use 'preferred-variation' as a LS key 
+      * ### STATUS: COMPLETE
+    * If preferred-variation does not exist then create it and give it the value of 'home'
+      * ### STATUS: COMPLETE
+  * Other stored values (LSValue) include
+    * conditions
+    * tipping
+    * bet spread
+    * unit resizing
+    * wonging
+    * counting
+    * insurance
+    * play chart
+    * shoe
+  * Shoe
+    * to save local storage, the shoe can be shared
+    * Spanish21, and possibly other variations, will need their own shoe
+  * The other stored values should be name spaced accotding to the variation
+  * When an item is saved into LS, if the variation name space does not exist, it will be created
+  * When an item is saved into LS, if the value type does not exist within a namespace, it will be created
+  * The LS service / LS API should create, read, update and delete items
+    * When a value is deleted, all places that value is used will instead return a default value
+  * Updates will not get granular past variation.LSValue.instance-name
+  * Testing will occur as each LSValue UI is created
+
+* For Feature Navigation on a page create a hamburger menu
+  * Select a screen width for the menu to go into hamburger mode
+  * Include hamburger menu icon
+  * Clicking the hamburger menu icon will drop the menu selection down vertically
+  * an "X" at the top of the dropdown will close the dropdown and restore the hamburger icon
+  * MVP includes no animation for the dropdown
+  * This story can carry over into the next stage if needed
+
+* ## NOTE - New Result Festure - "What if" betspreads
+  * The results of a specific simulation can be adjusted to reflect 
+    * a different betspread
+    * if the user could see the burn card
+    * if the user could see the botton card
+  * The feature will be available through '/double-up/simulation/results' page
+
+* ## NOTE - New Result Festure - "What if" same shoe with different anything / everything
+  * The card order will be stored for each fresh shoe
+  * After a simulation, the player may run the same shoes as the original simulation, but with changes to ANY set of conditions, strategy or number/type of players.
+  * The same order of cards will be dealt, but the hands may be different, potentialy very different, based on the changes.
+    * The idea is to see if that, since the cards will have the exact same order, the positive and negative counts will be similar, so what will it do to the overall results of a shoe.
+    * HOW TO MEASURE / DISPLAY THE RESULTS OF EACH SHOW COMPARED TO THE ORIGINAL
+  * The feature will be available through '/double-up/simulation/results' page
+
+* ## NOTE - Allow for a strategy where a player wongs out completely.
+  * A ploppy should be at the table to eat cards while the player is wonged out.
+
+* ## NOTE - Decide if a back button should appear to take the user to the previous page. 
+  * This would be to keep or not keep the same state when going back and forth between conditions and strategies
+  * This will be easier to imagine once the pages populating from local storage existare functional
+
+--------------------------------- FEEDBACK PAGE -----------------------------------
 * create a route and page component for "/feedback"
   * add this route to the route guard with no restrictions
   * page will get url specific guidelines from the feedback service
@@ -362,25 +452,6 @@
     * after a second failure, will provide additional messaging ("Please try again later");
   * The modal will live in the app component and be hidden via css
 
-* Create the footer
-  * The footer will appear at the bottom of a pages content. If the page has no, or very littly content, then the footer will appear at the bottom of the screen.
-  * The user can not scroll past the footer.
-  * The footer will have links to the following existing pages
-    * '/about-us'
-    * '/feedback'
-  * make sure navigating to a link does not reload the app
-
-* Add content to the '/about-us' page
-  * Gives information about
-    * me as the author of the website - TBD
-    * my motivation - TBD
-  * Discusses where I see this website going
-  * Acknowledgments
-    * BJA
-    * Wizard of Odds
-    * The Community
-    * God
-
 * Add the feedback button to these page components
   * '/classic/home'
   * '/classic/customizations'
@@ -403,6 +474,7 @@
     * the key is origenUrl
     * the specific messaging is TBD
 
+----------------------------------- POLL PAGE -------------------------------------
 * Create a "Poll" page, which reads from a poll service. It knows which "Poll" to display based on the entry point.
   * Create a test entrypoint on '/classic/home'
   * The entry point should take the user to "/poll"
@@ -433,90 +505,44 @@
   * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
   * Clicking the "x" in the modal should reset the route guard restriction
 
-* Create 52 files with images of every card
-  * store in /public/card-images
-  * The name of the page should follow a pattern so that the files can be systematically accessed
-  * consistantly use .svg, .png or .jpg - Uses .png
-  * ### STATUS: COMPLETE
+-------------------------------- ROOT HOME PAGE -----------------------------------
+* Explains why this site exists
+* Explain what this site became
 
-* Create a route guard
+----------------------------------- ABOUT US --------------------------------------
+* Some content may overlap the root home page content
+* The only link to this is from the footer
+* Add content to the '/about-us' page
+  * Gives information about
+    * me as the author of the website - TBD
+      * Go into my personal blackjack journey
+    * my motivation - TBD
+  * Discusses where I see this website going
+  * Acknowledgments
+    * BJA
+    * Wizard of Odds
+    * The Community
+    * God
 
-* Create a local storage (LS) service
-  * Include a method to check how much space is left in LS (just in case)
-  * For the preferred game variation:
-    * use 'preferred-variation' as a LS key
-    * If preferred-variation does not exist or is null or undefined, then return 'classic' when fetching, other wise return the stored value
-  * Other stored values (LSValue) include
-    * conditions
-    * tipping
-    * bet spread
-    * unit resizing
-    * wonging
-    * counting
-    * insurance
-    * play chart
-    * shoe
-  * Shoe
-    * to save local storage, the shoe can be shared
-    * Spanish21, and possibly other variations, will need their own shoe
-  * Other stored values should be name spaced accotding to the variation
-  * When an item is saved into LS, if the variation name space does not exist, it will be created
-  * When an item is saved into LS, if the value type does not exist within a namespace, it will be created
-  * The LS service / LS API should create, read, update and delete items
-  * Updates will not get granular past variation.LSValue.instance-name
-  * Testing will occur as each LSValue UI is created
+------------------------------ CLASSIC BLACKJACK ----------------------------------
+
+* Create stories for classic blackjack
 
 * Create the shoe class
   * This will be shared by the different variations unless the variations require a special deck as does Spanish21
   * The shoe in LS will be namespaced as 'shared' unless it is specific to a variation, in which case the name spaece will be the version - this is only for the shoe, not the other LSValues
   * The shoe will deal the cards and hold the discards
   * The shoe will count the cards, according to the counting method provided
-  * Players may round thr TC differently, the shoe will only calculate the exact TC
-  * Each shoe will be counted
-  * Each hand will be counted
-  * A hand will have an id based on the shoe count and the hand count
+  * Players may round the TC differently, the shoe will only track the RC
+  * Each shoe will be indexed
+  * Each hand will be indexed
+  * A hand will have an id based on the shoe index and the hand index
+  * At the very beginning of a shoe, the card order should be condensed and stored using indexDB
+    * This is to be used with the "What if" feature, where same shoe can be played against different strategies
   * the unseen cards in a shoe may be converted into an abbrevated string
     * for later analysis by "Perfect Play" 
     * beyond MVP
-    * th string would most likely be stored with the players hand, not in the show itself - TBD
-
-* For Feature Navigation on a page create a hamburger menu
-  * Select a screen width for the menu to go into hamburger mode
-  * Include hamburger menu icon
-  * Clicking the hamburger menu icon will drop the menu selection down vertically
-  * an "X" at the top of the dropdown will close the dropdown and restore the hamburger icon
-  * MVP includes no animation for the dropdown
-  * This story can carry over into the next stage if needed
-
-* ## NOTE - New Result Festure - "What if" betspreads
-  * The results of a specific simulation can be adjusted to reflect 
-    * a different betspread
-    * if the user could see the burn card
-    * if the user could see the botton card
-  * The feature will be available through '/double-up/simulation/results' page
-
-* ## NOTE - New Result Festure - "What if" same shoe with different anything / everything
-  * The card order will be stored for each fresh shoe
-  * After a simulation, the player may run the same shoes as the original simulation, but with changes to ANY set of conditions, strategy or number/type of players.
-  * The same order of cards will be dealt, but the hands may be different, potentialy very different, based on the changes.
-    * The idea is to see if that, since the cards will have the exact same order, the positive and negative counts will be similar, so what will it do to the overall results of a shoe.
-    * HOW TO MEASURE / DISPLAY THE RESULTS OF EACH SHOW COMPARED TO THE ORIGINAL
-  * The feature will be available through '/double-up/simulation/results' page
-
-* ## NOTE - Allow for a strategy where a player wongs out completely.
-  * A ploppy should be at the table to eat cards while the player is wonged out.
-
-* ## NOTE - Decide if a back button should appear to take the user to the previous page. 
-  * This would be to keep or not keep the same state when going back and forth between conditions and strategies
-  * This will be easier to imagine once the pages populating from local storage existare functional
-
--------------------------------- ROOT HOME PAGE -----------------------------------
-* Explains why this site exists
-* Explain what this site became
-
------------------------------- CLASSIC BLACKJACK ----------------------------------
-
-* Create stories for classic blackjack
+    * the string would most likely be stored with the players hand, not in the show itself - TBD
 
 ----------------------- INSTRUCTIONS TO ADD A NEW VARIATION  ----------------------
 

@@ -2,7 +2,7 @@
   <div class="header-text flex-column">
     <h1>{{title}}</h1>
     <div class="flex tag-button-wrapper">
-    @if(currentVariation !== storedVariation) {
+    @if(currentVariation !== storedVariation && showHeaderNav) {
       <div class="button-wrapper flex-column">
         <abj-button 
           (action)="setDefaultVariation()"
@@ -16,6 +16,7 @@
     </div>
   </div>
   <div class="nav-wrapper">
+@if(showHeaderNav) {
   @for(link of urlLinks; track link.url) {
     <abj-anchor
       [text]="link.title"
@@ -25,5 +26,6 @@
       [linkUrl]="link.url"
     ></abj-anchor>
   }
+}
   </div>
 </div>

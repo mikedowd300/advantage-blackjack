@@ -1,0 +1,9 @@
+<div class="faqs page">
+  Hello faqs
+@for( qa of faqs; track qa) {
+  <div class="accordion" [id]="'faq-' + $index">
+    <p class="question">{{ qa.question }}</p>
+    <p class="answer">{{ qa.answer }}</p>
+  </div>
+}
+</div>

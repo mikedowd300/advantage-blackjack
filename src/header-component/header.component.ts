@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   isHomePage$: Observable<boolean>;
   title: string;
   tagLine: string;
+  showHeaderNav: boolean = false;
 
   constructor(
     private router: Router,
@@ -42,7 +43,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.storedVariation = this.localStorageService.getVariation();
-    this.handleVariationSelection(this.storedVariation); 
+    // this.handleVariationSelection(this.storedVariation); 
     this.currentVariation$.pipe().subscribe(v => {
       this.currentVariation = v;
       this.urlLinks = this.headerService.variationLinks.filter(vl => vl.url !== v);
@@ -54,9 +55,17 @@ export class HeaderComponent implements OnInit {
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
       map(event => event.url === '/' ? 'home' : event.url.split('/')[1])
-    ).subscribe((key: string) => {
-        this.title = this.headerService.headerText[key].header;
-        this.tagLine = this.headerService.headerText[key].tagLine;
+    ).subscribe((pageKey: string) => {
+        console.log(pageKey);
+        this.title = this.headerService.headerText[pageKey].header;
+        this.tagLine = this.headerService.headerText[pageKey].tagLine;
+        if(this.variations.includes(pageKey)) {
+          this.showHeaderNav = true;
+          this.handleVariationSelection(this.storedVariation); 
+        } else {
+          this.showHeaderNav = false;
+          this.router.navigate([pageKey]);
+        }
       });;
   }
 
