@@ -19,6 +19,18 @@ export class HeaderService {
       header: 'DoubleUp Blackjack',
       tagLine: '"There is no spoon!"'
     },
+    'about-us': {
+      header: 'About Me',
+      tagLine: 'What is the Matrix?',
+    },
+    'feedback': {
+      header: 'What Would Make This Better',
+      tagLine: 'I know Kung Fu',
+    },
+    'faqs': {
+      header: 'So Many Questions',
+      tagLine: 'What is this place?',
+    }
   }
 
   variationLinks: HeaderLink[] = [
