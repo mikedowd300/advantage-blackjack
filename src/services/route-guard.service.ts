@@ -11,8 +11,6 @@ export class RouteGuardService implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-      return true
-      console.log(next, state);
       if(state.url === '/doubleup') {
         this.router.navigate(['/']);
         return false;

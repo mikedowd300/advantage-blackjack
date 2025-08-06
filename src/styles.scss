@@ -22,7 +22,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   max-width: 840px;
-  height: calc(100vh - 153px);
+  height: calc(100vh - 153px - 42px - 35px);
   max-height: calc(100vh - 153px);
   margin: 0 auto;
   overflow: scroll;
@@ -34,8 +34,8 @@ body {
   justify-content: flex-start;
 
   &.with-nav {
-    height: calc(100vh - 153px - 42px);
-    max-height: calc(100vh - 153px - 42px);
+    height: calc(100vh - 153px - 42px - 35px);
+    max-height: calc(100vh - 153px - 42px - 35px);
   }
 }
 
@@ -43,7 +43,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   max-width: 840px;
-  min-height: calc(100vh - 153px);
+  min-height: calc(100vh - 153px - 35px);
   margin: 0 auto;
   padding: 16px;
   overflow-x: scroll;
@@ -53,7 +53,7 @@ body {
   justify-content: flex-start;
 
   &.with-nav {
-    min-height: calc(100vh - 153px - 42px);
+    min-height: calc(100vh - 153px - 42px - 35px);
   }
 }
 

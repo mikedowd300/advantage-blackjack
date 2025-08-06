@@ -1,0 +1,11 @@
+<div class="abj-footer">
+@for(link of links; track link) {
+  <abj-anchor
+    [text]="link.text"
+    [isInlineButton]="true"
+    [onLightBackground]="false"
+    [routerLink]="link.url"
+    (action)="setIsFooterPage()"
+  ></abj-anchor>
+}
+</div>

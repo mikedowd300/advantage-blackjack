@@ -32,7 +32,6 @@ export class LocalStorageService {
   }
 
   setVariation(variation: string) {
-    console.log(variation);
     this.setItem(LocalStorageKeys.VARIATION, variation);
   }
 }

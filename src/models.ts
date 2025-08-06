@@ -22,4 +22,10 @@ export enum LocalStorageKeys {
 export interface HeaderLink {
   url: string,
   title: string,
+  responsiveTitle?: string,
+}
+
+export interface FooterLink {
+  text: string,
+  url: string,
 }

@@ -2,5 +2,33 @@
   .feature-nav {
     display: flex;
     flex-wrap: nowrap;
+
+    @media only screen and (max-width: 615px) {
+      ::ng-deep div.abj-anchor.is-tab a {
+        padding: 13px 6px;
+        font-size: 14px;
+      }
+    }
+
+    @media only screen and (max-width: 499px) {
+      ::ng-deep div.abj-anchor.is-tab {
+        height: 45px;
+        display: flex;
+
+        a {
+          display: flex;
+          align-items: center;
+          padding: 6px;
+  
+          p.large, p.medium {
+  
+            &:not(.wrap) {
+              white-space: normal;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -334,13 +334,7 @@
 
 * Create a shared button component
   * The parent controls the action when the button emits
-  * ### STATUS: COMPLETE
-
-* Create a shared text-area component
-  * The parent becomes aware of the text-area content when the text-area emits onchanges
-
-* Create a shared text-input component
-  * The parent becomes aware of the text content when the input emits onchanges
+* ### STATUS: COMPLETE
 
 * Create the footer
   * The footer will appear at the bottom of a pages content. If the page has no, or very littly content, then the footer will appear at the bottom of the screen.
@@ -348,7 +342,9 @@
   * The footer will have links to the following existing pages
     * '/about-us'
     * '/feedback'
+    * '/faqs'
   * make sure navigating to a link does not reload the app
+* ### STATUS: COMPLETE
 
 * Create 52 files with images of every card
   * store in /public/card-images
@@ -389,14 +385,18 @@
   * Updates will not get granular past variation.LSValue.instance-name
   * Testing will occur as each LSValue UI is created
 
-* For Feature Navigation on a page create a hamburger menu
-  * Select a screen width for the menu to go into hamburger mode
-  * Include hamburger menu icon
-  * Clicking the hamburger menu icon will drop the menu selection down vertically
-  * an "X" at the top of the dropdown will close the dropdown and restore the hamburger icon
-  * MVP includes no animation for the dropdown
-  * This story can carry over into the next stage if needed
+* Handle responsiveness for variation nav
+  * When a footer page is active there is 1 more link
+  * Consider using a smaller font, wrapping text, using different verbiage
+* ### STATUS: COMPLETE
+  * #### NOTE: uses different verbiage at lower breakpoints
 
+* Handle responsiveness for Feature Navigation on a page
+  * One breakpoint to decrease padding and use a small font size
+  * Second breakpoint to wrap text
+* ### STATUS: COMPLETE
+  * #### NOTE: it looks good down to 400px
+  
 * ## NOTE - New Result Festure - "What if" betspreads
   * The results of a specific simulation can be adjusted to reflect 
     * a different betspread
@@ -420,6 +420,13 @@
   * This will be easier to imagine once the pages populating from local storage existare functional
 
 --------------------------------- FEEDBACK PAGE -----------------------------------
+
+* Create a shared text-area component
+  * The parent becomes aware of the text-area content when the text-area emits onchanges
+
+* Create a shared text-input component
+  * The parent becomes aware of the text content when the input emits onchanges
+
 * create a route and page component for "/feedback"
   * add this route to the route guard with no restrictions
   * page will get url specific guidelines from the feedback service
@@ -510,6 +517,17 @@
 * Explain what this site became
 
 ----------------------------------- ABOUT US --------------------------------------
+
+* Create an accordion component
+  * A single line is exposed followed my a chevron
+  * Clicking the chevron
+    * opens the accordion to whatever size it takes to contain the content
+    * flips the chevron
+  * Clicking the chevron again closes the accordion
+    * flips the chevron
+  * Opening and closing an accordion involves a brief animation
+  * flipping the chevron involves no animation
+
 * Some content may overlap the root home page content
 * The only link to this is from the footer
 * Add content to the '/about-us' page
