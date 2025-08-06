@@ -10,14 +10,20 @@ import { RouterLink} from '@angular/router';
 })
 export class ABJAnchorComponent implements OnInit {
   @Input() text: string = "Anchor Text";
+  @Input() responsiveText: string;
   @Input() isTab: boolean = false;
+  @Input() isInlineButton: boolean = false;
   @Input() onLightBackground: boolean = true;
   @Input() routerLink: string = '';
   @Input() linkUrl: string = '';
   @Input() textWrap: boolean = true;
   @Output() action = new EventEmitter<any>();
 
-  ngOnInit(): void {}
+  displayedResponsiveText: string;
+
+  ngOnInit(): void {
+    this.displayedResponsiveText = this.responsiveText || this.text;
+  }
 
   handleAction(evt: any) {
     this.action.emit(evt);

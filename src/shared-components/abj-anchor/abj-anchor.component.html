@@ -2,11 +2,13 @@
   class="abj-anchor"
   [class.is-tab]="isTab"
   [class.on-light]="onLightBackground"
+  [class.inline-button]="isInlineButton"
 >
-  @if(routerLink !== '') {
-    <a [routerLink]="routerLink"><p [class.wrap]="textWrap">{{ text }}</p></a>
-  }
-  @else {
-    <a (click)="handleAction(linkUrl)"><p [class.wrap]="textWrap">{{ text }}</p></a>
-  }
+  <a
+    [routerLink]="routerLink"
+    (click)="handleAction(linkUrl)"
+  >
+    <p class="large" [class.wrap]="textWrap">{{ text }}</p>
+    <p class="medium" [class.wrap]="textWrap">{{ displayedResponsiveText }}</p>
+  </a>
 </div>

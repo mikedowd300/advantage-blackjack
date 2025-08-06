@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, filter, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
-import { HeaderService } from '../services/header.service';
+import { HeaderFooterService } from '../services/header-footer.service';
 import { ABJSelectComponent } from '../shared-components/abj-select/abj-select.component';
 import { ABJButtonComponent } from '../shared-components/abj-button/abj-button.component';
 import { ABJAnchorComponent } from '../shared-components/abj-anchor/abj-anchor.component';
@@ -33,21 +33,24 @@ export class HeaderComponent implements OnInit {
   isHomePage$: Observable<boolean>;
   title: string;
   tagLine: string;
-  showHeaderNav: boolean = false;
+  showSetDefaultButton: boolean = false;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private headerService: HeaderService,
+    public headerFooterService: HeaderFooterService,
   ) {}
 
   ngOnInit(): void {
     this.storedVariation = this.localStorageService.getVariation();
-    // this.handleVariationSelection(this.storedVariation); 
-    this.currentVariation$.pipe().subscribe(v => {
-      this.currentVariation = v;
-      this.urlLinks = this.headerService.variationLinks.filter(vl => vl.url !== v);
-    });
+    this.handleVariationSelection(this.storedVariation)
+    combineLatest([this.currentVariation$, this.headerFooterService.isFooterPage$])
+      .pipe().subscribe(([v, isFooterPage]) => {
+        this.currentVariation = v;
+        this.urlLinks = isFooterPage 
+          ? this.headerFooterService.variationLinks
+          : this.headerFooterService.variationLinks.filter(vl => vl.url !== v);
+      });
     this.isHomePage$ = this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
       map(event => event.url === '/')
@@ -56,14 +59,12 @@ export class HeaderComponent implements OnInit {
       filter((event: any) => event instanceof NavigationEnd),
       map(event => event.url === '/' ? 'home' : event.url.split('/')[1])
     ).subscribe((pageKey: string) => {
-        console.log(pageKey);
-        this.title = this.headerService.headerText[pageKey].header;
-        this.tagLine = this.headerService.headerText[pageKey].tagLine;
+        this.title = this.headerFooterService.headerText[pageKey].header;
+        this.tagLine = this.headerFooterService.headerText[pageKey].tagLine;
         if(this.variations.includes(pageKey)) {
-          this.showHeaderNav = true;
-          this.handleVariationSelection(this.storedVariation); 
+          this.showSetDefaultButton = true;
         } else {
-          this.showHeaderNav = false;
+          this.showSetDefaultButton = false;
           this.router.navigate([pageKey]);
         }
       });;
@@ -72,10 +73,12 @@ export class HeaderComponent implements OnInit {
   handleVariationSelection(variation: string = 'home') {
     this.currentVariation$.next(variation);
     this.router.navigate([variation !== 'home' ? variation : '']);
+    this.headerFooterService.isFooterPage$.next(false);
   }
 
   setDefaultVariation() {
     this.localStorageService.setVariation(this.currentVariation);
     this.storedVariation = this.localStorageService.getVariation();
+    this.headerFooterService.isFooterPage$.next(false);
   }
 }

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HeaderLink } from '../models';
+import { HeaderLink, FooterLink } from '../models';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HeaderService {
+export class HeaderFooterService {
+
+  isFooterPage$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   headerText = {
     'home': {
@@ -24,12 +27,12 @@ export class HeaderService {
       tagLine: 'What is the Matrix?',
     },
     'feedback': {
-      header: 'What Would Make This Better',
+      header: 'Feed Back',
       tagLine: 'I know Kung Fu',
     },
     'faqs': {
       header: 'So Many Questions',
-      tagLine: 'What is this place?',
+      tagLine: '"... It\'s the question that drives us, Neo!"',
     }
   }
 
@@ -37,16 +40,36 @@ export class HeaderService {
     {
       url: 'classic',
       title: 'Classic Blackjack',
+      responsiveTitle: 'Classic',
     },
     {
       url: 'doubleup',
       title: 'DoubleUp Blackjack',
+      responsiveTitle: 'DoubleUp',
     },
     {
       url: 'home',
       title: 'Red Pilled Home',
+      responsiveTitle: 'Home',
     }
   ];
+
+  footerLinks: FooterLink[] = [
+    {
+      text: 'About Us',
+      url: 'about-us',
+    },
+    {
+      text: 'Feed Back',
+      url: 'feedback',
+    },
+    {
+      text: 'FAQs',
+      url: 'faqs',
+    },
+  ]
+
+  // pages: string[] = ['classic','doubleup', 'home', 'about-us', 'faqs', 'feedback'];
 
   constructor() { }
 }
