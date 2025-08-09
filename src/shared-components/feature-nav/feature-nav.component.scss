@@ -30,5 +30,17 @@
         }
       }
     }
+
+    @media only screen and (max-width: 405px) {
+      ::ng-deep div.abj-anchor.is-tab a {
+        font-size: 13px;
+      }
+    }
+
+    @media only screen and (max-width: 380px) {
+      ::ng-deep div.abj-anchor.is-tab a {
+        padding: 6px 5px
+      }
+    }
   }
 }

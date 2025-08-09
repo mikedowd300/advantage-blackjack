@@ -31,6 +31,7 @@
 
         p {
           margin: 0;
+          text-overflow: ellipsis;
 
           &:not(.wrap) {
             white-space: nowrap;
@@ -41,6 +42,21 @@
           }
 
           @media only screen and (max-width: 499px) {
+
+            &.medium {
+              display: block;
+            }
+
+            &.large {
+              display: none;
+            }
+          }
+
+          @media only screen and (max-width: 399px) {
+
+            &:not(.wrap) {
+              white-space: unset;
+            }
 
             &.medium {
               display: block;

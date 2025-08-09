@@ -446,37 +446,106 @@
 * ### STATUS: COMPLETE
 
 * Import an Icon Library
+* ### STATUS: COMPLETE
+* ### NOTE: 
+  * imported svgs from google fonts/icons
+  * couldn't fin an npm with decent documentation
 
 * Create a shared modal component
   * modal can be configured with these optional properties
     * icon
     * a primary message
-    * a secondary message
     * button and action
   * Closing the modal is on the dev and should be part of the "X" action
   * The button can be configured with:
     * Action text
     * An action
+* ### STATUS: COMPLETE
 
-* Implement a success and failure modal experience when subitting feedback
+* Implement a success / failure modal component for subitting feedback
   * Upon succesfully submitting feedback, the user will receive a success modal
   * An unsuccesful submission will result in an error modal
   * Configure the button with "Try Again" after the first failure and an action to resubmit
   * Configure the button with "Try Again Later" after the second failure attempt.
   * No button should appear after the second fail attempt
+  * Closing the modal should take the user back to the entry point
+* ### STATUS: COMPLETE
 
-* Create an error/success modal component
-  * This modal will specifically be used to report the status of a submission (currently for email.js)
-  * The modal will be controlled by a service
-  * The method to open the modal should include 
-    * information obout error or success
-    * a message
-  * The modal should have an "X" in the upper left corner to close the modal
-  * In the error state, the modal should have a "Try Again" button that 
-    * allows a single retry, then
-    * after a second failure, will provide additional messaging ("Please try again later");
-  * The modal will live in the app component and be hidden via css
-  * Clicking "Try Again Later" brings the user back to the entrypoint
+----------------------------------- FAQ PAGE--------------------------------------
+
+* Create an accordion component
+  * A single line is exposed followed my a chevron
+  * Clicking the chevron
+    * opens the accordion to whatever size it takes to contain the content
+    * flips the chevron
+  * Clicking the chevron again closes the accordion
+    * flips the chevron
+  * Opening and closing an accordion involves a brief animation
+  * flipping the chevron involves no animation
+
+* Create a list of questions and answers. 
+  * These will be displayed in accordion components
+  * As development, question will caome up, they should live on this page
+  * Grows with the code
+
+----------------------------------- ABOUT US --------------------------------------
+
+* Some content may overlap the root home page content
+* The only link to this is from the footer
+* Add content to the '/about-us' page
+  * Gives information about
+    * me as the author of the website - TBD
+      * Go into my personal blackjack journey
+    * my motivation - TBD
+  * Discusses where I see this website going
+  * Acknowledgments
+    * BJA
+    * Wizard of Odds
+    * The Community
+    * God
+
+-------------------------------- ROOT HOME PAGE -----------------------------------
+
+* Explains why this site exists
+  * I needed proof
+  * I realized I could configure everything
+  * I realized I could mine the data
+  * I realized I could configure more than everything
+* Explain what this site can do
+  * Simulation with configuration
+  * Any imaginable aspect to configure
+  * Data from simulations
+  * Index chart creation
+  * Practice and speen practice
+* Explain how this site is different from others
+  * The price
+  * The creator is a player
+  * Index Charts
+
+* Explain the vision of what this site will grow into
+  * Variations
+  * More tools to help understand the math and improve strategies
+  * This will be the rough draft, the page will include pictures of charts and tables eventually
+
+------------------------------ CLASSIC BLACKJACK ----------------------------------
+
+* Create stories for classic blackjack
+
+* Create the shoe class
+  * This will be shared by the different variations unless the variations require a special deck as does Spanish21
+  * The shoe in LS will be namespaced as 'shared' unless it is specific to a variation, in which case the name spaece will be the version - this is only for the shoe, not the other LSValues
+  * The shoe will deal the cards and hold the discards
+  * The shoe will count the cards, according to the counting method provided
+  * Players may round the TC differently, the shoe will only track the RC
+  * Each shoe will be indexed
+  * Each hand will be indexed
+  * A hand will have an id based on the shoe index and the hand index
+  * At the very beginning of a shoe, the card order should be condensed and stored using indexDB
+    * This is to be used with the "What if" feature, where same shoe can be played against different strategies
+  * the unseen cards in a shoe may be converted into an abbrevated string
+    * for later analysis by "Perfect Play" 
+    * beyond MVP
+    * the string would most likely be stored with the players hand, not in the show itself - TBD
 
 ----------------------------------- POLL PAGE -------------------------------------
 
@@ -509,57 +578,6 @@
   * Clicking the modals "Try Again" button (for errors) will result in a resubmission attempt
   * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
   * Clicking the "x" in the modal should reset the route guard restriction
-
------------------------------------ ABOUT US --------------------------------------
-
-* Create an accordion component
-  * A single line is exposed followed my a chevron
-  * Clicking the chevron
-    * opens the accordion to whatever size it takes to contain the content
-    * flips the chevron
-  * Clicking the chevron again closes the accordion
-    * flips the chevron
-  * Opening and closing an accordion involves a brief animation
-  * flipping the chevron involves no animation
-
-* Some content may overlap the root home page content
-* The only link to this is from the footer
-* Add content to the '/about-us' page
-  * Gives information about
-    * me as the author of the website - TBD
-      * Go into my personal blackjack journey
-    * my motivation - TBD
-  * Discusses where I see this website going
-  * Acknowledgments
-    * BJA
-    * Wizard of Odds
-    * The Community
-    * God
-
--------------------------------- ROOT HOME PAGE -----------------------------------
-
-* Explains why this site exists
-* Explain what this site became
-
------------------------------- CLASSIC BLACKJACK ----------------------------------
-
-* Create stories for classic blackjack
-
-* Create the shoe class
-  * This will be shared by the different variations unless the variations require a special deck as does Spanish21
-  * The shoe in LS will be namespaced as 'shared' unless it is specific to a variation, in which case the name spaece will be the version - this is only for the shoe, not the other LSValues
-  * The shoe will deal the cards and hold the discards
-  * The shoe will count the cards, according to the counting method provided
-  * Players may round the TC differently, the shoe will only track the RC
-  * Each shoe will be indexed
-  * Each hand will be indexed
-  * A hand will have an id based on the shoe index and the hand index
-  * At the very beginning of a shoe, the card order should be condensed and stored using indexDB
-    * This is to be used with the "What if" feature, where same shoe can be played against different strategies
-  * the unseen cards in a shoe may be converted into an abbrevated string
-    * for later analysis by "Perfect Play" 
-    * beyond MVP
-    * the string would most likely be stored with the players hand, not in the show itself - TBD
 
 ----------------------- INSTRUCTIONS TO ADD A NEW VARIATION  ----------------------
 
