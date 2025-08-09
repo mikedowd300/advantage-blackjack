@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, tap } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
 import { HeaderFooterService } from '../services/header-footer.service';
 import { ABJSelectComponent } from '../shared-components/abj-select/abj-select.component';
 import { ABJButtonComponent } from '../shared-components/abj-button/abj-button.component';
 import { ABJAnchorComponent } from '../shared-components/abj-anchor/abj-anchor.component';
-import { GameVariations, HeaderLink } from '../models';
+import { GameVariations, HeaderLink, SuccessStatus } from '../models';
+import { EmailjsService } from '../services/emailjs.service';
 
 @Component({
   selector: 'abj-header',
@@ -57,6 +58,11 @@ export class HeaderComponent implements OnInit {
     );
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
+      tap(({ url }) => {
+        if(url !== "/feedback") {
+          this.headerFooterService.currentPage$.next(url)
+        }
+      }),
       map(event => event.url === '/' ? 'home' : event.url.split('/')[1])
     ).subscribe((pageKey: string) => {
         this.title = this.headerFooterService.headerText[pageKey].header;

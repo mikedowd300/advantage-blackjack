@@ -1,3 +1,35 @@
 <div class="feedback page">
-  Hello feedback
+  <h2>Let me know what's not working, is confusing, is missing or is just awesome.</h2>
+  <p class="intro"><b>Please keep in mind that:</b></p>
+  <p class="tip">Although I can't wait to hear from you, I am just 1 guy with a day job. Response times may vary.</p>
+  <p class="tip">Entering your email address is optional, and, again, including it doesn't guarantee a response.</p>
+  <p class="tip">I have ironed out oodles of bugs and quirks, but there are bound to be more, especially as I add new features. Constructive criticism and honest feedback will make us friends.</p>
+
+  <div class="input-wrapper">
+    <abj-text-input
+      placeHolder="optional email address"
+      (changeEvent)="getEmail($event)"
+    ></abj-text-input>
+  </div>
+  <div class="textarea-wrapper" [class.has-error]="hasError">
+    <abj-textarea
+      placeHolder="Please enter a message and submit" 
+      (changeEvent)="getMessage($event)"
+    ></abj-textarea>
+  </div>
+  <div class="button-wrapper">
+    <abj-button
+      text="Submit"
+      (action)="handleSubmit()"
+    ></abj-button>
+  </div>
+@if((emailjs.showModal$ | async) !== successStatus.NULL) {
+  <abj-status-modal
+    [status]="emailjs.showModal$ | async"
+    [message]="modalMessage$ | async"
+    (xClickEvent)="handleXClick()"
+    (buttonClickEvent)="handleSubmit()"
+    [showSubmitButton]="submissionAttempts < 2"
+  ></abj-status-modal>
+}
 </div>

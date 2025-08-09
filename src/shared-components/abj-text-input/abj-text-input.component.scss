@@ -1,0 +1,27 @@
+:host {
+  .abj-text-input {
+    color: black;
+
+    label {
+      color: black;
+    }
+
+    input {
+      border: 1px solid white;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 3px;
+      width: 100%;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: #bdbdbd;
+      }
+
+      &:focus {
+        outline: none;
+        border: 1px solid #bdbdbd;
+      }
+    }
+  }
+}

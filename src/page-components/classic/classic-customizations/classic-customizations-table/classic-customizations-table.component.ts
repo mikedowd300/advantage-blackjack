@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EmailjsService } from '../../../../services/emailjs.service';
 
 @Component({
   selector: 'classic-customizations-table',
@@ -10,7 +11,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class ClassicCustomizationsTableComponent implements OnInit {
 
-  constructor() {}
+  constructor(private emailjs: EmailjsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emailjs.setPreviousScreen$.next('Classic Custom Table');
+  }
 }

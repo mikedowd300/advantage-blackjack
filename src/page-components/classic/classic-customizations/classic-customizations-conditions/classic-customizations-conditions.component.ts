@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EmailjsService } from '../../../../services/emailjs.service';
 
 @Component({
   selector: 'classic-customizations-conditions',
@@ -11,7 +12,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class ClassicCustomizationsConditionsComponent implements OnInit {
 
-  constructor() {}
+  constructor(private emailjs: EmailjsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emailjs.setPreviousScreen$.next('Classic Custom Conditions');
+  }
 }

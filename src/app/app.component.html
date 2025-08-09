@@ -1,21 +1,7 @@
-<div class="app-wrapper">
+<div class="app-wrapper flex-column">
   <abj-header></abj-header>
-  <!-- Hello, Advantage Blackjack
-  <br>
-  <button (click)="sendEmail()">Test Email</button>
-  <br>
-  <div class="flex">
-    <abj-select
-      [selectValue]="testSelectValue"
-      (selectedEvent)="receiveTestMessage($event)"
-    ></abj-select>
-    <abj-select
-      [selectValue]="testSelectValue"
-      (selectedEvent)="receiveTestMessage($event)"
-    ></abj-select>
+  <div class="content-wrapper">
+    <router-outlet />
   </div>
-  <span>{{testSelectValue}}</span> -->
-
-  <router-outlet />
   <abj-footer></abj-footer>
 </div>
