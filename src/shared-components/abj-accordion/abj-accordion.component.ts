@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'abj-accordion',
@@ -10,13 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 export class ABJAccordionComponent implements OnInit {
   @Input() displayedContent: string;
   @Input() hiddenContent: string;
-  // isExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isExpanded: boolean = false;
 
   ngOnInit(): void {}
 
   expand() {
     this.isExpanded = !this.isExpanded;
-    // this.isExpanded$.next(this.isExpanded)
   }
 }
