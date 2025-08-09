@@ -37,10 +37,10 @@ export class FeedbackComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.modalMessage$ = this.emailjs.showModal$.pipe(map(status => {
       if(status === SuccessStatus.SUCCESS) {
-        return "Your feedback was sent successfully! Thankyou!"
+        return "Thankyou! Your feedback was successfully assimilated!"
       } 
       this.submissionAttempts += 1;
-      return this.submissionAttempts < 2 ? "Looks like a glitch." : "Dejavu! Please try again later."
+      return this.submissionAttempts < 2 ? "Looks like a glitch." : "Not again! Dejavu! Please try again later."
     }));
     this.emailjs.setPreviousScreen$.pipe().subscribe(screen => this.previousScreen = screen);
     this.headerFooterService.currentPage$.pipe().subscribe(page => this.entryUrl = page);
@@ -80,11 +80,10 @@ export class FeedbackComponent implements OnDestroy, OnInit {
   }
 
   scrollIntoView() {
-    console.log(document.activeElement);
     document.activeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
   ngOnDestroy(): void {
-    this.emailjs.showModal$.next(SuccessStatus.NULL)
+    this.emailjs.showModal$.next(SuccessStatus.NULL);
   }
 }
