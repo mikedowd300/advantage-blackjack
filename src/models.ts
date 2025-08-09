@@ -25,6 +25,11 @@ export interface HeaderLink {
   responsiveTitle?: string,
 }
 
+export interface Faq {
+  question: string,
+  answer: string,
+}
+
 export interface FooterLink {
   text: string,
   url: string,

@@ -1,5 +1,12 @@
 :host {
   .faqs {
     border: none;
+    max-width: 660px;
+
+    .accordion-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
   }
 }

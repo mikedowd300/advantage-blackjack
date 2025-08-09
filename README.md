@@ -480,13 +480,14 @@
     * flips the chevron
   * Clicking the chevron again closes the accordion
     * flips the chevron
-  * Opening and closing an accordion involves a brief animation
   * flipping the chevron involves no animation
+* ### STATUS: COMPLETE
 
 * Create a list of questions and answers. 
   * These will be displayed in accordion components
   * As development, question will caome up, they should live on this page
   * Grows with the code
+* ### STATUS: COMPLETE
 
 ----------------------------------- ABOUT US --------------------------------------
 
@@ -578,6 +579,12 @@
   * Clicking the modals "Try Again" button (for errors) will result in a resubmission attempt
   * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
   * Clicking the "x" in the modal should reset the route guard restriction
+
+--------------------------------- BEYOND MVP -------------------------------------
+
+* FAQ Page
+  * When 1 faq is opened, the already opened one should close
+  * Add animation for expanding question and answer
 
 ----------------------- INSTRUCTIONS TO ADD A NEW VARIATION  ----------------------
 

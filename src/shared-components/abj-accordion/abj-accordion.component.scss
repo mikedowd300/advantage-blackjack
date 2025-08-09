@@ -1,0 +1,106 @@
+:host {
+  .abj-accordion {
+    background-color: black;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 100%;
+    color: white;
+    border: 1px solid white;
+    border-radius: 3px;
+
+    .displayed {
+      justify-content: space-between;
+      overflow: hidden;
+      width: 100%;
+      align-items: center;
+      
+      p {
+        padding: 0 12px;
+        height: 20px;
+        line-height: 20px;
+        text-overflow: ellipsis;
+        margin: 10px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 18px;
+      }
+
+      .toggle {
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        color: black;
+        box-sizing: border-box;
+
+        .abj-icon {
+          box-sizing: border-box;
+          width: 40px;
+          height: 40px;
+          font-size: 40px;
+          display: block;
+          transform: rotate(90deg);
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: black;
+          color: white;
+          border: 1px solid white;
+        }
+      }
+
+      &.expanded {
+
+        p {
+          padding: 0 12px;
+          height: fit-content;
+          line-height: 24px;
+          text-overflow: unset;
+          margin: 10px 0;
+          white-space: unset;
+          // overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 18px;
+        }
+
+        .toggle {
+          height: -webkit-fill-available;
+          display: flex;
+          align-items: center;
+
+          .abj-icon {
+            transform: rotate(270deg);
+          }
+        }
+      }
+    }
+
+    .answer {
+      display: block;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 0;
+      font-size: 20px;
+      box-sizing: border-box;
+      background-color: grey;
+      text-shadow: 1px 1px 2px black;
+
+      &.hidden {
+        padding: 0;
+        height: 100px;
+        overflow: hidden;
+        max-height: 0;
+        color: black;
+      }
+    }
+  }
+}
+
+// <div class="abj-accordion">
+//   <div class="displayed">
+//     <p class="text">{{displayedContent}}</p>
+//     <div class="toggle">x</div>
+//   </div>
+//   <div class="hidden">{{hiddenContent}}</div>
+// </div>
