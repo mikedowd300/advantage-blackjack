@@ -11,6 +11,7 @@ export class ABJButtonComponent implements OnInit {
   @Input() primary: boolean = true;
   @Input() secondary: boolean = false;
   @Input() onLightBackground: boolean = true;
+  @Input() noOutline: boolean = false;
   @Output() action = new EventEmitter<any>();
 
   ngOnInit(): void {}

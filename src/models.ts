@@ -29,3 +29,17 @@ export interface FooterLink {
   text: string,
   url: string,
 }
+
+export enum SuccessStatus {
+  SUCCESS = 'success',
+  FAIL = 'fail',
+  NULL = 'null',
+}
+
+export interface FeedbackPayload {
+  previousScreen: string,
+  index?: string,
+  email?: string,
+  time: string,
+  message: string,
+}

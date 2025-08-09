@@ -1,8 +1,9 @@
 <div
   class="abj-button-wrapper flex-column"
-  [class.primary]="!secondary"
+  [class.primary]="primary"
   [class.secondary]="secondary"
   [class.on-light]="onLightBackground"
+  [class.no-outline]="noOutline"
 >
   <button class="abj-button" (click)="handleAction($event)">{{ text }}</button>
 </div>

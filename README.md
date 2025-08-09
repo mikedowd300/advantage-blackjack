@@ -423,29 +423,47 @@
 
 * Create a shared text-area component
   * The parent becomes aware of the text-area content when the text-area emits onchanges
+* ### STATUS: COMPLETE
 
 * Create a shared text-input component
   * The parent becomes aware of the text content when the input emits onchanges
+* ### STATUS: COMPLETE
 
-* create a route and page component for "/feedback"
+* Create a route and page component for "/feedback"
   * add this route to the route guard with no restrictions
-  * page will get url specific guidelines from the feedback service
-  * the feedback service returns default content information for now
+  * amail service will track the entry point for feedbak
   * page will get url specific email content from the feedback service
-  * the feedback service returns default email content information for now
   * the components content will be:
+    * Title
     * instructions
     * optional text-input if the player would like to be contacted back
     * text-area component
     * submit button
       * Text will say "Send Email"
-      * If no text is sent in the text-area, then the submit button is disabled
-      * Succesfully clicking submit will send an email to the dev at the website address. This will use the service already written for email.js
+      * If no text is sent in the text-area, then the submit button is disabled and the textarea border becomes red
+      * Succesfully clicking submit will send an email via emailjs to the website address. This will use the service already written for email.js
+      * Succesfully clicking submit will set the textarea border color back to normal
+* ### STATUS: COMPLETE
+
+* Import an Icon Library
+
+* Create a shared modal component
+  * modal can be configured with these optional properties
+    * icon
+    * a primary message
+    * a secondary message
+    * button and action
+  * Closing the modal is on the dev and should be part of the "X" action
+  * The button can be configured with:
+    * Action text
+    * An action
+
+* Implement a success and failure modal experience when subitting feedback
   * Upon succesfully submitting feedback, the user will receive a success modal
   * An unsuccesful submission will result in an error modal
-  * Clicking the modals "x" will close the modal
-  * Clicking the modals "Try Again" button (for errors) will result in a resubmission attempt
-  * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
+  * Configure the button with "Try Again" after the first failure and an action to resubmit
+  * Configure the button with "Try Again Later" after the second failure attempt.
+  * No button should appear after the second fail attempt
 
 * Create an error/success modal component
   * This modal will specifically be used to report the status of a submission (currently for email.js)
@@ -458,30 +476,10 @@
     * allows a single retry, then
     * after a second failure, will provide additional messaging ("Please try again later");
   * The modal will live in the app component and be hidden via css
-
-* Add the feedback button to these page components
-  * '/classic/home'
-  * '/classic/customizations'
-  * '/classic/simulation'
-  * '/classic/index-charts'
-  * '/classic/practice'
-  * '/classic/speed-practice'
-  * '/double-up/home'
-  * '/double-up/customizations'
-  * '/double-up/simulation'
-  * '/double-up/index-charts'
-  * '/double-up/practice'
-  * '/double-up/speed-practice'
-  and then:
-  * clicking the feedback button will record the url of the page where it will clicked (origenUrl)
-  * The user will then be routed to the feedback page
-  * The feedback page will ask the feedback service what page the button was clicked from and select the appropriate messaging.
-  * Create the appropriate messaging.
-    * This object should live in the feedback service
-    * the key is origenUrl
-    * the specific messaging is TBD
+  * Clicking "Try Again Later" brings the user back to the entrypoint
 
 ----------------------------------- POLL PAGE -------------------------------------
+
 * Create a "Poll" page, which reads from a poll service. It knows which "Poll" to display based on the entry point.
   * Create a test entrypoint on '/classic/home'
   * The entry point should take the user to "/poll"
@@ -512,10 +510,6 @@
   * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
   * Clicking the "x" in the modal should reset the route guard restriction
 
--------------------------------- ROOT HOME PAGE -----------------------------------
-* Explains why this site exists
-* Explain what this site became
-
 ----------------------------------- ABOUT US --------------------------------------
 
 * Create an accordion component
@@ -541,6 +535,11 @@
     * Wizard of Odds
     * The Community
     * God
+
+-------------------------------- ROOT HOME PAGE -----------------------------------
+
+* Explains why this site exists
+* Explain what this site became
 
 ------------------------------ CLASSIC BLACKJACK ----------------------------------
 

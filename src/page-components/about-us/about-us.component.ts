@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EmailjsService } from '../../services/emailjs.service';
 
 @Component({
   selector: 'about-us',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './about-us.component.scss'
 })
 export class AboutUsComponent implements OnInit {
-  constructor() {}
+  constructor(private emailjs: EmailjsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emailjs.setPreviousScreen$.next('About Us');
+  }
 }

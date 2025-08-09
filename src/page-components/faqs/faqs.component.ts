@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EmailjsService } from '../../services/emailjs.service';
 
 @Component({
   selector: 'faqs',
@@ -18,7 +19,9 @@ export class FaqsComponent implements OnInit {
       answer: 'No, Neo. I\'m trying to tell you that when you\'re ready, you won\'t have to.',
     },
   ]
-  constructor() {}
+  constructor(private emailjs: EmailjsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emailjs.setPreviousScreen$.next('Faqs');
+  }
 }

@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class HeaderFooterService {
 
   isFooterPage$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentPage$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
 
   headerText = {
     'home': {
@@ -27,8 +28,8 @@ export class HeaderFooterService {
       tagLine: 'What is the Matrix?',
     },
     'feedback': {
-      header: 'Feed Back',
-      tagLine: 'I know Kung Fu',
+      header: 'Help Me Help You',
+      tagLine: '"You\'re here because you know something. What you know you can\'t explain, but you feel it..."',
     },
     'faqs': {
       header: 'So Many Questions',

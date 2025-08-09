@@ -1,0 +1,43 @@
+:host {
+
+  .abj-status-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(0, 0, 0, .8);
+    height: 100%;
+    border-radius: 3px;
+
+    .content {
+      background-color: white;
+      padding: 16px;
+      width: 400px;
+      margin: 24px auto;
+      position: relative;
+
+      .button-wrapper {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+
+      .icon-wrapper {
+        margin: 24px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .message {
+        font-size: 18px;
+        margin: 24px auto;
+      }
+
+      .submit-button-wrapper {
+        justify-content: end;
+      }
+    }
+  }
+}

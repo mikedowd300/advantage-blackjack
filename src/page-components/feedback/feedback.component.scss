@@ -1,5 +1,38 @@
 :host {
-  .feedback {
-    border: none;
+  .feedback.page {
+    align-items: flex-start;
+    max-width: 600px;
+
+    h2 {
+      margin: 0 0 12px;
+    }
+
+    .intro, .tip {
+      font-size: 18px;
+      margin: 0 0 8px;
+      text-shadow: white;
+      line-height: 24px;
+    }
+
+    .tip:nth-child(odd) {
+      display: block;
+      padding: 4px;
+      background-color: rgba(255, 255, 255, .5);
+    }
+
+    .input-wrapper, .textarea-wrapper, .button-wrapper {
+      margin-top: 16px;
+      max-width: 600px;
+      width: 100%;
+
+      &.has-error {
+        border: 2px solid red;
+      }
+    }
+
+    .button-wrapper {
+      box-sizing: border-box;
+      padding-left: calc(100% - 120px);
+    }
   }
 }

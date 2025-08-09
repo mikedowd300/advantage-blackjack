@@ -1,32 +1,43 @@
 :host {
   
   .abj-button-wrapper {
-    border-radius: 3px;
+    background-color: transparent;
 
-    button {
+    &.no-outline {
       border: none;
-      padding: 4px;
-      background-color: transparent;
-      width: 120px;
-      font-size: 16px;
+      width: 32px;
+      
+        button {
+          border: none;
+          color: black;
+          font-size: 24px;
+          width: 32px;
+          padding: 6px;
+          font-weight: bolder;
+          background-color: transparent;
 
-      &:hover {
-        background-color: #555555;
-        cursor: pointer;
-        color: white;
-      }
+          &:hover {
+            border-radius: 3px;
+            background-color: black;
+            cursor: pointer;
+            color: white;
+          }
+        }
     }
 
-    &.primary {
-      border: 1px solid gray;
-      background-color: gray;
+    &.primary { 
 
-      button {
+      &.on-light button {
+        border: 2px solid black;
         padding: 8px;
-        background-color: transparent;
+        background-color: black;
+        width: 120px;
+        font-size: 16px;
+        color: white;
+        border-radius: 3px;
 
         &:hover {
-          background-color: #555555;
+          border: 2px solid white;
           cursor: pointer;
           color: white;
         }

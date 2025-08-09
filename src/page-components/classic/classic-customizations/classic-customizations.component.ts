@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PageService } from '../../../services/page.service';
+import { EmailjsService } from '../../../services/emailjs.service';
 
 @Component({
   selector: 'classic-customizations',
@@ -12,7 +13,9 @@ import { PageService } from '../../../services/page.service';
 })
 export class ClassicCustomizationsComponent implements OnInit {
 
-  constructor(private pageService: PageService) {}
+  constructor(private emailjs: EmailjsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emailjs.setPreviousScreen$.next('Classic Customizations');
+  }
 }

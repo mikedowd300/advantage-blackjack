@@ -1,0 +1,33 @@
+:host {
+  .abj-textarea {
+    color: black;
+
+    label {
+      color: black;
+    }
+
+    .textarea-wrapper {
+      width: 100%;
+      overflow: hidden;
+      
+      textarea {
+        border: 1px solid white;
+        font-size: 18px;
+        padding: 8px 23px 8px 8px;
+        border-radius: 3px;
+        width: calc(100% + 15px);
+        height: 150px;
+        box-sizing: border-box;
+  
+        &::placeholder {
+          color: #bdbdbd;
+        }
+  
+        &:focus {
+          outline: none;
+          border: 1px solid #bdbdbd;
+        }
+      }
+    }
+  }
+}

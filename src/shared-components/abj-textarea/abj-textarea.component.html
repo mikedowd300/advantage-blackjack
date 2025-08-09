@@ -1,0 +1,11 @@
+<div class="abj-textarea flex-column">
+  <label for="">{{ label }}</label>
+  <div class="textarea-wrapper">
+    <textarea 
+      [placeholder]="placeHolder"
+      [(ngModel)]="message"
+      (change)="handleInput()"
+    >
+    </textarea>
+  </div>
+</div>
