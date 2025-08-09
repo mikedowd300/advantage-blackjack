@@ -1,0 +1,9 @@
+<div class="abj-accordion">
+  <div class="displayed flex" [class.expanded]="isExpanded">
+    <p class="text">{{displayedContent}}</p>
+    <div (click)="expand()" class="toggle">
+      <span class="abj-icon material-symbols-outlined">chevron_backward</span>
+    </div>
+  </div>
+  <p class="answer" [class.hidden]="!isExpanded">{{hiddenContent}}</p>
+</div>
