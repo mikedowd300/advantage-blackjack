@@ -14,11 +14,16 @@ export class ABJTextareaComponent implements OnInit {
   @Input() label: string;
   @Input() placeHolder: string;
   @Output() changeEvent = new EventEmitter<string>();
+  @Output() onTextareaFocus = new EventEmitter<string>();
   message: string;
 
   ngOnInit(): void {}
 
   handleInput() {
     this.changeEvent.emit(this.message);
+  }
+
+  handleTextareaFocus() {
+    this.onTextareaFocus.emit();
   }
 }

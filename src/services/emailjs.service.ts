@@ -21,10 +21,12 @@ export class EmailjsService {
   }
 
   sendEmail(payload: FeedbackPayload): void {
-    emailjs.send('abj_feedback_service', 'template_34sqcm7', payload as any)
-    .then(
-      () => this.showModal$.next(SuccessStatus.SUCCESS), 
-      () => this.showModal$.next(SuccessStatus.FAIL)
-    );
+    // this.showModal$.next(SuccessStatus.SUCCESS);
+    this.showModal$.next(SuccessStatus.FAIL);
+    // emailjs.send('abj_feedback_service', 'template_34sqcm7', payload as any)
+    // .then(
+    //   () => this.showModal$.next(SuccessStatus.SUCCESS), 
+    //   () => this.showModal$.next(SuccessStatus.FAIL)
+    // );
   }
 }

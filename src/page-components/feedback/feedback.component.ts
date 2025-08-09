@@ -79,6 +79,11 @@ export class FeedbackComponent implements OnDestroy, OnInit {
     return `${d.getMonth()}/${d.getDay()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
   }
 
+  scrollIntoView() {
+    console.log(document.activeElement);
+    document.activeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
   ngOnDestroy(): void {
     this.emailjs.showModal$.next(SuccessStatus.NULL)
   }
