@@ -1,4 +1,4 @@
-<div class="feedback page">
+<div class="feedback page" [class.with-modal]="(emailjs.showModal$ | async) !== successStatus.NULL">
   <h2>Let me know what's not working, is confusing, is missing or is just awesome.</h2>
   <p class="intro"><b>Please keep in mind that:</b></p>
   <p class="tip">Although I can't wait to hear from you, I am just 1 guy with a day job. Response times may vary.</p>
@@ -15,6 +15,7 @@
     <abj-textarea
       placeHolder="Please enter a message and submit" 
       (changeEvent)="getMessage($event)"
+      (onTextareaFocus)="scrollIntoView()"
     ></abj-textarea>
   </div>
   <div class="button-wrapper">

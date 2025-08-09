@@ -3,6 +3,11 @@
     align-items: flex-start;
     max-width: 600px;
 
+    &.with-modal {
+      height: calc(100vh - 231px);
+      overflow: hidden;
+    }
+
     h2 {
       margin: 0 0 12px;
     }
