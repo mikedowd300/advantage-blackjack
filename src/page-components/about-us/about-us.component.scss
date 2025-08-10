@@ -1,10 +1,50 @@
 :host {
   .about-us {
+
+    h2 {
+      margin: 18px 0 6px;
+    }
+
+    h3 {
+      margin: 6px;
+    }
+
     .paragraph {
       font-size: 18px;
       margin: 0 0 12px;
       line-height: 20px;
+      text-align: left;
+      width: 100%;
       text-shadow: 1px 1px 1px white;
+
+      .heading {
+        font-size: 22px;
+        font-weight: 500;
+      }
+    }
+
+    .no-margin {
+      margin: 0;
+
+      &.centered {
+        text-align: center;
+      }
+    }
+
+    .quote-wrapper {
+      width: calc(100% - 100px);
+      margin: auto;
+
+      h3 {
+        margin: 0 0 2px;
+      }
+
+      .quote {
+        font-size: 14px;
+        text-align: right;
+        padding-right: 40px;
+        margin-top: 0;
+      }
     }
   }
 }
