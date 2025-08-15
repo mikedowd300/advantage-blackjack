@@ -18,6 +18,7 @@
         }
         </div>
       </div>
+    @if(videoUrl) {
       <div class="button-wrapper">
         <abj-button
           [text]="buttontext"
@@ -25,6 +26,7 @@
           (action)="launchVideo()"
         ></abj-button>
       </div>
+    }
     </div>
   </div>
 </div>

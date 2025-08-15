@@ -34,6 +34,10 @@ export class HeaderFooterService {
     'faqs': {
       header: 'So Many Questions',
       tagLine: '"... It\'s the question that drives us, Neo!"',
+    }, 
+    'how-to-run-simulations': {
+      header: 'Simm Anything',
+      tagLine: 'You are in a simulation',
     }
   }
 
@@ -52,7 +56,12 @@ export class HeaderFooterService {
       url: 'home',
       title: 'Red Pilled Home',
       responsiveTitle: 'Home',
-    }
+    },
+    {
+      url: 'how-to-run-simulations',
+      title: 'Learn To Simm',
+      responsiveTitle: 'Simm Demo',
+    },
   ];
 
   footerLinks: FooterLink[] = [
@@ -68,9 +77,7 @@ export class HeaderFooterService {
       text: 'FAQs',
       url: 'faqs',
     },
-  ]
-
-  // pages: string[] = ['classic','doubleup', 'home', 'about-us', 'faqs', 'feedback'];
+  ];
 
   constructor() { }
 }

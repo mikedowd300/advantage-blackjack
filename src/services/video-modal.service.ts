@@ -13,23 +13,6 @@ export class VideoModalService {
 
   videoUrls = {
     introDemoUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
-    // lives on home page
-    // introDemoUrl will show you a demo of a simulation with a table, players, and conditions.
-    // it will NOT show how to configure anything but running a simulation with pre-existing conditions and players as well as the amount of rounds you would like to run
-    // it will allude to building a unique table with unique players and unique conditions but it wont do it
-    // after the simulation it will show the bankroll chart and show the ROI and AV in terms of rounds per hour
-    // demo the total dollars per count chart
-    // demo the the % ROI per count
-    // demo the other one
-    // demo the replay feature from the bankroll chart
-    // do NOT dive deep on anything other than running the simulation
-    // mention "beyondSimulations"
-    // Variations of blackjack
-    blackjackVariations: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
-    // Variations amy be beatable, 
-    // you need a basic strategy chart,
-    // a deviation chart
-    // EV expectations
     beyondSimulations: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
     // lives o home page
     // practice, 

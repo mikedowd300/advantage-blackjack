@@ -55,6 +55,6 @@ export interface FeatureDetails {
   headerText: string,
   taglineText: string,
   textContent: string[],
-  videoUrl: string,
-  buttontext: string,
+  videoUrl?: string,
+  buttontext?: string,
 }
