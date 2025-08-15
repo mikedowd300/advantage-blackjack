@@ -1,6 +1,6 @@
 import { FeatureDetails } from "../../models";
 
-export const featureDetails: FeatureDetails[] = [
+export const featureSteps: FeatureDetails[] = [
   {
     imgSrc: 'home-screen-images/yourownsimulation.png',
     imgAltText: 'build your own player',

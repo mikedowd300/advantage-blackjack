@@ -30,7 +30,7 @@
           justify-content: space-between;
 
         p {
-          margin: 8px 0 0;
+          margin: 4px 0 4px;
         }
 
         .column-content {
@@ -38,6 +38,7 @@
           overflow: scroll;
 
           h3 {
+            text-align: center;
             margin: 0 0 6px;
           }
 

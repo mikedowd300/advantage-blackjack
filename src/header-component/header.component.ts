@@ -51,6 +51,7 @@ export class HeaderComponent implements OnInit {
         this.urlLinks = isFooterPage 
           ? this.headerFooterService.variationLinks
           : this.headerFooterService.variationLinks.filter(vl => vl.url !== v);
+        console.log(this.urlLinks);
       });
     this.isHomePage$ = this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),

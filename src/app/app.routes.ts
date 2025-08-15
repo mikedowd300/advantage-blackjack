@@ -18,6 +18,7 @@ import { ClassicCustomizationsTippingComponent } from '../page-components/classi
 import { ClassicCustomizationsUnitResizingComponent } from '../page-components/classic/classic-customizations/classic-customizations-unit-resizing/classic-customizations-unit-resizing.component';
 import { ClassicCustomizationsWongingComponent } from '../page-components/classic/classic-customizations/classic-customizations-wonging/classic-customizations-wonging.component';
 import { ClassicCustomizationsComponent } from '../page-components/classic/classic-customizations/classic-customizations.component';
+import { HowToRunSimulationsComponent } from '../page-components/how-to-run-simulations/how-to-run-simulations.component';
 import { FeedbackComponent } from '../page-components/feedback/feedback.component';
 import { AboutUsComponent } from '../page-components/about-us/about-us.component';
 import { FaqsComponent } from '../page-components/faqs/faqs.component';
@@ -209,5 +210,9 @@ export const routes: Routes = [
     component: FaqsComponent,
     // canActivate: [RouteGuardService],
   },
+  {
+    path: 'how-to-run-simulations',
+    component: HowToRunSimulationsComponent,
+  }
 ];
 
