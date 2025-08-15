@@ -1,0 +1,30 @@
+<div class="abj-feature-intro flex-column">
+  <div class="image-header-wrapper flex" [class.odd]="isOdd">
+    <div class="image-wrapper">
+      <img [src]="imgSrc" [alt]="imgAltText">
+    </div>
+    <div class="column-content-wrapper flex-column">
+      <div class="column-content flex-column">
+        <h3>{{ headerText }}</h3>
+        <p class="tag-line"><i>{{ taglineText }}</i></p>
+        <div class="text-content-wrapper">
+        @for(text of textContent; track text) {
+          <div class="text-point flex">
+            <div class="point-wrapper">
+              <div class="point"></div>
+            </div>
+            <p>{{ text }}</p>
+          </div>
+        }
+        </div>
+      </div>
+      <div class="button-wrapper">
+        <abj-button
+          [text]="buttontext"
+          [fullWidth]="true"
+          (action)="launchVideo()"
+        ></abj-button>
+      </div>
+    </div>
+  </div>
+</div>
