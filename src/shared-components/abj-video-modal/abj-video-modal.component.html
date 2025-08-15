@@ -1,0 +1,10 @@
+<div class="abj-video-modal flex-column">
+  <div class="button-wrapper">
+    <abj-button 
+      [text]="'X'"
+      [noOutline]="true"
+      (action)="handleXClick()"
+    ></abj-button>
+  </div>
+    <iframe [width]="videoPlayerWidth" [height]="videoPlayerHeight" [src]="iframeSrc$ | async" title="title" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>

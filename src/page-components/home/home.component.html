@@ -1,3 +1,17 @@
 <div class="home page">
-  Hello Home
+  <div>
+    @for(details of featureDetails; track details) {
+      <abj-feature-intro
+        [isOdd]="$index % 2 === 1"
+        [imgSrc]="details.imgSrc"
+        [imgAltText]="details.imgAltText"
+        [headerText]="details.headerText"
+        [taglineText]="details.taglineText"
+        [textContent]="details.textContent"
+        [videoUrl]="details.videoUrl"
+        [buttontext]="details.buttontext"
+        (action)="openModal(details.videoUrl)"
+      ></abj-feature-intro>
+    }
+  </div>
 </div>

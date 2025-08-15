@@ -1,0 +1,27 @@
+.app-wrapper {
+  position: relative;
+
+  &.no-scroll {
+    overflow: hidden;
+    max-height: 100vh;
+  }
+
+  .normal-content-wrapper {
+    display: block;
+
+    &.show-modal {
+      display: none;
+    }
+  }
+
+  .video-modal-wrapper {
+    display: none;
+
+    &.show-modal {
+      display: block;
+      position:absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

@@ -491,42 +491,106 @@
 
 ----------------------------------- ABOUT US --------------------------------------
 
-* Some content may overlap the root home page content
 * The only link to this is from the footer
 * Add content to the '/about-us' page
   * Gives information about
-    * me as the author of the website - TBD
-      * Go into my personal blackjack journey
-    * my motivation - TBD
-  * Discusses where I see this website going
-  * Acknowledgments
-    * BJA
-    * Wizard of Odds
-    * The Community
-    * God
+    * my motivation
+    * my personal blackjack journey
+    * Acknowledgments
+      * BJA
+      * Wizard of Odds
+      * Richard Munchkin and Bob Dancer
+      * God
+* ### STATUS: COMPLETE
 
 -------------------------------- ROOT HOME PAGE -----------------------------------
 
-* Explains why this site exists
-  * I needed proof
-  * I realized I could configure everything
-  * I realized I could mine the data
-  * I realized I could configure more than everything
-* Explain what this site can do
-  * Simulation with configuration
-  * Any imaginable aspect to configure
-  * Data from simulations
-  * Index chart creation
-  * Practice and speen practice
-* Explain how this site is different from others
-  * The price
-  * The creator is a player
-  * Index Charts
+* Create a videa-modal component that covers the entire page including the header and footer.
+  * cover the app component as a modal 
+  * The page below it should not be scrollable
+  * The modal background should be just transparent enough to barely see the page behind it.
+  * The modal should close by clicking an "X" in the top right corner of the modal
+  * A video element with a loaded youtube video should be in the center of the modal
+  * The video element should be big as possible but still leave a wide margin.
+    * Should be responsive
+      ### WAS NOT WORKING WITH A RESIZE LISTENER - BEYOND MVP
+    * should have a height : width ratio of 16 : 9
+  * The modal component communicates with a pubic video service
+* ### STATUS: COMPLETE
+  * #### TODO - update url with actual url
 
-* Explain the vision of what this site will grow into
-  * Variations
-  * More tools to help understand the math and improve strategies
-  * This will be the rough draft, the page will include pictures of charts and tables eventually
+* Video Modal Service
+  * Opens the modal
+  * closes the modal
+  * contains an object of youtube urls where keys are passed from the calling component to target a particular video url
+  * until actual urls exist, use the same generic url
+  * ### STATUS: COMPLETE
+  
+* Build a Feature Introduction component where the details of a feature could be loaded
+  * Features may include
+    * Picture - begin with a picture place holder as the pictures them selves will bot exist until MVP exists.
+      * picture assets should live in the public folder
+      * even thought the actual pictures, a place holder for each should exist
+      * placeholder pictures can be identical
+    * Feature Header
+    * tagline
+    * an array of text paragraphs explaining the feature
+    * a button to trigger a youtube video with a demo of the feature
+  * At larger screen sizes the image should be next to the text
+  * At mobile screen sizes, the picture should stach with the 
+    * title, 
+    * the tagline, 
+    * the picture, 
+    * the text 
+    * the video button.
+  * ### STATUS: COMPLETE
+
+* On the Root Home page,
+  * import the Feature Introduction component
+  * Create objects to feed into the component based th following titles
+    * Do you need proof card counting works?               
+    * VARIATIONS
+      * Double Up
+      * Spanish 21
+      * Wizard of ODDs
+      * The problema with variations
+        * No basic strategy chart
+        * No deviations
+        * No EV expectations
+    * Beyond Simulations
+      * Practice / Play
+      * Speed Practice
+      * Basic Strategy / Deviation Chart Creation
+      * Insurance Analysis
+      * "What if" with the bet spreads
+      * 0 EV point
+
+---------------------------- HOW TO MAKE A SIMULATIONS ----------------------------
+
+* Create Bare bones component for HowToPrepareASimulation
+
+* Create a route "/how-to-make-a-simulation" to HowToPrepareASimulation
+
+* Import a "Bullet Point" icon
+* ### STATUS: COMPLETE
+  * ### NOTE: just made a dot with CSS
+  * ### NOTE: its not even sharable
+
+* Update the ABJFeatureIntroComponent to include the icons as bullet points for the textContent
+
+* Fill in the bare bones component with directions to make each step of a simulation
+  * Use the ABJFeatureIntroComponent
+  * Work Backwards from the simulation itself
+  * Table
+  * Table Conditions
+  * Player
+    * Bet Spreat
+    * Unit Resizing
+    * Wonging
+    * Tipping
+    * Counting Strategy
+    * Do Not Do A Deviation Chart
+  * Link to the "HOW TO RUN A SIMULATION" videos
 
 ------------------------------ CLASSIC BLACKJACK ----------------------------------
 
@@ -580,6 +644,112 @@
   * After a second failure attempt, the "Try Again" button should not appear and instead a "Try again later" message should appear.
   * Clicking the "x" in the modal should reset the route guard restriction
 
+--------------------------------- YOUTUBE VIDEOS -------------------------------------
+
+                    ++++++++++++++++ HOME PAGE +++++++++++++++
+
+* NOTE: Demos are Genaralized and Variation Agnostic
+* NOTE: Each specific page will have more specific videos and/or textual explanations
+
+* OVERALL DEMO
+  * Show the results of a simulation
+    * Explain that it was from series of rounds run again a table
+      * that table had players 
+        * players had configurations
+          * Bet Spread
+          * Unit resizing
+          * Wonging
+          * Counting System
+          * Deviation Chart
+        * Players are customizable
+          * customizations can be saves
+      * That table had configurable house rules
+    * Show the replay of the hands
+    * Show ROI and AV in rounds per hour
+  * Show the ROI charts
+  
+* VARIATIONS
+  * Double Up
+  * Spanish 21
+  * Wizard of ODDs
+  * The problema with variations
+    * No basic strategy chart
+    * No deviations
+    * No EV expectations
+
+* Beyond Simulations
+  * Practice / Play
+  * Speed Practice
+  * Basic Strategy / Deviation Chart Creation
+  * Insurance Analysis
+  * "What if" with the bet spreads
+  * 0 EV point
+  
+                    ++++++++ HOW TO RUN A SIMULATION ++++++++++
+
+  *** NOTE: The approach is to demo it backwards, expect user to act forwards
+
+  * Run a simulation
+    * Do not create any thing, just select an existing table, existing conditions, and any number of iterations
+
+  * Create a table
+    * Select pre-existing users
+    * Select pre-existing conditions
+    * Run a simulation with the table you created
+    * Cover editing or deleting tables
+    * Mention about videos, FAQs ON THE TABLE PAGE that dive deeper
+    * Saving the table
+
+  * Create several players
+    * Add name, bankroll
+    * Add betspread - choose existing betspread
+    * Add Unit Resizing Strategy - choose existing betspread
+    * Add Counting Strategy - choose existing strategy
+    * Add Wonging Strategy - choose existing strategy
+    * Add Tipping Strateg - choose existing strategy
+    * Create table and add players
+    * Run Simulation
+    * Cover editing and deleting tables
+    * cover what happens to tables that have deleted players
+    * Saving a player
+
+  * Create Table Conditions
+    * Explain the demo is variation agnostic
+    * Mention special rules, but don't go deep
+    * Make an awesome set of conditions
+    * Create or edit a table to have the conditions
+    * Run a simulation
+    * Cover editing and deleting conditions
+    * Cover what happens when to a table with a set of conditions that have been deleted
+
+  * Create bet spread strategies
+    * Create or edit a player to have the strategy
+    * Add the player to a table
+    * Run a simulation with that table
+
+  * Create a Unit Resizing strategy
+    * Create or edit a player to have the strategy
+    * Add the player to a table
+    * Run a simulation with that table
+
+  * Create a Wonging strategy
+    * Create or edit a player to have the strategy
+    * Add the player to a table
+    * Run a simulation with that table
+
+  * Create a Tipping strategy
+    * Create or edit a player to have the strategy
+    * Add the player to a table
+    * Run a simulation with that table
+
+  * Create a Counting strategy similar to Hi-Lo
+    * Play Basic Strategy
+    * Explain creating a deviation chart is an iterative process and to go to the correct page for it
+    * Demo the true count total money wn to come up with a bet spread
+    * Create or edit a player to have the strategy
+    * Add the player to a table
+    * Run a simulation with that table
+
 --------------------------------- BEYOND MVP -------------------------------------
 
 * FAQ Page
@@ -598,5 +768,3 @@
   * Practice
   * Speed Practice
 * Update the content in the "home" page to include info about the new variation
-
-

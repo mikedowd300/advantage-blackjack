@@ -48,3 +48,13 @@ export interface FeedbackPayload {
   time: string,
   message: string,
 }
+
+export interface FeatureDetails {
+  imgSrc: string,
+  imgAltText: string,
+  headerText: string,
+  taglineText: string,
+  textContent: string[],
+  videoUrl: string,
+  buttontext: string,
+}
