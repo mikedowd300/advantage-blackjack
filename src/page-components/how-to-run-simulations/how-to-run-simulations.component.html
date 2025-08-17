@@ -1,3 +1,15 @@
-<div class="how-to-run-simulations page flex">
-  Hello how-to-run-simulations
+<div class="how-to-run-simulations page">
+  @for(step of featureSteps; track step) {
+    <abj-feature-intro
+      [isOdd]="$index % 2 === 1"
+      [imgSrc]="step.imgSrc"
+      [imgAltText]="step.imgAltText"
+      [headerText]="step.headerText"
+      [taglineText]="step.taglineText"
+      [textContent]="step.textContent"
+      [videoUrl]="step.videoUrl"
+      [buttontext]="step.buttontext"
+      (action)="openModal(step.videoUrl)"
+    ></abj-feature-intro>
+  }
 </div>

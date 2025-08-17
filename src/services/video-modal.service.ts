@@ -21,10 +21,9 @@ export class VideoModalService {
     // insurance analysis (EV on insurance) at each count
     // "What if" with the bet spreads 
     // Do not go into detail on any of these save that for videos on those pages
+    runASimulationUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
 
-
-    // MAKE A HOW TO CREATE A SIMULATION PAGE. 
-    buildATable: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
+    buildATableUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
     // Select players and conditions for a table then run a simulation with those players.
     // Create a table just to erase it
     buildAPlayerUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
@@ -34,11 +33,13 @@ export class VideoModalService {
     // What happens to a table if a player associated with it is deleted?
     // Do not get into deleting a player, save that for a video on the player page
     // Mention to see videos on how to configure strategies, go to 
-    configurePlayingConditions: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
+    setConditionsUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
     // Demo configuring conditions, 
     // make a table with the new conditions
     // run a sim with the new conditions
     // Do not get into special conditions - save that for a video on the conditions page,
+    createABetSpreadUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
+    makeAUnitResizingStrategyUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
   }
 
   openModal(key: string) {

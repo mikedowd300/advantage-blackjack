@@ -8,8 +8,7 @@ import { HeaderFooterService } from '../services/header-footer.service';
 import { ABJSelectComponent } from '../shared-components/abj-select/abj-select.component';
 import { ABJButtonComponent } from '../shared-components/abj-button/abj-button.component';
 import { ABJAnchorComponent } from '../shared-components/abj-anchor/abj-anchor.component';
-import { GameVariations, HeaderLink, SuccessStatus } from '../models';
-import { EmailjsService } from '../services/emailjs.service';
+import { GameVariations, HeaderLink } from '../models';
 
 @Component({
   selector: 'abj-header',
@@ -43,7 +42,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.storedVariation = this.localStorageService.getVariation();
+    this.storedVariation = this.localStorageService.getPreferredVariation();
     this.handleVariationSelection(this.storedVariation)
     combineLatest([this.currentVariation$, this.headerFooterService.isFooterPage$])
       .pipe().subscribe(([v, isFooterPage]) => {
@@ -51,7 +50,6 @@ export class HeaderComponent implements OnInit {
         this.urlLinks = isFooterPage 
           ? this.headerFooterService.variationLinks
           : this.headerFooterService.variationLinks.filter(vl => vl.url !== v);
-        console.log(this.urlLinks);
       });
     this.isHomePage$ = this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
@@ -84,8 +82,8 @@ export class HeaderComponent implements OnInit {
   }
 
   setDefaultVariation() {
-    this.localStorageService.setVariation(this.currentVariation);
-    this.storedVariation = this.localStorageService.getVariation();
+    this.localStorageService.setPreferredVariation(this.currentVariation);
+    this.storedVariation = this.localStorageService.getPreferredVariation();
     this.headerFooterService.isFooterPage$.next(false);
   }
 }

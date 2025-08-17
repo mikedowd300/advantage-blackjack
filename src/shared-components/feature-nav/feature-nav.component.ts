@@ -26,19 +26,21 @@ export class FeatureNavComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.variationName = this.route.snapshot.url[0].path;
-    this.featureLinks = this.pageService.featureLinks;
+    this.featureLinks = [ ...this.pageService.featureLinks ];
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd && event.url.split('/').length >= 3),
       map(event => event.url === '/' ? 'home' : event.url.split('/')[2]),
       takeUntil(this.unsubscribe$)
     ).subscribe(featureName => {
       this.featureName = featureName;
-      this.featureLinks = this.pageService.featureLinks
-        .filter(fl => fl.url !== '/' + featureName);
+      // this.featureLinks = this.pageService.featureLinks
+      //   .filter(fl => fl.url !== '/' + featureName);
     });
   }
 
   handleVariationSelection(url: string): void {
+    this.featureLinks.forEach(link => link.isSelected = false);
+    this.featureLinks.find(link => link.url === url).isSelected = true;
     this.router.navigate([this.variationName + url]);
   }
 

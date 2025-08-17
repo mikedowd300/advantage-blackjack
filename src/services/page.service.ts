@@ -9,19 +9,24 @@ export class PageService {
   featureLinks: HeaderLink[] = [
     {
       url: '/customizations',
-      title: 'Customizations'
+      title: 'Customizations',
+      isSelected: false,
     }, {
       url: '/simulation',
-      title: 'Simulation'
+      title: 'Simulation',
+      isSelected: false,
     }, {
       url: '/simulation-results',
-      title: 'Simulation Results'
+      title: 'Simulation Results',
+      isSelected: false,
     }, {
       url: '/practice',
-      title: 'Practice'
+      title: 'Practice',
+      isSelected: false,
     }, {
       url: '/speed-practice',
-      title: 'Speed Practice'
+      title: 'Speed Practice',
+      isSelected: false,
     },
   ];
 

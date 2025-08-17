@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ABJButtonComponent implements OnInit {
   @Input() text: string = "Button Text";
+  @Input() bodyText: string;
   @Input() primary: boolean = true;
   @Input() secondary: boolean = false;
   @Input() onLightBackground: boolean = true;

@@ -1,5 +1,11 @@
 <div class="classic-customizations page">
-  Hello classic-customizations
-  <p>"...you'll see that it is not the spoon that bends, it is only yourself..."</p>
-  <router-outlet />
+@for(link of links; track link) {
+  <div
+    class="button-wrapper"
+    (click)="navigate(link.url)"
+  >
+    <h4>{{link.title}}</h4>
+    <p>{{link.bodyText}}</p>
+  </div>
+}
 </div>
