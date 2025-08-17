@@ -23,6 +23,7 @@ export interface HeaderLink {
   url: string,
   title: string,
   responsiveTitle?: string,
+  isSelected?: boolean
 }
 
 export interface Faq {

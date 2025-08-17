@@ -37,57 +37,55 @@ export const routes: Routes = [
       {
         path: 'customizations',
         component: ClassicCustomizationsComponent,
-        children: [
-          {
-            path: 'conditions',
-            component: ClassicCustomizationsConditionsComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'player',
-            component: ClassicCustomizationsPlayerComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'table',
-            component: ClassicCustomizationsTableComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'bet-spread',
-            component: ClassicCustomizationsBetSpreadComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'play-chart',
-            component: ClassicCustomizationsPlayChartComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'unit-resizing',
-            component: ClassicCustomizationsUnitResizingComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'wonging',
-            component: ClassicCustomizationsWongingComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'tipping',
-            component: ClassicCustomizationsTippingComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'custom-counting-system',
-            component: ClassicCustomizationsCustomCountingSystemComponent,
-            canActivate: [RouteGuardService],
-          },
-          {
-            path: 'insurance-plan',
-            component: ClassicCustomizationsInsuranceComponent
-          },
-        ]
+      },
+      {
+        path: 'conditions',
+        component: ClassicCustomizationsConditionsComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'player',
+        component: ClassicCustomizationsPlayerComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'table',
+        component: ClassicCustomizationsTableComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'bet-spread',
+        component: ClassicCustomizationsBetSpreadComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'play-chart',
+        component: ClassicCustomizationsPlayChartComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'unit-resizing',
+        component: ClassicCustomizationsUnitResizingComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'wonging',
+        component: ClassicCustomizationsWongingComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'tipping',
+        component: ClassicCustomizationsTippingComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'custom-counting-system',
+        component: ClassicCustomizationsCustomCountingSystemComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'insurance-plan',
+        component: ClassicCustomizationsInsuranceComponent
       },
       {
         path: 'simulation',

@@ -10,11 +10,19 @@
       button {
         border: none;
         color: black;
-        font-size: 24px;
         width: 32px;
         padding: 6px;
         font-weight: bolder;
         background-color: transparent;
+
+        h4 {
+          font-size: 24px;
+          margin: 0;
+        }
+
+        .body-text {
+          font-size: 18px;
+        }
 
         &:hover {
           border-radius: 3px;
@@ -40,6 +48,15 @@
 
         button {
           width: 32px;
+
+          h4 {
+            font-size: 24px;
+            margin: 0;
+          }
+
+          .body-text {
+            font-size: 18px;
+          }
         }
 
         &.on-light button {

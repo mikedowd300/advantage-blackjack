@@ -596,6 +596,48 @@
 
 * Create stories for classic blackjack
 
+* classic blackjack is the first variation of blackjack to be implemented 
+  * it should live in its own folder to seperate it as other variations are added
+
+* Implement a feature toggles object
+  * Some uncommon table conditions are very exploitable, or, at least deserve an investigation into how exploitable they might be.
+    * The number of these rules, conditions is always growing as new promotions are thought up
+    * Depending on the nature of the promotion, it might merit generating a new deviations chart.
+  * Instead of coding all of these as part of MVP, make a hard coded feature toggle for each one.
+    * The feature toggle will
+      * Determine if the condition appears in the UI conditions page
+      * Will determine if the logic to handle it is engaged
+  * This approach allows the dev to add conditions to the UI without (ever) implementing them.
+  * Depending on the nature of the rule / condition / promotion, as part of a full implementation, the user may need a strategy change to take full advantage, this may involve a new condition strategy component.
+  * Documentation each toggle o this page at DOCUMENTATION - FEATURE TOGGLES
+  * A toggle's status can only be changed via an MR and a new deployment
+
+* Create the classic-conditions model
+  * each item is an object 
+    * create an interface for the object
+    * the abbreviated rule name is the key for the object
+    * the properties on the object are: 
+      * name: this should be human readable
+      * what's this: a tool tip explaining the purpose of a condition, may be null
+    * the component that displays the condition in the UI
+      * this is so the UI can filter by condition and display display types together via an ng-for
+        * There should be a sharable (between variations) ConditionDisplayTypes enum
+      * most of these will be types of an input such as
+        * text-input
+        * number-input
+        * checkbox
+      * others will be custom components
+        * group of radio buttons
+        * progress slider
+        * TBD - each component will be part of a story, or a story itself.
+        * for the purpose of this story, displayTypes can be "CUSTOM"
+    * the feature toggle controlling the feature
+      * many of the features will be standard ad can have the "isStandard" feature toggle
+        * the isStandard toggle will not be implemented in the UI or in the logic
+        * this toggle exists to force the dev to consider the implementation of the feature
+      * as new feature toggles are created, they must be added to the classicFeatureToggles object
+      * as new feature toggles are created, they documant of this page at DOCUMENTATION - FEATURE TOGGLES
+  
 * Create the shoe class
   * This will be shared by the different variations unless the variations require a special deck as does Spanish21
   * The shoe in LS will be namespaced as 'shared' unless it is specific to a variation, in which case the name spaece will be the version - this is only for the shoe, not the other LSValues
@@ -756,7 +798,7 @@
   * When 1 faq is opened, the already opened one should close
   * Add animation for expanding question and answer
 
------------------------ INSTRUCTIONS TO ADD A NEW VARIATION  ----------------------
+-------------- DOCUMENTATION - INSTRUCTIONS TO ADD A NEW VARIATION  --------------
 
 * Add a variation tab to HeaderService
   * This will add the variation to the header which may create a need for responsive CSS as some breakpoint
@@ -768,3 +810,19 @@
   * Practice
   * Speed Practice
 * Update the content in the "home" page to include info about the new variation
+* Create the conditions model
+
+------------------------ DOCUMENTATION - FEATURE TOGGLES  ------------------------
+
+* Feature toggles are not customer facing, they exist for the developer
+* Updating a feature toggle requires an MR and a new deployment
+* Non-standard features are added as false and are not flipped to true until the feature has been implemented enough to bring value (usually in ters of EV) to the player
+  * additional implementation surrounding the feature toggle, such as a UI to implmement a custom strategy for it, may be added later and have their own story
+* Feature toggles control if a rule / condition / promotion has been fully implemented. 
+  * It allows the developer to add a feature to the ui without implementing it fully
+  * generally, it will not control logic that doesn't have a UI component related to it
+* Feature toggles include: 
+  * isStandard
+    * this toggle is unique in that it has no implementation of any kind associated with it
+    * this toggle forces the develop to consider the implementation of every rule / condition / promotion
+  * doubleForLess

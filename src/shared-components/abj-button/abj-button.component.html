@@ -6,5 +6,13 @@
   [class.no-outline]="noOutline"
   [class.full-width]="fullWidth"
 >
-  <button class="abj-button" (click)="handleAction($event)">{{ text }}</button>
+  <button
+    class="abj-button"
+    (click)="handleAction($event)"
+  >
+    <h4>{{ text }}</h4>
+    @if(bodyText) {
+      <p class="body-text">{{ bodyText }}</p>
+    }
+  </button>
 </div>
