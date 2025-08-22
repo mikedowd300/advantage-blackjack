@@ -30,8 +30,7 @@ export enum ClassicFeatureToggles {
   DRAW_ON_SPLIT_ACES = 'drawOnSplitAces',
   ENHANCED_SURRENDER = 'enhancedSurrender',
   SEEN_CARD_ADVANTAGE = 'seenCardAdvantage',
-  HAS_5_CARD_CHARLIE = 'has5CardsCharlie',
-  HAS_6_CARD_CHARLIE = 'has6CardsCharlie',
+  HAS_CHARLIE = 'has5CardsCharlie',
   BONUS_FOR_678 = 'bonusFor678',
   BONUS_FOR_678_SUITED = 'bonusFor678Suited',
   BONUS_FOR_777 = 'bonusFor777',
@@ -47,4 +46,5 @@ export enum ClassicFeatureToggles {
   ALLOW_DOUBLE_DOWN_ON_ANY_NUMBER_OF_CARDS = 'allowDoubleDownOnAnyNumberOfCards',
   DEALER_PUSHES_ON_22 = 'dealerPushesOn22',
   NHC = 'noHoleCard',
+  DX = 'doubleExposure'
 }

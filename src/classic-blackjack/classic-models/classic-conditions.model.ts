@@ -4,6 +4,7 @@ export enum DisplayWith {
   TEXT_INPUT = 'textInput',
   NUMBER_INPUT = 'numberInput',
   CHECKBOX = 'checkbox',
+  RADIO_GROUP = 'radioGroup',
   CUSTOM = 'custom',
 }
 
@@ -14,13 +15,18 @@ export enum DoubleDownOn {
   EIGHT_thru_ELEVEN = 'eightThruEleven',
 }
 
-export enum BlackjackPayRatio {
+export enum PayRatio {
+  HALF = 'one-to-two',
   ONE_to_ONE = 'one-to-one',
   SIX_to_FIVE = 'six-to-five',
   SEVEN_to_FIVE = 'seven-to-five',
   THREE_to_TWO = 'three-to-two',
   TWO_to_ONE = 'two-to-one',
   THREE_to_ONE = 'three-to-one',
+  FIVE_to_ONE = 'five-to-one',
+  TEN_to_ONE = 'ten-to-one',
+  HUNDRED_to_ONE = 'hundred_to_one',
+  THOUSAND_to_ONE = 'thousand_to_one',
 }
 
 export enum HoleCardType {
@@ -38,57 +44,283 @@ export enum SurrenderTypes {
   EARLY_NOT_AGAINST_A =  "earlySurrenderNotAgainstAce",
 }
 
-export interface SurrenderObject {
-  whatsThis: string,
-  labelText: string,
+export enum DoubleForLessMinRule {
+  TABLE_MIN = 'tableMinimum',
+  ONE_DOLLAR = 'oneDollar',
 }
 
-export interface HoleCardObject {
-  whatsThis: string,
-  labelText: string,
+export enum CharlieRule {
+  ALWAYS_WINS = 'neverTies',
+  PUSHES_TO_21 = 'pushesTo21',
+  LOSES_OR_PUSHES_TO_21 = 'losesOrPushesTo21',
+  NO_CHARLIE_AGAINST_DEALERS_5_CARDS = 'noCharlieAgainstDealersCharlie',
+  LOSES_TO_BLACKJACK_ONLY = 'noCharlieAgainstDealersCharlie',
+  PUSHES_TO_BLACKJACK_ONLY = 'noCharlieAgainstDealersCharlie',
 }
 
-export const SurrenderList = {
-  [SurrenderTypes.NOT_ALLOWED]: {
+export enum CharlieType {
+  FIVE = 'five',
+  SIX = 'six',
+  SEVEN = 'seven',
+  NONE = null,
+}
+
+export enum DxSplittingTensPolicy {
+  NEVER = 'never',
+  TRUE_PAIR = 'truePair',
+  ANY = 'any',
+}
+
+export enum DxTiedBlackjackPolicy {
+  PLAYER = 'player',
+  DEALER = 'dealer',
+  PUSH = 'push',
+}
+
+export interface RadioButton {
+  whatsThis: string,
+  labelText: string,
+  value: any,
+}
+
+export type RadioButtonGroup = RadioButton[];
+
+export const dxTiedBlackjackPolicyList = [
+  {
     whatsThis: '',
-    labelText: 'No Surrendering',
+    labelText: 'Player Wins',
+    value: DxTiedBlackjackPolicy.PLAYER,
   },
-  [SurrenderTypes.LATE]: {
+  {
+    whatsThis: '',
+    labelText: 'Dealer Wins',
+    value: DxTiedBlackjackPolicy.DEALER,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Push',
+    value: DxTiedBlackjackPolicy.PUSH,
+  },
+]
+
+export const dxSplittingTensPolicyList = [
+  {
+    whatsThis: 'There are no restrictions for splitting tens.',
+    labelText: 'Any',
+    value: DxSplittingTensPolicy.ANY,
+  },
+  {
+    whatsThis: 'Only actual pairs my be split.',
+    labelText: 'True Pair',
+    value: DxSplittingTensPolicy.TRUE_PAIR,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Not Allowed',
+    value: DxSplittingTensPolicy.NEVER,
+  },
+]
+
+export const charlieTypeList = [
+  {
+    whatsThis: '',
+    labelText: '5',
+    value: CharlieType.FIVE,
+  },
+  {
+    whatsThis: '',
+    labelText: '6',
+    value: CharlieType.SIX,
+  },
+  {
+    whatsThis: '',
+    labelText: '7',
+    value: CharlieType.SEVEN,
+  },
+  {
+    whatsThis: '',
+    labelText: 'None',
+    value: CharlieType.NONE,
+  },
+];
+
+export const charlieRuleList: RadioButtonGroup = [
+  {
+    whatsThis: 'With this rule, a 5 card Charlie will win even against all dealers hands.',
+    labelText: 'Always Wins',
+    value: CharlieRule.ALWAYS_WINS,
+  },
+  {
+    whatsThis: 'If the dealer draws to 21, the Charlie as played is a regular hand and will either push or lose.',
+    labelText: '',
+    value: CharlieRule.LOSES_OR_PUSHES_TO_21,
+  },
+  {
+    whatsThis: 'If the dealer draws 5 or more cards, the Charlie is played as a regular hand and will winm push or lose depending on the hand total.',
+    labelText: 'No Charlie Againt Charlie',
+    value: CharlieRule.NO_CHARLIE_AGAINST_DEALERS_5_CARDS,
+  },
+  {
+    whatsThis: 'If the dealer draws to 21, the Charlie will push.',
+    labelText: 'Always Wins',
+    value: CharlieRule.PUSHES_TO_21,
+  },
+  {
+    whatsThis: 'This can only ever happen in a NHC game as the dealer would have ended the hand after peeking at the blackjack.',
+    labelText: 'Loses to Blackjack',
+    value: CharlieRule.LOSES_TO_BLACKJACK_ONLY,
+  },
+  {
+    whatsThis: 'This can only ever happen in a NHC game as the dealer would have ended the hand after peeking at the blackjack.',
+    labelText: 'Pushes to Blackjack',
+    value: CharlieRule.PUSHES_TO_BLACKJACK_ONLY,
+  },
+];
+
+export const doubleForLessMinRuleList: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: 'One Dollar',
+    value: DoubleForLessMinRule.ONE_DOLLAR,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Table Minimum',
+    value: DoubleForLessMinRule.TABLE_MIN,
+  },
+];
+
+export const doubleDownOnList: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: 'Any 2 Cards',
+    value: DoubleDownOn.ANY_TWO_CARDS,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Hard 8 - 11',
+    value: DoubleDownOn.NINE_thru_ELEVEN,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Hard 9 - 11',
+    value: DoubleDownOn.EIGHT_thru_ELEVEN,
+  },
+  {
+    whatsThis: '',
+    labelText: '10 and 11 Only',
+    value: DoubleDownOn.TEN_and_ELEVEN,
+  },
+];
+
+export const payRatioList: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: '1:2',
+    value: PayRatio.HALF,
+  },
+  {
+    whatsThis: '',
+    labelText: '1:1',
+    value: PayRatio.ONE_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '6:5',
+    value: PayRatio.SIX_to_FIVE,
+  },
+  {
+    whatsThis: '',
+    labelText: '7:5',
+    value: PayRatio.SEVEN_to_FIVE,
+  },
+  {
+    whatsThis: '',
+    labelText: '3:2',
+    value: PayRatio.THREE_to_TWO,
+  },
+  {
+    whatsThis: '',
+    labelText: '2:1',
+    value: PayRatio.TWO_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '3:1',
+    value: PayRatio.THREE_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '5:1',
+    value: PayRatio.FIVE_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '10:1',
+    value: PayRatio.TEN_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '100:1',
+    value: PayRatio.HUNDRED_to_ONE,
+  },
+  {
+    whatsThis: '',
+    labelText: '1000:1',
+    value: PayRatio.THOUSAND_to_ONE,
+  },
+];
+
+export const surrenderTypesList: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: 'No Surrender',
+    value: SurrenderTypes.NOT_ALLOWED,
+  },
+  {
     whatsThis: 'You may surrender after the dealer checks for a blackjack',
     labelText: 'Late Surrender',
+    value: SurrenderTypes.LATE,
   },
-  [SurrenderTypes.EARLY]: {
+  {
     whatsThis: 'You may surrender before the dealer checks for a blackjack.',
     labelText: 'Early Surrender',
+    value: SurrenderTypes.EARLY,
   },
-  [SurrenderTypes.EARLY_NOT_AGAINST_A]: {
+  {
     whatsThis: 'You may surrender before the dealer checks for a blackjack against a ten, but not against an ace',
     labelText: 'Early Surrender Against a Ten',
+    value: SurrenderTypes.EARLY_NOT_AGAINST_A,
   },
-}
+]
 
-export const HoleCardList = {
-  [HoleCardType.STANDARD]: {
+export const holeCardTypesList: RadioButtonGroup = [
+  {
     whatsThis: 'A hole card is dealt, and in the case of a ten or an ace, the dealer will peak at it looking for a blackjack.',
     labelText: 'Hole Card Included',
+    value: HoleCardType.STANDARD,
   },
-  [HoleCardType.DEALT_NO_PEAK_OBO]: {
-    whatsThis: 'A hole card is dealt, but the dealer will peak at it looking for a blackjack. In the case of a dealers blackjack, the player will lose the original bet, but not the bets due to splitting and doubling down.',
+  {
+    whatsThis: 'A hole card is dealt, but the dealer will not peak at it looking for a blackjack. In the case of a dealer\'s blackjack, the player will lose the original bet, but not the bets due to splitting and doubling down.',
     labelText: 'No peek. OBO rules.',
+    value: HoleCardType.DEALT_NO_PEAK_OBO,
   },
-  [HoleCardType.DEALT_NO_PEAK_ALL_BETS_TAKEN]: {
-    whatsThis: 'A hole card is dealt, but the dealer will peak at it looking for a blackjack. In the case of a dealers blackjack, the player will lose all bets including bets due to splitting and doubling down.',
+  {
+    whatsThis: 'A hole card is dealt, but the dealer will not peak at it looking for a blackjack. In the case of a dealer\'s blackjack, the player will lose all bets including bets due to splitting and doubling down.',
     labelText: 'No peek. ENHC rules.',
+    value: HoleCardType.DEALT_NO_PEAK_ALL_BETS_TAKEN,
   },
-  [HoleCardType.OBO]: {
+  {
     whatsThis: 'No hole card is dealt. In the event a blackjack, the player will lose the Original Bet Only and not the bets due to splitting and doubling.',
     labelText: 'OBO',
+    value: HoleCardType.OBO,
   },
-  [HoleCardType.ENHC]: {
+  {
     whatsThis: 'No hole card is dealt. In the event a blackjack, the player will lose all bets including bets due to splitting and doubling.',
     labelText: 'ENHC',
+    value: HoleCardType.ENHC,
   },
-}
+];
 
 export interface Condition {
   name: string,
@@ -96,6 +328,8 @@ export interface Condition {
   whatsThis: string,
   displayWith: DisplayWith,
   value?: any,
+  key?: string,
+  radioGroup?: RadioButtonGroup,
 }
 
 export interface ClassicConditions {
@@ -110,7 +344,7 @@ export interface ClassicConditions {
   MSE: Condition,
   reshuffleOnDealerChange: Condition,
   cardsBurnedOnDealerChange: Condition,
-  blackjackPayRatio: Condition,
+  payRatio: Condition,
   spotsPerTable: Condition,
   decksPerShoe: Condition,
   cardsBurned: Condition,
@@ -122,8 +356,8 @@ export interface ClassicConditions {
   handsPerDealer: Condition,
   canDoubleOn:  Condition,
   surrender: Condition,
-  has5CardCharlie: Condition,
-  has6CardCharlie: Condition,
+  charlieType: Condition,
+  charliePayout: Condition,
   bonusFor678: Condition,
   bonusFor678Suited: Condition,
   bonusFor777: Condition,
@@ -139,9 +373,72 @@ export interface ClassicConditions {
   allowDoubleDownOnAnyNumberOfCards: Condition,
   dealerPushesOn22: Condition,
   holeCardPolicy: Condition,
+  doubleExposure: Condition,
+  DXTIES: Condition,
+  DXTIEDBJ: Condition,
+  DXSPLIT10: Condition,
 }
 
-export const classicConditions: ClassicConditions = {
+export interface AbbreviatedClassicConditions {
+  title: string,
+  S17: boolean,
+  RSA: boolean,
+  DAS: boolean,
+  MHFS: number,
+  DSA: boolean,
+  DRSA: boolean,
+  MSE: boolean,
+  reshuffleOnDealerChange: boolean,
+  handsPerDealer: number,
+  cardsBurned: number,
+  cardsBurnedOnDealerChange: number,
+  payRatio: PayRatio,
+  spotsPerTable: number,
+  decksPerShoe: number,
+  minBet: number,
+  maxBet: number,
+  shufflePoint: number,
+  canDoubleOn: DoubleDownOn,
+  surrender: SurrenderTypes,
+  DFL: boolean,
+  countBurnCard: boolean,
+  countBottomCard: boolean,
+  charlieType: CharlieType,
+  charliePayout: PayRatio,
+  bonusFor678: any,
+  bonusFor678Suited: any,
+  bonusFor777: any,
+  bonusFor777Suited: any,
+  bonusForSuitedBlackjack: any,
+  bonusForSuitedBlackjackOfSpades: any,
+  allowTripleDownOn3Cards: any,
+  allowTripleDownOnAnyAmountOfCards: any,
+  allowSurrenderAferDouble: any,
+  allowSurrenderAtAnyTime: any,
+  allowDoubleDownOn3CardsWith9Thru11: any,
+  allowDoubleDownOnAny3Cards: any,
+  allowDoubleDownOnAnyNumberOfCards: any,
+  dealerPushesOn22: any,
+  holeCardPolicy: any,
+  doubleExposure: any,
+  DXTIES: any,
+  DXTIEDBJ: any,
+  DXSPLIT10: any,
+}
+
+export type AnyStrategy = | AbbreviatedClassicConditions
+  // | WongStrategy 
+  // | Conditions 
+  // | UnitResizeStrategy 
+  // | TippingPlan
+  // | BetSpreadStrategy
+  // | PlayStrategy
+  // | PlayerConfig
+  // | TableConfig
+  // | CountingMethod
+  // | InsurancePlan
+
+export const defaultFullClassicConditions: ClassicConditions = {
   title: 'Default Conditions',
   S17: {
     name: 'Dealer Stays on Soft 17',
@@ -220,12 +517,13 @@ export const classicConditions: ClassicConditions = {
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 1,
   },
-  blackjackPayRatio: {
-    name: 'Number of Cards Burned on a Dealer Change',
+  payRatio: {
+    name: 'Blackjack Pays...',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
-    whatsThis: 'Often when a dealers are swapped out, the dealer will burn a single card, but in some casinos, the new dealer will burn more than one card. For counting purposes, burned cards are treated like cards behind the cut card. In a six deck game where the cuts off 1.5 decks (75% deck penitratind) where the dealer burns 4 cards on the shuffle then 4 more if a dealer change happens to occur during the shoe, now more than 1.6 decks have been cut off and the deck penitration is closer to 72%. The affect of this is minimal, but measureable and is decreased more when the "Hands per Dealer" condition is high.',
-    displayWith: DisplayWith.CUSTOM, // select from a radiobutton group
-    value: BlackjackPayRatio.THREE_to_TWO,
+    whatsThis: 'The payout ratios shown include payouts for other bonuses and are not necessarily blackjack payouts.',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.THREE_to_TWO,
   },
   spotsPerTable: {
     name: 'Seats per Table',
@@ -259,29 +557,32 @@ export const classicConditions: ClassicConditions = {
     name: 'Deck Penitration',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
     whatsThis: 'Enter the number of cards dealt before the shuffle card comes out. CAVEAT #1: lowering the "Decks per Shoe" condition without adjusting this number as well may result in more cards being cut off than are in the shoe. If, during a simulation, this is the case, the simulation will adjust the "Deck Penitration" to half the size of the shoe. CAVEAT #2: it is up to the user to make sure that the deck penitration isn\'t so deep that dealer runs out of cards in the middle of a round. If, during a simulation, that is the case, then the simulation will treat the entire hand like a push. Even a blackjack will push against any dealer hand. While this will keep the simulation from freezing, it will skew results.',
-    displayWith: DisplayWith.CUSTOM,
+    displayWith: DisplayWith.NUMBER_INPUT,
     value: 1000,
   },
   canDoubleOn: {
     name: 'The Player May Double on...',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
     whatsThis: null,
-    displayWith: DisplayWith.CUSTOM,
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: doubleDownOnList,
     value: DoubleDownOn.ANY_TWO_CARDS,
   },
   surrender: {
-    name: 'The Player May Double on...',
+    name: 'Surrender Rules',
     featureToggle: ClassicFeatureToggles.ENHANCED_SURRENDER,
     whatsThis: null,
-    displayWith: DisplayWith.CUSTOM, // radio button group with SurrenderList
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: surrenderTypesList,
     value: SurrenderTypes.NOT_ALLOWED,
   },
   DFL: {
     name: 'Double For Less',
     featureToggle: ClassicFeatureToggles.DOUBLE_FOR_LESS,
     whatsThis: 'Doubling for less is a camoflage technique and is generally done when the dealr ha a 12 or a 13 and should hit against a dealers 2 or 3 (depending on the variation). TODO - CREATE A UI AND LOGIC TO IMPLEMENT THIS',
-    displayWith: DisplayWith.CUSTOM, // radio button group
-    value: null
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: doubleForLessMinRuleList,
+    value: DoubleForLessMinRule.ONE_DOLLAR,
   },
   countBurnCard: {
     name: 'Count the Burn Card',
@@ -297,19 +598,21 @@ export const classicConditions: ClassicConditions = {
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
   },
-  has5CardCharlie: {
-    name: '5 Card Charlie',
-    featureToggle: ClassicFeatureToggles.SEEN_CARD_ADVANTAGE,
-    whatsThis: 'Some dealers will systematically show the bottom card of a pitch deck. When this happens your edge increases, maybe even enough to justify a bigger get the first hand of the shoe.',
-    displayWith: DisplayWith.CUSTOM, // radio button group
-    value: null,
+  charlieType: {
+    name: 'Include A Charlie?',
+    featureToggle: ClassicFeatureToggles.HAS_CHARLIE,
+    whatsThis: 'Is there a 5, 6 or 7 card Charlie offered? If yes, don\'t miss the "charliePayout" condition.',
+    displayWith: DisplayWith.RADIO_GROUP, 
+    radioGroup: charlieTypeList,
+    value: CharlieType.NONE,
   },
-  has6CardCharlie: {
-    name: '5 Card Charlie',
-    featureToggle: ClassicFeatureToggles.SEEN_CARD_ADVANTAGE,
-    whatsThis: 'Some dealers will systematically show the bottom card of a pitch deck. When this happens your edge increases, maybe even enough to justify a bigger get the first hand of the shoe.',
-    displayWith: DisplayWith.CUSTOM, // radio button group
-    value: null,
+  charliePayout: {
+    name: 'A Charlie Pays Out...',
+    featureToggle: ClassicFeatureToggles.HAS_CHARLIE,
+    whatsThis: 'There is no need for seperate Charlie payouts as a table will never have more than 1.',
+    displayWith: DisplayWith.RADIO_GROUP, 
+    radioGroup: payRatioList,
+    value: PayRatio.TWO_to_ONE,
   },
   bonusFor678: {
     name: '6-7-8 Bonus',
@@ -389,7 +692,7 @@ export const classicConditions: ClassicConditions = {
     value: false,
   },
   allowDoubleDownOnAny3Cards: {
-    name: 'Doubling on Cards is Allowed',
+    name: 'Doubling on Any 3 Cards is Allowed',
     featureToggle: ClassicFeatureToggles.ALLOW_DOUBLE_DOWN_ON_ANY_3_CARDS,
     whatsThis: 'This rule is from a variation of Panamanian blackjack. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
@@ -413,7 +716,98 @@ export const classicConditions: ClassicConditions = {
     name: 'Hole Card Rules',
     featureToggle: ClassicFeatureToggles.NHC,
     whatsThis: 'In some games, the dealer does not take a hole card until all other players\' hands are played. The difference from having the hole card dealt before the players play their hands is that the dealer has no card to peek at under a ten or an ace. The players will play their cards, including splitting and doubling down, and the bets associated with those hands that would not have been made under the standard, hole card included, method. If the dealer ends up having blackjack, the player will lose the original bet only in the (OBO) variation, but will loses all bets with the European No Hole Card rules (ENHC). Very rarely, a casino will have a hybrid version where the dealer will deal a hole card, but not peek at it and apply either the OBO or ENHC rules for a blackjack.',
-    displayWith: DisplayWith.CUSTOM, 
+    displayWith: DisplayWith.RADIO_GROUP, 
+    radioGroup: holeCardTypesList,
     value: HoleCardType.STANDARD,
   },
+  doubleExposure: {
+    name: "Double Exposure",
+    featureToggle: ClassicFeatureToggles.DX,
+    whatsThis: 'In a "double expossur" game, both the dealers cards are exposed. This would seem great for the player, but to make up for it a the house will win all ties, sometimes including blackjack, or may limit splitting. If you select this option, be sure to select the other rules that come with it.',
+    displayWith: DisplayWith.CHECKBOX, 
+    value: false,
+  },
+  DXTIES: {
+    name: "Double Exposure, Dealer Push Policy",
+    featureToggle: ClassicFeatureToggles.DX,
+    whatsThis: 'This rule is part of "Double Exposure". By itself, it, renders a game unplayable.',
+    displayWith: DisplayWith.CUSTOM, 
+    value: false,
+  },
+  DXTIEDBJ: {
+    name: "Double Exposure, Tied Blackjacks Policy",
+    featureToggle: ClassicFeatureToggles.DX,
+    whatsThis: 'This rule primarily applies to "Double Exposure" blackjack.',
+    displayWith: DisplayWith.RADIO_GROUP, 
+    radioGroup: dxTiedBlackjackPolicyList,
+    value: DxTiedBlackjackPolicy.PUSH
+    
+  },
+  DXSPLIT10: {
+    name: "Double Exposure, Splitting Tens Policy",
+    featureToggle: ClassicFeatureToggles.DX,
+    whatsThis: 'This rule primarily applies to "Double Exposure" blackjack where some casinos will only allow splitting of truly paired 10s.',
+    displayWith: DisplayWith.RADIO_GROUP, 
+    radioGroup: dxSplittingTensPolicyList,
+    value: DxSplittingTensPolicy.ANY,
+  },
 }
+
+export interface CustomizingLink {
+  title: string,
+  bodyText: string,
+  url: string,
+};
+
+export const customizingLinks: CustomizingLink[] = [
+  {
+    title: 'Table',
+    bodyText: 'Customize and save a table with the players and conditions you want.',
+    url: 'table',
+  },
+  {
+    title: 'Conditions',
+    bodyText: 'Customize and save table conditions to mimic any casino.',
+    url: 'conditions',
+  },
+  {
+    title: 'Player',
+    bodyText: 'Customize and save a new player to behave anyway you want.',
+    url: 'player',
+  },
+  {
+    title: 'Bet Spread',
+    bodyText: 'Customize and save bet spreading strategies to be incorporated by a player.',
+    url: 'bet-spread',
+  },
+  {
+    title: 'Unit Resizing',
+    bodyText: 'Customize and save unit resizing strategies to become part of a players behavior.',
+    url: 'unit-resizing',
+  },
+  {
+    title: 'Play Chart',
+    bodyText: 'In addition to the built in play chart, customize and save new chart to define a players playing behavior.',
+    url: 'play-chart',
+  },
+  {
+    title: 'Wonging',
+    bodyText: 'Customize and save different approaches to adding and removing hands depending on the count.',
+    url: 'wonging',
+  },
+  {
+    title: 'Tipping',
+    bodyText: 'Understand the cost of tipping by customizing approaches to tipping.',
+    url: 'tipping',
+  },
+  {
+    title: 'Counting System',
+    bodyText: 'Implement you own counting strategy. You can even make a deviation chart to go along with it in the Deviation section.',
+    url: 'custom-counting-system',
+  },
+  {
+    title: 'Insurance Plan',
+    bodyText: 'When insurance is offered, have a plan for accepting it or not.',
+    url: 'insurance-plan',
+  },
+];

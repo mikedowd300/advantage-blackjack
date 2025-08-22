@@ -1,0 +1,32 @@
+<div class="abj-radio-group flex-column">
+  <div class="main-label-wrapper">
+    <label class="condition-label">{{condition.name}}</label>
+  </div>
+  <div class="group-wrapper flex">
+  @for(radio of group; track radio) {
+    <div class="input-wrapper flex-column">
+      <abj-tooltip
+        [body]="radio.whatsThis"
+        [status]="(activeToolTip$ | async) === $index"
+        [toolTipId]="$index.toString()"
+      ></abj-tooltip>
+      <div class="label-wrapper flex">
+      @if(radio.whatsThis) {
+        <span
+          (click)="setActiveToolTip($index)"
+          class="material-symbols-outlined"
+        >
+          help
+        </span>
+      }
+        <label class="flex">{{radio.labelText}}</label>
+      </div>
+      <input 
+        type="radio"
+        [checked]="radio.value === radioGroupValue" 
+        (change)="handleInput(radio.value)"
+      >
+    </div>
+  }
+  </div>
+</div>

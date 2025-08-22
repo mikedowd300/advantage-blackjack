@@ -35,6 +35,10 @@ export const routes: Routes = [
     canActivate: [RouteGuardService],
     children: [
       {
+        path: 'home',
+        component: ClassicCustomizationsComponent,
+      },
+      {
         path: 'customizations',
         component: ClassicCustomizationsComponent,
       },

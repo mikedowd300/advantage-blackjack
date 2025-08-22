@@ -1,0 +1,41 @@
+:host {
+  .abj-number-input {
+    color: black;
+
+    .label-wrapper {
+      font-size: 18px;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 8px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    input {
+      border: 1px solid white;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 3px;
+      width: 100px;
+      min-width: 100px;
+      box-sizing: border-box;
+      margin-left: 12px;
+
+      &::placeholder {
+        color: #bdbdbd;
+      }
+
+      &:focus {
+        outline: none;
+        border: 1px solid #bdbdbd;
+      }
+    }
+  }
+}

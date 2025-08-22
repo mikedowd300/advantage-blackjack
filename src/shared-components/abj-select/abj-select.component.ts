@@ -9,19 +9,21 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './abj-select.component.scss'
 })
 export class ABJSelectComponent implements OnInit {
-  @Input() options: string[] = ['Sam', 'Steph', 'Raech', 'Shannon', 'Tony'];
-  @Input() label: string = "Label Name";
-  @Input() selectValue: string = 'Select a Value';
-  @Output() selectedEvent = new EventEmitter<string>();
+  @Input() options: string[] = [];
+  @Input() label: string;
+  @Input() selectValue: string;
+  @Output() selectedEvent = new EventEmitter<any>();
 
-  showIntroMessage: boolean = true;
+  showIntroMessage: boolean;
 
   ngOnInit(): void {
-    this.showIntroMessage = !this.options.includes(this.selectValue);
+    this.showIntroMessage = this.selectValue && !this.options.includes(this.selectValue);
   }
 
   selectEvent(message: string) {
     this.showIntroMessage = !this.options.includes(message);
     this.selectedEvent.emit(message);
+    setTimeout(() => window.scrollTo(0, 0));
+    
   }
 }

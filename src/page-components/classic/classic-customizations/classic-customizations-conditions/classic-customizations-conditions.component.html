@@ -1,3 +1,42 @@
-<div class="classic-customizations-conditionspage">
-  Hello classic-customizations-conditions
+<div class="classic-customizations-conditions page">
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [defaultTitles]="storedConditionTitles"
+    [titleList]="allStrategyTitles"
+    (ChangeStrategyNameEvent)="setActiveStrategy($event)"
+  ></abj-strategy-selector>
+  <div class="conditions-wrapper">
+    @for(condition of checkboxConditions; track condition) {
+    <div class="condition-wrapper checkbox">
+      <abj-checkbox
+        [condition]="condition"
+        [checked]="condition.value"
+        [checkboxId]="'chk'+$index"
+        (action)="handleCheckAction($event.target, condition.key)"
+      ></abj-checkbox>
+    </div>
+    }
+    @for(condition of numberInputConditions; track condition) {
+    <div class="condition-wrapper">
+      <abj-number-input
+        [condition]="condition"
+        [value]="condition.value"
+        placeHolder="placeHolder"
+        [inputId]="'nmbr'+$index"
+        (changeEvent)="handleNumberInputAction($event, condition.key)"
+      ></abj-number-input>
+    </div>
+    }
+    @for(condition of radioGroupConditions; track condition) {
+    <div class="condition-wrapper">
+      <abj-radio-group
+        [condition]="condition"
+        [group]="condition.radioGroup"
+        [value]="condition.value"
+        (changeEvent)="handleRadioGroupAction($event, condition.key)"
+      ></abj-radio-group>
+    </div>
+    }
+  </div>
 </div>

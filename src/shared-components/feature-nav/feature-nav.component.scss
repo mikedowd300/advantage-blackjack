@@ -1,6 +1,7 @@
 :host {
   .feature-nav {
     display: flex;
+    justify-content: center;
     flex-wrap: nowrap;
 
     @media only screen and (max-width: 615px) {

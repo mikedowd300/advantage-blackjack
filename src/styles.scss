@@ -17,6 +17,10 @@ body {
   display: flex;
 }
 
+.between {
+  justify-content: space-between;
+}
+
 .page {
   width: calc(100% - 32px);
   max-width: 840px;
