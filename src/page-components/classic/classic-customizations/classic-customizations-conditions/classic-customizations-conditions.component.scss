@@ -1,5 +1,35 @@
 :host {
-  .classic-customizations-conditions {
-    border: none;
+  width: 100%;
+  box-sizing: border-box;
+
+  .classic-customizations-conditions.page {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: auto;
+
+  .conditions-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+
+    .condition-wrapper {
+      background-color: rgba(0, 0, 0, .05);
+      padding: 12px;
+      position: relative;
+
+      &:hover {
+        border: 0.5px solid gray;
+        box-sizing: border-box;
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba(0, 0, 0, .1);
+      }
+    }
+  }
+
+
+    @media only screen and (max-width: 529px) {
+      padding: 12px;
+    }
   }
 }

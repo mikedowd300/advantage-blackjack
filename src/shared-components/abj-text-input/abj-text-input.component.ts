@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './abj-text-input.component.html',
   styleUrl: './abj-text-input.component.scss'
 })
-export class ABJTextInputComponent implements OnInit {
+export class ABJTextInputComponent implements AfterViewInit, OnInit {
+  @ViewChild('innerInput') innerInput: ElementRef;
   @Input() value: string;
   @Input() label: string;
   @Input() placeHolder: string;
@@ -17,6 +18,10 @@ export class ABJTextInputComponent implements OnInit {
   message: string;
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.innerInput.nativeElement.focus();
+  }
 
   handleInput() {
     this.changeEvent.emit(this.message)

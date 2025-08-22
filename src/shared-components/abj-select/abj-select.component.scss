@@ -2,10 +2,11 @@
 
   .select-dropdown-wrapper {
     padding: 6px 6px 6px 0;
-    max-width: 212px;
+    max-width: 260px;
     overflow: hidden;
     background-color: transparent;
     outline: none;
+    box-sizing: border-box;
   
     label {
       margin-bottom: 4px;
@@ -13,11 +14,12 @@
     }
   
     select {
-      padding: 6px;
-      width: 200px;
-      max-width: 200px;
+      padding: 8px;
+      width: 260px;
+      max-width: 260px;
       border-radius: 3px;
       border: 1px solid white;
+      font-size: 18px;
   
       &:hover, &:focus {
         border: 1px solid black;

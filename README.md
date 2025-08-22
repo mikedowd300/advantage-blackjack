@@ -609,10 +609,27 @@
       * Will determine if the logic to handle it is engaged
   * This approach allows the dev to add conditions to the UI without (ever) implementing them.
   * Depending on the nature of the rule / condition / promotion, as part of a full implementation, the user may need a strategy change to take full advantage, this may involve a new condition strategy component.
-  * Documentation each toggle o this page at DOCUMENTATION - FEATURE TOGGLES
   * A toggle's status can only be changed via an MR and a new deployment
+* ### STATUS: COMPLETE
 
-* Create the classic-conditions model
+* Documentation each toggle of this page at DOCUMENTATION - FEATURE TOGGLES
+
+------------------------- CLASSIC BLACKJACK - CONDITIONS -----------------------------
+
+* Create the classic-conditions UI ans storing the values in local storage
+  * Each condition has information for hoe the condition is displayed in the UI
+    * Includes a "Whats This" field, the value of which will populate a tooltip for the condition.
+    * Includes a "Displayed With" field, the content of which is a reference to the type of component to display the condition.
+    * includes the value of the condition
+    * Each custom display component should be a seperate story, or 2 seperate stories if deemed appropriate.
+    * Custom display components will include:
+      * checkbox
+      * number input
+      * radio group
+      * tool tip
+    * Each custom component should report the value of the input change to the parent component.
+    * The parent component which consomes a conditions object displays all the conditions and will be responsible for CRUD operations with the different condition configurations.
+
   * each item is an object 
     * create an interface for the object
     * the abbreviated rule name is the key for the object
@@ -637,7 +654,9 @@
         * this toggle exists to force the dev to consider the implementation of the feature
       * as new feature toggles are created, they must be added to the classicFeatureToggles object
       * as new feature toggles are created, they documant of this page at DOCUMENTATION - FEATURE TOGGLES
-  
+
+---------------------------- CLASSIC BLACKJACK - SHOE --------------------------------
+
 * Create the shoe class
   * This will be shared by the different variations unless the variations require a special deck as does Spanish21
   * The shoe in LS will be namespaced as 'shared' unless it is specific to a variation, in which case the name spaece will be the version - this is only for the shoe, not the other LSValues

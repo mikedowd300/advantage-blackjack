@@ -18,6 +18,10 @@
         h4 {
           font-size: 24px;
           margin: 0;
+
+          &.medium {
+            font-size: 16px;
+          }
         }
 
         .body-text {
@@ -42,6 +46,23 @@
     }
 
     &.primary {
+
+      button {
+        width: 32px;
+
+        h4 {
+          font-size: 24px;
+          margin: 0;
+
+          &.medium {
+            font-size: 16px;
+          }
+        }
+
+        .body-text {
+          font-size: 18px;
+        }
+      }
       
       &.full-width {
         width: 100%;
@@ -52,6 +73,10 @@
           h4 {
             font-size: 24px;
             margin: 0;
+
+            &.medium {
+              font-size: 16px;
+            }
           }
 
           .body-text {
@@ -68,10 +93,15 @@
         border: 2px solid black;
         padding: 8px;
         background-color: black;
-        width: 120px;
+        min-width: 100px;
+        width:fit-content;
         font-size: 16px;
         color: white;
         border-radius: 3px;
+
+        &.medium {
+          padding: 8px;
+        }
 
         &:hover {
           border: 2px solid white;

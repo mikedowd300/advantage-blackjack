@@ -1,0 +1,24 @@
+<div class="abj-number-input flex">
+  <abj-tooltip
+    [body]="condition.whatsThis"
+    [status]="inputId === (activeConditionId$ | async)"
+    [toolTipId]="inputId"
+  ></abj-tooltip>
+  <div class="label-wrapper">
+  @if(condition.whatsThis) {
+    <span
+      (click)="tooltipService.activeId$.next(inputId)"
+      class="material-symbols-outlined"
+    >
+      help
+    </span>
+  }
+    <label for="">{{condition.name}}</label>
+  </div>
+  <input 
+    #innerInput
+    type="number" 
+    [(ngModel)]="numberMessage"
+    (change)="handleInput()"
+  >
+</div>

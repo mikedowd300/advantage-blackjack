@@ -1,25 +1,51 @@
-<div class="strategy-selector-wrapper" [class.center-align]="centerAlign">
+<div class="abj-strategy-selector" [class.center-align]="centerAlign">
   <h2>{{title}}</h2>
 
   @if(showSelectBox$ | async) {
-    <div class="row">
-      <div class="config input-wrapper">
-        <select name="strategies" id="" (change)="selectStrategy($event)">
-        @for(key of strategyKeys; track key) {
-          <option [value]="key" [selected]="activeStrategy.title === key">{{ key }}</option>
-        }  
-        </select>
+    <div class="flex between">
+      <div class="config select-wrapper">
+        <abj-select 
+          (selectedEvent)="selectStrategy($event)"
+          [options]="titleList"
+          [selectValue]="activeTitle"
+        >
+        </abj-select>
       </div>
-  
+
       <div class="button-container">
+        <div class="button-wrapper">
+          <abj-button
+            text="Back"
+            (action)="goBack()"
+            size="medium"
+          ></abj-button>
+        </div>
       @if(showAddButton$ | async) {
-        <button (click)="addStrategy()">Add</button>
+        <div class="button-wrapper">
+          <abj-button
+            text="Add"
+            (action)="addStrategy()"
+            size="medium"
+          ></abj-button>
+        </div>
       }
       @if(showDeleteButton$ | async) {
-        <button (click)="deleteStrategy()">Delete</button>
+        <div class="button-wrapper">
+          <abj-button
+            text="Delete"
+            (action)="deleteStrategy()"
+            size="medium"
+          ></abj-button>
+        </div>
       } 
       @if (showSaveButton$ | async) {
-        <button (click)="saveStrategy()">Save</button>
+        <div class="button-wrapper">
+          <abj-button
+            text="Save"
+            (action)="saveStrategy()"
+            size="medium"
+          ></abj-button>
+        </div>
       }
       </div>
     </div>
@@ -28,27 +54,36 @@
   <div class="title-wrapper">
   @if(showEditableTitle$ | async) {
     <div class="row">
-      <div class="input-wrapper">
-        <input #newStrategy
-          type="text" 
-          [(ngModel)]="activeStrategy.title"
-          (change)="handleTitleEdit()"
-          placeholder="Enter a valid name!"
-        >
-      </div> 
+      <div class="text-input-wrapper">
+        <abj-text-input
+          #newStrategy
+          placeHolder="Names must be 3 or more characters."
+          (changeEvent)="handleTitleEdit($event)"
+        ></abj-text-input>
+      </div>
+      <div class="button-container top-margin">
+        <div class="button-wrapper">
+          <abj-button
+            text="Back"
+            (action)="goBack()"
+            size="medium"
+          ></abj-button>
+        </div>
       @if (showSaveButton$ | async) {
-        <button (click)="saveStrategy()">Save</button>
+        <div class="button-wrapper save-strategy-name">
+          <abj-button
+            [text]="'Save ' + newTitle"
+            (action)="saveStrategy()"
+            size="medium"
+          ></abj-button>
+        </div>
       }
+      </div>
     </div>
-    @if(activeStrategy.title.length < 3) {
-      <p class="naming-hint">
-        A valid name requires 3 or more characters!
-      </p>
-    }
   } @else {
-    <h3>
-      Click "Add" to create a new configuration from {{ activeStrategy.title }}!
-    </h3>
+    <p>
+      Click "Add" to create a new configuration from <b>{{ activeTitle }}</b>
+    </p>
   }
   </div>
 </div>

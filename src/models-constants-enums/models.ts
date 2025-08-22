@@ -95,32 +95,32 @@ export interface InsurancePlan {
   atTCof: number;
 }
 
-export interface Conditions {
-  title?: string;
-  S17: boolean;
-  RSA: boolean;
-  MHFS: number;
-  DSA: boolean;
-  DFL: boolean;
-  DAS: boolean;
-  MSE: boolean;
-  reshuffleOnDealerChange: boolean;
-  burnCardOnDealerChange: boolean;
-  payRatio: PayRatioEnum;
-  spotsPerTable: number;
-  decksPerShoe: number;
-  cardsBurned: number;
-  minBet: number;
-  maxBet: number;
-  shufflePoint: number;
-  countBurnCard: boolean;
-  handsPerDealer: number;
-  canDoubleOn:  DoubleDownOnEnum;
-  canReDouble: boolean;
-  can3CardDoubleOn: DoubleDownOnEnum;
-  surrender: SurrenderEnum,
-  enhc: false,
-}
+// export interface Conditions {
+//   title?: string;
+//   S17: boolean;
+//   RSA: boolean;
+//   MHFS: number;
+//   DSA: boolean;
+//   DFL: boolean;
+//   DAS: boolean;
+//   MSE: boolean;
+//   reshuffleOnDealerChange: boolean;
+//   burnCardOnDealerChange: boolean;
+//   payRatio: PayRatioEnum;
+//   spotsPerTable: number;
+//   decksPerShoe: number;
+//   cardsBurned: number;
+//   minBet: number;
+//   maxBet: number;
+//   shufflePoint: number;
+//   countBurnCard: boolean;
+//   handsPerDealer: number;
+//   canDoubleOn:  DoubleDownOnEnum;
+//   canReDouble: boolean;
+//   can3CardDoubleOn: DoubleDownOnEnum;
+//   surrender: SurrenderEnum,
+//   enhc: false,
+// }
 
 export interface ShoeConditions {
   decksPerShoe: number;

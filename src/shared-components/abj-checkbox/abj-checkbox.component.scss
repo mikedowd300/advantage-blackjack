@@ -1,0 +1,36 @@
+:host {
+  
+  .abj-checkbox-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+
+    .label-wrapper {
+      font-size: 18px;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 8px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    input[type="checkbox"] {
+      accent-color: black; /* Changes the checkbox color to green */
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      margin-left: 16px;
+
+      &:hover {
+        outline: 1px solid white;
+      }
+    }
+  }
+}
