@@ -1,4 +1,4 @@
-import { WongStrategy } from "../models-constants-enums/models";
+import { WongStrategy } from "../classic-models/classic-strategies.models";
 
 export const wong2MoreSpots: WongStrategy = {
   title: '2 More Spots',
@@ -37,7 +37,7 @@ export const neverWong: WongStrategy = {
   wongedHands: [],
 };
 
-export const wongingTitles: string[] = [
+export const classicWongingTitles: string[] = [
   '1 More Spot', 
   '2 More Spots', 
   '3 More Spots',
@@ -45,10 +45,12 @@ export const wongingTitles: string[] = [
   'Never Wong'
 ];
 
-export const defaultWongings: { [k: string]: WongStrategy } = {
+export const classicWongs: { [k: string]: WongStrategy } = {
   '1 More Spot': wong1MoreSpot, 
   '2 More Spots': wong2MoreSpots, 
   '3 More Spots': wong3MoreSpots, 
   '2 More Quick': wong2MoreQuick,
   'Never Wong': neverWong,
 };
+
+export const classicDefaultWong = neverWong;

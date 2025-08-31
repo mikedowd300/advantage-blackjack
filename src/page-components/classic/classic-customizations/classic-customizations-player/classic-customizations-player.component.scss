@@ -1,5 +1,9 @@
 :host {
+  width: 100%;
+  box-sizing: border-box;
+
   .classic-customizations-player {
-    border: none;
+    width: 100%;
+    box-sizing: border-box;
   }
 }

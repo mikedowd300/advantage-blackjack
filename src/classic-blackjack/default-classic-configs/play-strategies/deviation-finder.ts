@@ -1,4 +1,4 @@
-import { PlayStrategy } from "../../models-constants-enums/models";
+import { PlayStrategy } from "../../classic-models/classic-strategies.models";
 
 export const deviationFinder: PlayStrategy = {
   title: "Deviations",

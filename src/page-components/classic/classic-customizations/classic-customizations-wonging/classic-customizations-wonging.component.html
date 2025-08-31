@@ -1,3 +1,60 @@
 <div class="classic-customizations-wonging page">
-  Hello classic-customizations-wonging
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="strategyTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="strategies"
+    [configurationType]="localStorageItemsEnum.WONG"
+    [variation]="localStorageVariationKeys.CLASSIC"
+  ></abj-strategy-selector>
+  <div class="wong-wrapper flex">
+    <div class="wong-wrapper">
+      <div class="icon-group-wrapper flex">
+        <div (click)="addLowerWong()" class="icon-wrapper">
+          <span class="material-symbols-outlined">add_circle</span>
+        </div>
+      @if(activeStrategy.wongedHands.length > 0) {
+        <p class="instructions"> Add wong point below TC {{ minEnterAt }} or delete lowest point</p>
+        <div (click)="deleteLowerWong()" class="icon-wrapper">
+          <span class="material-symbols-outlined">delete</span>
+        </div>
+      }
+      </div>
+    <div class="wong-content">
+      <div class="wong header flex">
+        <p>Wong in at TC:</p>
+        <p class="special-margin-right">Wong out at TC:</p>
+      </div>
+    @for(hand of activeStrategy.wongedHands; track hand) {
+      <div class="wong flex">
+        <div class="input-wrapper">
+          <input
+            type="number"
+            [(ngModel)]="hand.enterAt"
+          >
+        </div>
+        <div class="input-wrapper">
+          <input
+            [max]="hand.enterAt"
+            type="number"
+            [(ngModel)]="hand.exitBelow"
+          >
+        </div>
+      </div>
+    }
+    </div>
+  @if(activeStrategy.wongedHands.length > 0) {
+    <div class="icon-group-wrapper flex">
+      <div (click)="addUpperWong()" class="icon-wrapper">
+        <span class="material-symbols-outlined">add_circle</span>
+      </div>
+      <p class="instructions"> Add wong point above TC {{ maxEnterAt }} or delete highest point</p>
+      <div (click)="deleteUpperWong()" class="icon-wrapper">
+        <span class="material-symbols-outlined">delete</span>
+      </div>
+    </div>
+  }
+  </div>
 </div>

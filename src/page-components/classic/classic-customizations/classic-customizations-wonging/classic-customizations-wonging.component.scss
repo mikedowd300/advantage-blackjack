@@ -1,5 +1,142 @@
 :host {
+  width: 100%;
+  box-sizing: border-box;
+
   .classic-customizations-wonging {
-    border: none;
+    width: 100%;
+    box-sizing: border-box;
+
+    .wong-wrapper {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 400px;
+      min-width: 300px;
+      flex-direction: column;
+      margin-top: 6px;
+
+      .checkbox-wrapper {
+        justify-content: space-around;
+        font-size: 24px;
+        align-items: center;
+        background-color: rgba(255, 255, 255, .3);
+        padding: 6px 0;
+        border-radius: 3px;
+      }
+
+      .instructions {
+        text-align: center;
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+
+        &.upper {
+          margin: -6px 0 4px;
+        }
+
+        &.lower {
+          margin: 4px 0 -6px;
+        }
+      }
+
+      .icon-group-wrapper {
+        justify-content: space-around;
+        margin-bottom: 4px;
+
+        .instructions {
+          display: flex;
+          align-items: center;
+          margin: 0 6px;
+          font-weight: normal;
+        }
+
+        .icon-wrapper {
+
+          span {
+            width: 48px;
+            height: 48px;
+            font-size: 48px;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .wong-content {
+        font-size: 22px;
+
+        p {
+          margin: 4px 0;
+
+          &.special-margin-right {
+            border-left: 1px solid grey;
+          }
+        }
+
+        .wong {
+          width: 100%;
+          margin-bottom: 6px;
+          justify-content: space-around;
+
+          &:nth-child(odd) {
+            background-color: rgba(255, 255, 255, .3);
+            padding: 6px 0;
+            border-radius: 3px;
+          }
+
+          &.header {
+            font-size: 20px;
+            text-align: center;
+
+            p {
+              width:50%
+            }
+          }
+
+          .key-wrapper {
+            background-color: white;
+            padding: 12px 24px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 3px;
+            width: 50px;
+
+            &:hover {
+              cursor: default;
+            }
+
+            p {
+              margin: 0;
+            }
+          }
+
+          .input-wrapper {
+            font-size: 24px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 3px;
+            width: 90px;
+            overflow: hidden;
+
+            &:hover {
+              box-shadow: 2px 2px 2px black;
+            }
+
+            input {
+              box-sizing: border-box;
+              width: 100px;
+              padding: 12px 24px;
+              font-size: 24px;
+              border: none;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -23,7 +23,6 @@ export class ABJSelectComponent implements OnInit {
   selectEvent(message: string) {
     this.showIntroMessage = !this.options.includes(message);
     this.selectedEvent.emit(message);
-    setTimeout(() => window.scrollTo(0, 0));
-    
+    // setTimeout(() => window.scrollTo(0, 0));
   }
 }

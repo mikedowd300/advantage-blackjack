@@ -3,12 +3,13 @@ import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EmailjsService } from '../../../services/emailjs.service';
 import { ABJButtonComponent } from '../../../shared-components/abj-button/abj-button.component';
-import { customizingLinks, CustomizingLink } from '../../../classic-blackjack/classic-models/classic-conditions.model';
+import { FeatureNavComponent } from '../../../shared-components/feature-nav/feature-nav.component';
+import { customizingLinks, CustomizingLink } from '../../../classic-blackjack/classic-models/classic-strategies.models';
 
 @Component({
   selector: 'classic-customizations',
   standalone: true,
-  imports: [ABJButtonComponent, FormsModule, RouterOutlet, RouterLink],
+  imports: [ABJButtonComponent, FeatureNavComponent, FormsModule, RouterOutlet, RouterLink],
   templateUrl: './classic-customizations.component.html',
   styleUrl: './classic-customizations.component.scss'
 })

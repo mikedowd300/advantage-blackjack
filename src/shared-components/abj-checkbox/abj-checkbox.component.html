@@ -1,11 +1,11 @@
 <div class="abj-checkbox-wrapper flex between">
   <abj-tooltip
-    [body]="condition.whatsThis"
+    [body]="condition?.whatsThis || whatsThis"
     [status]="checkboxId === (activeConditionId$ | async)"
     [toolTipId]="checkboxId"
   ></abj-tooltip>
   <div class="label-wrapper">
-  @if(condition.whatsThis) {
+  @if(condition?.whatsThis || whatsThis) {
     <span
       (click)="tooltipService.activeId$.next(checkboxId)"
       class="material-symbols-outlined"
@@ -13,7 +13,7 @@
       help
     </span>
   }
-    <label for="">{{condition.name}}</label>
+    <label for="">{{condition?.name || name}}</label>
   </div>
-  <input type="checkbox" [checked]="checked" (change)="handleCheckAction($event)">
+  <input type="checkbox" [checked]="checked" (change)="handleCheckAction($event.target)">
 </div>

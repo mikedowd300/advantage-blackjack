@@ -1,5 +1,8 @@
-import { UnitResizeStrategy } from "../models-constants-enums/models";
-import { ChipTypeEnum, RoundingMethodEnum } from "../models-constants-enums/enumerations";
+import { 
+  ChipTypeEnum,
+  RoundingMethodEnum,
+  UnitResizeStrategy
+} from "../classic-models/classic-strategies.models";
 
 export const resizeReduceRisk: UnitResizeStrategy = {
   title: 'Resize Reduce Risk',
@@ -13,7 +16,7 @@ export const resizeReduceRisk: UnitResizeStrategy = {
     null, 50000, 90000, 130000, 170000, 220000, 270000, 320000, 370000 
   ],
   roundToNearest: ChipTypeEnum.RED,
-  roundingMethod: RoundingMethodEnum.UP
+  roundingMethod: RoundingMethodEnum.CEILING
 };
 
 export const neverResize: UnitResizeStrategy  = {
@@ -22,15 +25,17 @@ export const neverResize: UnitResizeStrategy  = {
   increaseAtMultiple: [],
   decreaseAtMultiple: [],
   roundToNearest: ChipTypeEnum.RED,
-  roundingMethod: RoundingMethodEnum.UP
+  roundingMethod: RoundingMethodEnum.CEILING
 };
 
-export const unitResizingTitles: string[] = [
+export const classicUnitResizingStrategyTitles: string[] = [
   'Resize Reduce Risk',
   'Never Resize',
 ];
 
-export const defaultUnitResizings: {  [k: string]: UnitResizeStrategy } = {
+export const classicUnitResizingStrategies: {  [k: string]: UnitResizeStrategy } = {
   'Resize Reduce Risk': resizeReduceRisk, 
   'Never Resize': neverResize,
 };
+
+export const classicDefaultUnitResizeStrategy = resizeReduceRisk;

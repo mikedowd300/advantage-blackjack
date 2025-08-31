@@ -48,3 +48,11 @@ export enum ClassicFeatureToggles {
   NHC = 'noHoleCard',
   DX = 'doubleExposure'
 }
+
+export enum ClassicFeatureGroups {
+  STANDARD = 'standard',
+  EV_HACKS = 'evHacks',
+  BONUSES = 'bonuses',
+  WEIRD_RULES = 'weirdRules',
+  CAMO_PLAYS = 'camoPlays',
+}

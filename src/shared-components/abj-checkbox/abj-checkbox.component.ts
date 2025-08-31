@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 ;import { AsyncPipe, CommonModule } from '@angular/common';
 import { ABJTooltipComponent } from '../abj-tooltip/abj-tooltip.component';
-import { Condition, ClassicConditions } from '../../classic-blackjack/classic-models/classic-conditions.model';
+import { Condition, ClassicConditions } from '../../classic-blackjack/classic-models/classic-strategies.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TooltipService } from '../../services/tooltip.service';
 
@@ -14,6 +14,8 @@ import { TooltipService } from '../../services/tooltip.service';
 })
 export class ABJCheckboxComponent implements OnInit {
   @Input() condition: Condition;
+  @Input() name: string;
+  @Input() whatsThis: string;
   @Input() checked: boolean;
   @Input() checkboxId: string;
   @Output() action = new EventEmitter<any>();
@@ -28,7 +30,7 @@ export class ABJCheckboxComponent implements OnInit {
       .subscribe(() => this.tooltipService.activeId$.next(null));
   }
 
-  handleCheckAction(evt: any) {
-    this.action.emit(evt);
+  handleCheckAction(target: any) {
+    this.action.emit(target.checked);
   }
 }

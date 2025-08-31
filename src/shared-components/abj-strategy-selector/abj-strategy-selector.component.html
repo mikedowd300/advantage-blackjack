@@ -6,7 +6,7 @@
       <div class="config select-wrapper">
         <abj-select 
           (selectedEvent)="selectStrategy($event)"
-          [options]="titleList"
+          [options]="allStrategyTitles"
           [selectValue]="activeTitle"
         >
         </abj-select>
@@ -73,7 +73,7 @@
         <div class="button-wrapper save-strategy-name">
           <abj-button
             [text]="'Save ' + newTitle"
-            (action)="saveStrategy()"
+            (action)="saveStrategy(newTitle)"
             size="medium"
           ></abj-button>
         </div>

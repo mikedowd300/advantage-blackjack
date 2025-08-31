@@ -1,6 +1,6 @@
-import { TableConfig } from "../models-constants-enums/models";
+import { TableConfig } from "../classic-models/classic-strategies.models";
 
-export const defaultTable: TableConfig = {
+export const classicDefaultTable: TableConfig = {
   title: "Default Table",
   players: [
     {
@@ -15,10 +15,10 @@ export const defaultTable: TableConfig = {
   conditionsTitle: "Normal Conditions",
 };
 
-export const tableTitles: string[] = [
+export const classicTableTitles: string[] = [
   "Default Table",
 ];
 
-export  const defaultTables: { [k: string]: TableConfig } = {
-  "Default Table": defaultTable,
+export  const classicTables: { [k: string]: TableConfig } = {
+  "Default Table": classicDefaultTable,
 }

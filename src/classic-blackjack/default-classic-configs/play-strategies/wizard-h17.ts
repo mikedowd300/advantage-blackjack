@@ -1,4 +1,4 @@
-import { PlayStrategy } from "../../models-constants-enums/models";
+import { PlayStrategy } from "../../classic-models/classic-strategies.models";
 
 export const wizardH17Strategy: PlayStrategy = {
   title: "Basic H17",

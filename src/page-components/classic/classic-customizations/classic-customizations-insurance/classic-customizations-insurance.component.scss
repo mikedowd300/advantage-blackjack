@@ -1,5 +1,56 @@
 :host {
+  width: 100%;
+  box-sizing: border-box;
+
   .classic-customizations-insurance {
-    border: none;
+    width: 100%;
+    box-sizing: border-box;
+
+    .insurance-content {
+      font-size: 22px;
+      width: 100%;
+      max-width: 500px;
+      min-width: 280px;
+
+      ::ng-deep abj-checkbox .label-wrapper label {
+        font-size: 22px;
+      }
+
+      .checkbox-wrapper {
+        margin-top: 4px;
+      }
+
+      label {
+        font-size: 22px;
+        margin-right: 16px;
+      }
+
+      .wrapper {
+        margin-top: 8px;
+        align-items: center;
+        justify-content: space-between;
+
+        .input-wrapper {
+          justify-content: space-between;
+          border-radius: 3px;
+          width: 90px;
+          overflow: hidden;
+          border: 1px solid black;
+          font-size: 22px;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          background-color: white;
+
+          input {
+            font-size: 22px;
+            width: 70px;
+            border: none;
+            background-color: transparent;
+            padding: 4px 4px 4px 8px;
+          }
+        }
+      }
+    }
   }
 }

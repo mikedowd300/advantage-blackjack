@@ -1,8 +1,7 @@
-import { PlayerConfig } from "../models-constants-enums/models";
+import { PlayerConfig } from  "../classic-models/classic-strategies.models";
 
 export const ploppy1: PlayerConfig = {
   title: "Ploppy 1",
-  description: "Just taking up space",
   initialBettingUnit: 25,
   initialBankroll: 100000000,
   playStrategyTitle: 'Wizard H17',
@@ -16,7 +15,6 @@ export const ploppy1: PlayerConfig = {
 
 export const ploppy2: PlayerConfig = {
   title: "Ploppy 2",
-  description: "Just eating cards",
   initialBettingUnit: 25,
   initialBankroll: 100000000,
   playStrategyTitle: 'Wizard H17',
@@ -28,12 +26,14 @@ export const ploppy2: PlayerConfig = {
   insurancePlanTitle: 'Never Insure',
 };
 
-export const playerTitles: string[] = [
+export const classicPlayerTitles: string[] = [
   "Ploppy 1",
   "Ploppy 2",
 ];
 
-export const defaultPlayers: { [k: string]: PlayerConfig } = {
+export const classicPlayers: { [k: string]: PlayerConfig } = {
   "Ploppy 1": ploppy1,
   "Ploppy 2": ploppy2,
 };
+
+export const classicDefaultPlayer: PlayerConfig = ploppy1;

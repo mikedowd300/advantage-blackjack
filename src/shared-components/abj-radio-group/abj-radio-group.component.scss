@@ -7,9 +7,19 @@
       width: 100%;
       box-sizing: border-box;
       display: flex;
-      justify-content: center;
-      text-decoration: underline;
       margin-bottom: 12px;
+
+      span {
+        margin-right: 8px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      label {
+        text-decoration: underline;
+      }
     }
 
     .group-wrapper  {

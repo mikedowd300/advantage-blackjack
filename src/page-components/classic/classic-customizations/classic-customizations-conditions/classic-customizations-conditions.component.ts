@@ -11,18 +11,21 @@ import {
   customizingLinks,
   CustomizingLink,
   Condition,
-  DisplayWith
-} from '../../../../classic-blackjack/classic-models/classic-conditions.model';
-import { LocalStorageItemsEnum } from '../../../../models';
+  DisplayWith,
+  ClassicConditions,
+  AnyStrategy
+} from '../../../../classic-blackjack/classic-models/classic-strategies.models';
+import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import {
-  defaultClassicConditions,
-  allDefaultClassicConditions,
-  storedConditionTitles
+  classicDefaultConditions,
+  classicConditions,
+  classicConditionTitles
 } from '../../../../classic-blackjack/default-classic-configs/conditions';
-import { classicFeatureToggles } from '../../../../classic-blackjack/classic-models/classic-feature-toggles';
+import { ClassicFeatureGroups, classicFeatureToggles } from '../../../../classic-blackjack/classic-models/classic-feature-toggles-and-groups';
 import { ABJCheckboxComponent } from '../../../../shared-components/abj-checkbox/abj-checkbox.component';
 import { ABJNumberInputComponent } from '../../../../shared-components/abj-number-input/abj-number-input.component';
 import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-radio-group/abj-radio-group.component';
+import { ABJContentAccordionComponent } from '../../../../shared-components/abj-content-accordion/abj-content-accordion.component';
 
 @Component({
   selector: 'classic-customizations-conditions',
@@ -32,6 +35,7 @@ import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-
     RouterOutlet,
     ABJNumberInputComponent,
     ABJCheckboxComponent,
+    ABJContentAccordionComponent,
     ABJRadioButtonGroupComponent,
     ABJStrategySelectorComponent
   ],
@@ -40,34 +44,87 @@ import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-
 })
 export class ClassicCustomizationsConditionsComponent implements OnInit {
   title: string = "Add, Edit or Delete a set of Conditions";
-  defaultStrategy: AbbreviatedClassicConditions = { ...defaultClassicConditions };
-  activeStrategy: AbbreviatedClassicConditions = { ...defaultClassicConditions };
-  activeStrategy$: BehaviorSubject<AbbreviatedClassicConditions> = new BehaviorSubject<AbbreviatedClassicConditions>(defaultClassicConditions);
+  defaultStrategy: AbbreviatedClassicConditions = { ...classicDefaultConditions };
+  activeStrategy: AbbreviatedClassicConditions = { ...classicDefaultConditions };
+  activeStrategy$: BehaviorSubject<AbbreviatedClassicConditions> = new BehaviorSubject<AbbreviatedClassicConditions>(classicDefaultConditions);
   localStorageItemsEnum = LocalStorageItemsEnum;
-  defaultStrategiesObj = {  ...allDefaultClassicConditions };
+  localStorageVariationKeys = LocalStorageVariationKeys;
+  includedStrategies = {  ...classicConditions };
   links: CustomizingLink[] = customizingLinks;
-  classicConditionKeys = Object.keys(defaultFullClassicConditions);
-  checkboxConditionsKeys = this.classicConditionKeys
+  conditionKeys = Object.keys(defaultFullClassicConditions);
+  featureGroupNamesText: string[] = [
+    'Standard Table Conditions',
+    'EV Hacks' ,
+    'Bonuses Rules' ,
+    'Weird Rules' ,
+    'Camoflage Plays' ,
+  ];
+  featureGroupConditions: any = [];
+  standardCheckboxKeys: string[] = this.conditionKeys
     .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.CHECKBOX)
-    .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
-  checkboxConditions: Condition[] = this.checkboxConditionsKeys
-    .map(key => ({ ...defaultFullClassicConditions[key], key }));
-  numberInputConditionsKeys = this.classicConditionKeys
-    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
-    .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
-  numberInputConditions: Condition[] = this.numberInputConditionsKeys
-    .map(key => ({ ...defaultFullClassicConditions[key], key }));
-  radioGroupConditionsKeys = this.classicConditionKeys
-    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.STANDARD)
     // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
-  radioGroupConditions: Condition[]  = this.radioGroupConditionsKeys
-    .map(key => ({ ...defaultFullClassicConditions[key], key }));
+  standardNumberInputKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.STANDARD)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  standardRadioGroupKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.STANDARD)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  evHacksCheckboxKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.CHECKBOX)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.EV_HACKS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  evHacksNumberInputsKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.EV_HACKS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  evHacksRadioGroupKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.EV_HACKS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  bonusesCheckboxKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.CHECKBOX)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.BONUSES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  bonusesNumberInputKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.BONUSES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  bonusesRadioGroupKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.BONUSES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  weirdRulesCheckboxKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.CHECKBOX)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.WEIRD_RULES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  weirdRulesNumberInputKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.WEIRD_RULES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  weirdRulesRadioGroupKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.WEIRD_RULES)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  camoPlaysCheckboxKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.CHECKBOX)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.CAMO_PLAYS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  camoPlaysNumberInputKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.NUMBER_INPUT)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.CAMO_PLAYS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
+  camoPlaysRadioGroupKeys: string[] = this.conditionKeys
+    .filter(key => defaultFullClassicConditions[key].displayWith === DisplayWith.RADIO_GROUP)
+    .filter(key => defaultFullClassicConditions[key].featureGroup === ClassicFeatureGroups.CAMO_PLAYS)
+    // .filter(key => classicFeatureToggles[defaultFullClassicConditions[key].featureToggle]);
   activeToolTip$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
-
   allStrategiesObj:AbbreviatedClassicConditions;
   storedStrategies: AbbreviatedClassicConditions;
   allStrategyTitles: string[];
-  storedConditionTitles: string[];
+  classicConditionTitles: string[];
 
   constructor(
     private emailjs: EmailjsService, 
@@ -75,51 +132,62 @@ export class ClassicCustomizationsConditionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.storedConditionTitles = [ ...storedConditionTitles];
+    this.classicConditionTitles = [ ...classicConditionTitles];
     this.emailjs.setPreviousScreen$.next('Classic Custom Conditions');
-    this.getStrategies();
-    this.activeStrategy$.pipe()
-      .subscribe(strategy => this.updateConditions(strategy));
-    setTimeout(() => window.scrollTo(0, 0));
-  }
-
-  updateConditions(strategy) {
-    this.checkboxConditions = this.checkboxConditions
-      .map(cbc => ({ ...cbc, value: strategy[cbc.key] }));
-    this.numberInputConditions = this.numberInputConditions
-      .map(cbc => ({ ...cbc, value: strategy[cbc.key] }));
-  }
-
-  getStrategies(): void {
-    this.activeStrategy$.next(this.activeStrategy);
-    this.storedStrategies = this.localStorageService.getItem(LocalStorageItemsEnum.CONDITIONS) || {};
-    this.allStrategiesObj = { ...this.defaultStrategiesObj, ...this.storedStrategies };
-    this.allStrategyTitles = Object.keys(this.allStrategiesObj)
-      .map(key => this.allStrategiesObj[key].title);
-  }
-
-  setActiveStrategy(name: string) {
-    const strategy = this.allStrategiesObj[name];
-    if(strategy) {
+    this.setConditiosKeyValuePairs(defaultFullClassicConditions);
+    this.activeStrategy$.pipe().subscribe(strategy => {
+      if(this.activeStrategy.title !== strategy.title) {
+        // I forget what this does
+        let conditionSet: ClassicConditions = { ...defaultFullClassicConditions, title: strategy.title };
+        this.conditionKeys.filter(k => k !== 'title').forEach(k => conditionSet[k].value = strategy[k]);
+        this.setConditiosKeyValuePairs(conditionSet);
+      }
       this.activeStrategy = strategy;
-      this.activeStrategy$.next(strategy);
-    }
+    })
+  }
+
+  setConditiosKeyValuePairs(conditionSet: ClassicConditions) {
+    this.featureGroupConditions = [];
+    this.featureGroupConditions.push({
+      checkBox: this.standardCheckboxKeys.map(key => ({ ...conditionSet[key], key })),
+      numberInput: this.standardNumberInputKeys.map(key => ({ ...conditionSet[key], key })),
+      radioGroup: this.standardRadioGroupKeys.map(key => ({ ...conditionSet[key], key })),
+    })
+    this.featureGroupConditions.push({
+      checkBox: this.evHacksCheckboxKeys.map(key => ({ ...conditionSet[key], key })),
+      numberInput: this.evHacksNumberInputsKeys.map(key => ({ ...conditionSet[key], key })),
+      radioGroup: this.evHacksRadioGroupKeys.map(key => ({ ...conditionSet[key], key })),
+    })
+    this.featureGroupConditions.push({
+      checkBox: this.bonusesCheckboxKeys.map(key => ({ ...conditionSet[key], key })),
+      numberInput: this.bonusesNumberInputKeys.map(key => ({ ...conditionSet[key], key })),
+      radioGroup: this.bonusesRadioGroupKeys.map(key => ({ ...conditionSet[key], key })),
+    })
+    this.featureGroupConditions.push({
+      checkBox: this.weirdRulesCheckboxKeys.map(key => ({ ...conditionSet[key], key })),
+      numberInput: this.weirdRulesNumberInputKeys.map(key => ({ ...conditionSet[key], key })),
+      radioGroup: this.weirdRulesRadioGroupKeys.map(key => ({ ...conditionSet[key], key })),
+    })
+    this.featureGroupConditions.push({
+      checkBox: this.camoPlaysCheckboxKeys.map(key => ({ ...conditionSet[key], key })),
+      numberInput: this.camoPlaysNumberInputKeys.map(key => ({ ...conditionSet[key], key })),
+      radioGroup: this.camoPlaysRadioGroupKeys.map(key => ({ ...conditionSet[key], key })),
+    });
   }
 
   handleCheckAction(isChecked: boolean, key: string) {
     this.activeStrategy[key] = isChecked;
+    this.activeStrategy$.next(this.activeStrategy);
   }
 
   handleNumberInputAction(num, key: string) {
     this.activeStrategy[key] = num;
+    this.activeStrategy$.next(this.activeStrategy);
   }
 
   handleRadioGroupAction(value: any, key: string) {
     this.activeStrategy[key] = value;
-  }
-
-  saveStrategy(): void {
-    console.log(this.activeStrategy);
+    this.activeStrategy$.next(this.activeStrategy);
   } 
 
   handleTooltipClose() {

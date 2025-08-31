@@ -1,0 +1,19 @@
+<div 
+  class="abj-content-accordion"
+  [class.expanded]="accordionExpand"
+  [class.title]="title"
+>
+@if(title) {
+  <div class="instruction-wrapper">
+    <p class="instructions">{{ title }}</p>
+    <button
+      (click)="expand()"
+      class="simple toggle"
+      [class.close]="!accordionExpand"
+    >
+      <span class="material-symbols-outlined">keyboard_arrow_up</span>
+    </button>
+  </div>
+}
+  <ng-content></ng-content>
+</div>

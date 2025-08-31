@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageKeys } from '../models';
+import { LocalStorageKeys, LocalStorageVariationKeys } from '../models';
 import { LocalStorageItemsEnum } from '../models-constants-enums/enumerations';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +27,20 @@ export class LocalStorageService {
     LocalStorageItemsEnum.COUNT
   ];
 
-  constructor() { }
+  saveActiveStrategy$: Subject<any> = new Subject<any>;
 
-  setItem(key: string, value: any): void {
+  constructor() {
+    this.saveActiveStrategy$.pipe()
+      .subscribe(({ variation, configurationType, strategy}) => this.setItemOfVariation(variation, configurationType, strategy));
+  }
+
+  setItem(key: any, value: any): void {
+  // This is used for values that are not variation specific
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  getItem(key: string) {
+  getItem(key: any) {
+  // This is used for values that are not variation specific
     let item: string = localStorage.getItem(key) as string;
     if(item) {
       return JSON.parse(item);
@@ -41,20 +49,64 @@ export class LocalStorageService {
     item = localStorage.getItem(key) as string;
     return JSON.parse(item);
   }
+  
+  getItemOfVariation(itemKey: LocalStorageItemsEnum, variationKey: LocalStorageVariationKeys) {
+  // Returns a child object of a variation
+    let variation = JSON.parse(localStorage.getItem(variationKey));
+    if(variation) {
+      if(variation[itemKey]) {
+        return variation[itemKey];
+      }
+      this.setItemOfVariation(variationKey, itemKey, {})
+      return {};
+    }
+    this.setItem(variationKey,  JSON.stringify(this.getNewVariation()));
+    variation = JSON.parse(localStorage.getItem(variationKey));
+    return variation[itemKey];
+  }
 
-  // setItemWithVariation(key: string, value: any, variation: any): void {
-  //   localStorage.setItem(key, JSON.stringify(value));
-  // }
+  deleteStrategy(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, strategies: any, strategyName: string) {
+    // The new storedStrategies are configured by the caller
+    let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
+    if(typeof variation === "string") {
+      variation = JSON.parse(variation)
+    }
+    console.log(strategies);
+    console.log(variation);
+    variation[itemKey] = { ...strategies };
+    console.log(variation);
+    localStorage.setItem(variationKey, JSON.stringify(variation));
+    // When deleting a strategy, all the players that use the strategy must adjust. Those users will use the default strategy.
+  }
 
-  // getItemFromVariation(key: string, variation) {
-  //   let item: string = localStorage.getItem(key) as string;
-  //   if(item) {
-  //     return JSON.parse(item);
-  //   }
-  //   this.setItem(key, {});
-  //   item = localStorage.getItem(key) as string;
-  //   return JSON.parse(item);
-  // }
+  getNewVariation() {
+    return {
+      conditions: {},
+      tipping: {},
+      betSpread: {},
+      wong: {},
+      unitResize: {},
+      play: {},
+      count: {}
+    }
+  }
+
+  setItemOfVariation(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, value: any) {
+    // This will work with strategies because strategy objects have a title
+    console.log(variationKey);
+    console.log(itemKey);
+    console.log(value.name);
+    console.log(value);
+    let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
+    if(typeof variation === "string") {
+      variation = JSON.parse(variation)
+    }
+    console.log(variation);
+    variation[itemKey] = { ...variation[itemKey], [value.title]: value };
+    console.log(variation);
+    localStorage.setItem(variationKey, JSON.stringify(variation));
+    console.log('___4___');
+  }
 
   getPreferredVariation() {
     let variationObj = this.getItem(LocalStorageKeys.VARIATION);
@@ -67,18 +119,9 @@ export class LocalStorageService {
 
   setPreferredVariation(variation: string) {
     this.setItem(LocalStorageKeys.VARIATION, variation);
+    console.log('___5___');
   }
 }
-
-
-
-
-
-
-//   getItemOfItems(itemKey: LocalStorageItemsEnum, key: string) {
-//     const items = { ...this.getItem(itemKey), ...strategyConfigStorageEnumMap[itemKey] };
-//     return { ...items[key] };
-//   }
 
 //   deleteStrategy(storedStrategies: any, activeStrategyTitle: string, strategyEnum: LocalStorageItemsEnum): void {
 //     let filteredStrategies: any = {};
