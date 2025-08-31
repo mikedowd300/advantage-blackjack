@@ -19,6 +19,11 @@ export enum LocalStorageKeys {
   VARIATION = 'variation',
 }
 
+export enum LocalStorageVariationKeys {
+  CLASSIC = 'classic',
+  DOUBLE_UP = 'doubleUp',
+}
+
 export interface HeaderLink {
   url: string,
   title: string,

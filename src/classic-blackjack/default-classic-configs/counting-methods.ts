@@ -1,5 +1,4 @@
-import { CountingMethod } from "../models-constants-enums/models";
-import { CardNameEnum, RoundingMethodEnum } from '../models-constants-enums/enumerations'
+import { CountingMethod, CardNameEnum, RoundingMethodEnum } from "../classic-models/classic-strategies.models";
 
 export const hiLo: CountingMethod = {
   title: 'Hi Lo', 
@@ -21,7 +20,7 @@ export const hiLo: CountingMethod = {
   startingCount: 0,
   convertsToTC: true,
   isBalanced: true,
-  roundingMethod: RoundingMethodEnum.DOWN,
+  roundingMethod: RoundingMethodEnum.FLOOR,
   useHalfCount: false,
 };
 
@@ -45,11 +44,11 @@ export const Ace5: CountingMethod = {
   startingCount: 0,
   convertsToTC: true,
   isBalanced: true,
-  roundingMethod: RoundingMethodEnum.DOWN,
+  roundingMethod: RoundingMethodEnum.FLOOR,
   useHalfCount: false,
 };
 
-export const NoCount: CountingMethod = {
+export const noCount: CountingMethod = {
   title: 'No Count', 
   valuesMap: {
     [CardNameEnum.C_A]: 0,
@@ -69,18 +68,20 @@ export const NoCount: CountingMethod = {
   startingCount: 0,
   convertsToTC: true,
   isBalanced: true,
-  roundingMethod: RoundingMethodEnum.DOWN,
+  roundingMethod: RoundingMethodEnum.FLOOR,
   useHalfCount: false,
 };
 
-export const countTitles: string[] = [
+export const classicCountTitles: string[] = [
   'Hi Lo', 
   'Ace 5', 
   'No Count', 
 ];
 
-export const defaultCounts: { [k: string]: CountingMethod } = {
+export const classicCounts: { [k: string]: CountingMethod } = {
   'Hi Lo': hiLo, 
   'Ace 5': Ace5, 
-  'No Count': NoCount,
+  'No Count': noCount,
 };
+
+export const defaultClassicCount: CountingMethod = noCount;

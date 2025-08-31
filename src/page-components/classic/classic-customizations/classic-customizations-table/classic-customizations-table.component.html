@@ -1,3 +1,12 @@
 <div class="classic-customizations-table page">
-  Hello classic-customizations-table
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="strategyTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="strategies"
+    [configurationType]="localStorageItemsEnum.TABLE_CONFIG"
+    [variation]="localStorageVariationKeys.CLASSIC"
+  ></abj-strategy-selector>
 </div>

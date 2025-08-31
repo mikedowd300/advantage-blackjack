@@ -1,3 +1,12 @@
-<div class="classic-customizations-unit-resizingpage">
-  Hello classic-customizations-unit-resizing
+<div class="classic-customizations-unit-resizing page">
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="defaultStrategyTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="defaultSpreads"
+    [configurationType]="localStorageItemsEnum.UNIT_RESIZE"
+    [variation]="localStorageVariationKeys.CLASSIC"
+  ></abj-strategy-selector>
 </div>

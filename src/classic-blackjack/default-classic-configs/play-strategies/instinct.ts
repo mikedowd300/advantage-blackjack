@@ -1,4 +1,4 @@
-import { PlayStrategy } from "../../models-constants-enums/models";
+import { PlayStrategy } from "../../classic-models/classic-strategies.models";
 
 export const instinct: PlayStrategy = {
   title: "Basic Instinct",

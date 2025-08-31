@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Condition } from '../../classic-blackjack/classic-models/classic-conditions.model';
+import { Condition } from '../../classic-blackjack/classic-models/classic-strategies.models';
 import { ABJTooltipComponent } from '../abj-tooltip/abj-tooltip.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TooltipService } from '../../services/tooltip.service';
@@ -37,7 +37,7 @@ export class ABJNumberInputComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.innerInput.nativeElement.focus();
+    // this.innerInput.nativeElement.focus();
   }
 
   handleInput() {

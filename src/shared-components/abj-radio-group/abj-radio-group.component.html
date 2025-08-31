@@ -1,5 +1,18 @@
 <div class="abj-radio-group flex-column">
+  <abj-tooltip
+    [body]="condition.whatsThis"
+    [status]="radioGroupId === (activeConditionId$ | async)"
+    [toolTipId]="radioGroupId"
+  ></abj-tooltip>
   <div class="main-label-wrapper">
+  @if(condition.whatsThis) {
+    <span
+      (click)="tooltipService.activeId$.next(radioGroupId)"
+      class="material-symbols-outlined"
+    >
+      help
+    </span>
+  }
     <label class="condition-label">{{condition.name}}</label>
   </div>
   <div class="group-wrapper flex">

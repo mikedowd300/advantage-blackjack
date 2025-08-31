@@ -1,3 +1,12 @@
 <div class="classic-customizations-play-chart page">
-  Hello classic-customizations-play-chart
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="strategyTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="strategies"
+    [configurationType]="localStorageItemsEnum.PLAY"
+    [variation]="localStorageVariationKeys.CLASSIC"
+  ></abj-strategy-selector>
 </div>

@@ -1,4 +1,4 @@
-import { TippingPlan } from "../models-constants-enums/models";
+import { TippingPlan } from "../classic-models/classic-strategies.models";
 
 export const cheapTipper: TippingPlan = {
   title: "Cheap Tipper",
@@ -51,14 +51,16 @@ export const neverTips: TippingPlan = {
   insureTip: false,
 };
 
-export const tippingTitles: string[] = [
+export const classicTippingTitles: string[] = [
   "Cheap Tipper", 
   "Generous Tipper", 
   "Never Tips"
 ];
 
-export const defaultTippingPlans: { [k: string]: TippingPlan } = {
+export const classicTippingPlans: { [k: string]: TippingPlan } = {
   "Cheap Tipper": cheapTipper, 
   "Generous Tipper": generousTipper, 
   "Never Tips": neverTips,
 }
+
+export const classicDefaultTippingPlan = neverTips;

@@ -1,26 +1,24 @@
-import { LocalStorageItemsEnum } from './../models-constants-enums/enumerations';
-import { defaultBetSpreads } from './bet-spread-strategies';
-import { allDefaultConditions } from './conditions';
-import { defaultCounts } from './counting-methods';
-import { defaultInsurancePlans } from './insurance-plan';
-import { defaultPlay } from './play-strategies';
-import { defaultPlayers } from './player-config';
-import { defaultTables } from './table-config';
-import { defaultTippingPlans } from './tipping-plan';
-import { defaultUnitResizings } from './unit-resize-strategies';
-import { defaultWongings } from './wonging-strategies';
-import { defaultBustPaySchedules } from './bust-pay-schedule';
+import { LocalStorageItemsEnum } from '../../models';
+import { classicBetSpreads } from './bet-spread-strategies';
+import { classicConditions } from './conditions';
+import { classicCounts } from './counting-methods';
+import { classicInsurancePlans } from './insurance-plan';
+import { classicPlayCharts } from './play-strategies';
+import { classicPlayers } from './player-config';
+import { classicTables } from './table-config';
+import { classicTippingPlans } from './tipping-plan';
+import { classicUnitResizingStrategies } from './unit-resize-strategies';
+import { classicWongs } from './wonging-strategies';
 
 export const strategyConfigStorageEnumMap: any = {
-  [LocalStorageItemsEnum.BET_SPREAD]: defaultBetSpreads,
-  [LocalStorageItemsEnum.CONDITIONS]: allDefaultConditions,
-  [LocalStorageItemsEnum.COUNT]: defaultCounts,
-  [LocalStorageItemsEnum.PLAY]: defaultPlay,
-  [LocalStorageItemsEnum.PLAYER_CONFIG]: defaultPlayers,
-  [LocalStorageItemsEnum.TABLE_CONFIG]: defaultTables,
-  [LocalStorageItemsEnum.TIPPING]: defaultTippingPlans,
-  [LocalStorageItemsEnum.UNIT_RESIZE]: defaultUnitResizings,
-  [LocalStorageItemsEnum.WONG]: defaultWongings,
-  [LocalStorageItemsEnum.INSURANCE]: defaultInsurancePlans,
-  [LocalStorageItemsEnum.BUST_PAY_SCHEDULE]: defaultBustPaySchedules,
+  [LocalStorageItemsEnum.BET_SPREAD]: classicBetSpreads,
+  [LocalStorageItemsEnum.CONDITIONS]: classicConditions,
+  [LocalStorageItemsEnum.COUNT]: classicCounts,
+  [LocalStorageItemsEnum.PLAY]: classicPlayCharts,
+  [LocalStorageItemsEnum.PLAYER_CONFIG]: classicPlayers,
+  [LocalStorageItemsEnum.TABLE_CONFIG]: classicTables,
+  [LocalStorageItemsEnum.TIPPING]: classicTippingPlans,
+  [LocalStorageItemsEnum.UNIT_RESIZE]: classicUnitResizingStrategies,
+  [LocalStorageItemsEnum.WONG]: classicWongs,
+  [LocalStorageItemsEnum.INSURANCE]: classicInsurancePlans,
 }

@@ -1,4 +1,4 @@
-import { ClassicFeatureToggles } from './classic-feature-toggles';
+import { ClassicFeatureGroups, ClassicFeatureToggles } from './classic-feature-toggles-and-groups';
 
 export enum DisplayWith {
   TEXT_INPUT = 'textInput',
@@ -271,6 +271,18 @@ export const payRatioList: RadioButtonGroup = [
   },
 ];
 
+const payoutsForBlackjack: PayRatio[] = [
+  PayRatio.ONE_to_ONE, 
+  PayRatio.SIX_to_FIVE, 
+  PayRatio.SEVEN_to_FIVE, 
+  PayRatio.THREE_to_TWO, 
+  PayRatio.TWO_to_ONE, 
+  PayRatio.THREE_to_ONE
+];
+
+export const blackjackPayRatioList = payoutsForBlackjack
+  .map(p => payRatioList.find(prl => prl.value === p));
+
 export const surrenderTypesList: RadioButtonGroup = [
   {
     whatsThis: '',
@@ -325,6 +337,7 @@ export const holeCardTypesList: RadioButtonGroup = [
 export interface Condition {
   name: string,
   featureToggle: ClassicFeatureToggles,
+  featureGroup: ClassicFeatureGroups,
   whatsThis: string,
   displayWith: DisplayWith,
   value?: any,
@@ -344,7 +357,7 @@ export interface ClassicConditions {
   MSE: Condition,
   reshuffleOnDealerChange: Condition,
   cardsBurnedOnDealerChange: Condition,
-  payRatio: Condition,
+  blackjackPayRatio: Condition,
   spotsPerTable: Condition,
   decksPerShoe: Condition,
   cardsBurned: Condition,
@@ -358,12 +371,19 @@ export interface ClassicConditions {
   surrender: Condition,
   charlieType: Condition,
   charliePayout: Condition,
+  charlieAfterSplit: Condition,
   bonusFor678: Condition,
+  bonusFor678Payout: Condition,
   bonusFor678Suited: Condition,
+  bonusFor678SuitedPayout: Condition,
   bonusFor777: Condition,
+  bonusFor777Payout: Condition,
   bonusFor777Suited: Condition,
+  bonusFor777SuitedPayout: Condition,
   bonusForSuitedBlackjack: Condition,
+  bonusForSuitedBlackjackPayout: Condition,
   bonusForSuitedBlackjackOfSpades: Condition,
+  bonusForSuitedBlackjackOfSpadesPayout: Condition,
   allowTripleDownOn3Cards: Condition,
   allowTripleDownOnAnyAmountOfCards: Condition,
   allowSurrenderAferDouble: Condition,
@@ -392,7 +412,7 @@ export interface AbbreviatedClassicConditions {
   handsPerDealer: number,
   cardsBurned: number,
   cardsBurnedOnDealerChange: number,
-  payRatio: PayRatio,
+  blackjackPayRatio: PayRatio,
   spotsPerTable: number,
   decksPerShoe: number,
   minBet: number,
@@ -405,12 +425,19 @@ export interface AbbreviatedClassicConditions {
   countBottomCard: boolean,
   charlieType: CharlieType,
   charliePayout: PayRatio,
+  charlieAfterSplit: boolean,
   bonusFor678: any,
+  bonusFor678Payout: PayRatio;
   bonusFor678Suited: any,
+  bonusFor678SuitedPayout: PayRatio,
   bonusFor777: any,
+  bonusFor777Payout: PayRatio,
   bonusFor777Suited: any,
+  bonusFor777SuitedPayout: PayRatio,
   bonusForSuitedBlackjack: any,
+  bonusForSuitedBlackjackPayout: PayRatio,
   bonusForSuitedBlackjackOfSpades: any,
+  bonusForSuitedBlackjackOfSpadesPayout: PayRatio,
   allowTripleDownOn3Cards: any,
   allowTripleDownOnAnyAmountOfCards: any,
   allowSurrenderAferDouble: any,
@@ -424,25 +451,166 @@ export interface AbbreviatedClassicConditions {
   DXTIES: any,
   DXTIEDBJ: any,
   DXSPLIT10: any,
+};
+
+export enum ChipTypeEnum {
+  WHITE = "white",
+  RED = "red",
+  GREEN = "green",
+  BLACK = "black",
+};
+
+export enum RoundingMethodEnum {
+  CEILING = "ceiling",
+  FLOOR = "floor",
+  ROUND = "round",
+};
+
+export enum CardNameEnum {
+  C_A = 'A',
+  C_2 = '2',
+  C_3 = '3',
+  C_4 = '4',
+  C_5 = '5',
+  C_6 = '6',
+  C_7 = '7',
+  C_8 = '8',
+  C_9 = '9',
+  C_T = 'T',
+  C_J = 'J',
+  C_Q = 'Q',
+  C_K = 'K',
+};
+
+export interface PlayerTableInfo {
+  seatNumber: number;
+  playerConfigTitle: string;
+};
+
+export interface PlayActionOptions {
+  options: string;
+  conditions: string;
+};
+
+export interface Wong {
+  enterAt: number,
+  exitBelow: number;
+  isActive: boolean;
+}
+
+export interface WongStrategy {
+  title: string;
+  wongedHands: Wong[];
+}
+
+export interface InsurancePlan {
+  title: string;
+  alwaysInsure: boolean;
+  neverInsure: boolean;
+  atTCof: number;
+}
+
+export interface BetSpreadStrategy {
+  title: string;
+  spreads: { [k: string]: number };
+  useHalfCount: boolean;
+}
+
+export interface UnitResizeStrategy {
+  title: string;
+  unitProgression: number[];
+  increaseAtMultiple: number[];
+  decreaseAtMultiple: number[];
+  roundToNearest: ChipTypeEnum;
+  roundingMethod: RoundingMethodEnum;
+}
+
+export interface PlayerConfig {
+  title: string;
+  initialBettingUnit: number;
+  initialBankroll: number;
+  playStrategyTitle: string;
+  betSpreadStrategyTitle: string;
+  unitResizingStrategyTitle: string;
+  tippngStrategyTitle: string;
+  wongingStrategyTitle: string;
+  countStrategyTitle: string;
+  insurancePlanTitle: string;
+}
+
+export interface TippingPlan {
+  title: string;
+  tipToBetsizeRatios: number[][];
+  maxTip: number;
+  afterBlackjack: boolean;
+  dealerJoins: boolean;
+  dealerLeaves: boolean;
+  tipFirstHandOfShoe: boolean;
+  playerIncreasesBet: boolean;
+  everyXHands: number;
+  tipWongHands: boolean;
+  tipSplitHandToo: boolean;
+  doubleDownTip: boolean;
+  doubleUpTip: boolean;
+  insureTip: boolean;
+};
+
+export interface PlayStrategy {
+  title: string;
+  combos: { [k: string]: PlayActionOptions };
+}
+
+export interface CountingMethodValueMap {
+  [CardNameEnum.C_A]: number;
+  [CardNameEnum.C_2]: number;
+  [CardNameEnum.C_3]: number;
+  [CardNameEnum.C_4]: number;
+  [CardNameEnum.C_5]: number;
+  [CardNameEnum.C_6]: number;
+  [CardNameEnum.C_7]: number;
+  [CardNameEnum.C_8]: number;
+  [CardNameEnum.C_9]: number;
+  [CardNameEnum.C_T]: number;
+  [CardNameEnum.C_J]: number;
+  [CardNameEnum.C_Q]: number;
+  [CardNameEnum.C_K]: number;
+};
+
+export interface CountingMethod {
+  title: string,
+  valuesMap: CountingMethodValueMap,
+  startingCount: number;
+  isBalanced: boolean;
+  convertsToTC: boolean;
+  roundingMethod: RoundingMethodEnum;
+  useHalfCount: boolean;
+}
+
+
+
+export interface TableConfig {
+  title: string;
+  players: PlayerTableInfo[];
+  conditionsTitle: string;
 }
 
 export type AnyStrategy = | AbbreviatedClassicConditions
-  // | WongStrategy 
-  // | Conditions 
-  // | UnitResizeStrategy 
-  // | TippingPlan
-  // | BetSpreadStrategy
-  // | PlayStrategy
-  // | PlayerConfig
-  // | TableConfig
-  // | CountingMethod
-  // | InsurancePlan
+  | BetSpreadStrategy
+  | UnitResizeStrategy 
+  | WongStrategy 
+  | InsurancePlan
+  | TippingPlan
+  | PlayerConfig
+  | PlayStrategy
+  | TableConfig
+  | CountingMethod
 
 export const defaultFullClassicConditions: ClassicConditions = {
   title: 'Default Conditions',
   S17: {
     name: 'Dealer Stays on Soft 17',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Deselect the checkbox for a game where the Dealer stays on a hard 17',
     displayWith: DisplayWith.CHECKBOX,
     value: false,
@@ -450,6 +618,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   RSA: {
     name: 'Resplit Aces',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Check if the user is allowed to resplit aces',
     displayWith: DisplayWith.CHECKBOX,
     value: false,
@@ -457,6 +626,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DAS: {
     name: 'Double After Split',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Check if the player is allowed to double down after splitting',
     displayWith: DisplayWith.CHECKBOX,
     value: true,
@@ -464,6 +634,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   MHFS: {
     name: 'Maximum hands from split',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Enter how many hands a player may split up to. In the case where a player may split 3 times, givig the player 4 hands, enter 4.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 4,
@@ -471,6 +642,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DSA: {
     name: 'Double Split Aces',
     featureToggle: ClassicFeatureToggles.DOUBLE_SPLIT_ACES,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Check the box if, after splitting aces and being dealt a second card, a player may double down. This is not the regular rule. Usually players receive a single card on each hande after splitting aces.',
     displayWith: DisplayWith.CHECKBOX,
     value: false,
@@ -478,6 +650,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DRSA: {
     name: 'Draw On Split Aces',
     featureToggle: ClassicFeatureToggles.DRAW_ON_SPLIT_ACES,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Check the box if, after splitting aces and being dealt a second card, a player may continue to hit. This is not the regular rule. Usually players receive a single card on each hande after splitting aces.',
     displayWith: DisplayWith.CHECKBOX,
     value: false,
@@ -485,6 +658,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   MSE: {
     name: 'Allow Midshoe Entry',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Check the box if a player may join a game after the first hand has been played, and if a player may add hands after the first hand has been played. This condition needs to be set to true if the player intends to implement a wonging strategy.',
     displayWith: DisplayWith.CHECKBOX,
     value: true,
@@ -492,6 +666,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   reshuffleOnDealerChange: {
     name: 'Reshuffle the Shoe When a New Dealer Joins the Table',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Check this box if the incoming dealer shuffles the shoe regardless of the amount of the shoe remaining. This condition works the "Hands per Dealer" condition to account for "half shoeing". In a pitch game it is normal for a new dealer to shuffle when joining the table, even if only one or 2 hands have been dealt. This is bad for card counters and so if this box is checked, the "Hands per Dealer" becomes relevant.',
     displayWith: DisplayWith.CHECKBOX,
     value: true,
@@ -499,6 +674,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   handsPerDealer: {
     name: 'Hands per Dealer',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Enter the amount of hands a dealer will deal before being swapped out with the next dealer. This condition works with the "Reshuffle the Shoe When a New Dealer Joins the Table" condition. If that box is not checked, then the number entered into this field is irrelevant, but if it is checked, then a certain amount of "half shoeing" (shuffling mid shoe, thus eliminating the ability for the count to go up) will occur when a new dealer joins a shoe in the beginning of a shoe. This is normal in single and double deck games.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 100,
@@ -506,6 +682,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   cardsBurned: {
     name: 'Number of Cards Burned After the Shuffle',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Normally, a single card is burned after the cards are shuffled. Any cards burned should be treated like cards behind the cut card. Burning 4 cards in a double deck game with 50% deck penitration, has the effect of making penn more like 46%.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 1,
@@ -513,21 +690,24 @@ export const defaultFullClassicConditions: ClassicConditions = {
   cardsBurnedOnDealerChange: {
     name: 'Number of Cards Burned on a Dealer Change',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Often when a dealers are swapped out, the dealer will burn a single card, but in some casinos, the new dealer will burn more than one card. For counting purposes, burned cards are treated like cards behind the cut card. In a six deck game where the cuts off 1.5 decks (75% deck penitratind) where the dealer burns 4 cards on the shuffle then 4 more if a dealer change happens to occur during the shoe, now more than 1.6 decks have been cut off and the deck penitration is closer to 72%. The affect of this is minimal, but measureable and is decreased more when the "Hands per Dealer" condition is high.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 1,
   },
-  payRatio: {
+  blackjackPayRatio: {
     name: 'Blackjack Pays...',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'The payout ratios shown include payouts for other bonuses and are not necessarily blackjack payouts.',
     displayWith: DisplayWith.RADIO_GROUP,
-    radioGroup: payRatioList,
+    radioGroup: blackjackPayRatioList,
     value: PayRatio.THREE_to_TWO,
   },
   spotsPerTable: {
     name: 'Seats per Table',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: null,
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 5,
@@ -535,6 +715,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   decksPerShoe: {
     name: 'Decks per Shoe',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'CAVEAT: Changing this condition without adjusting the "Deck Penitration" condition as well, may result in more cards being cut off than are in the deck. If, during a simulation, this is the case, the simulation will adjust the "Deck Penitration" to half the size of the shoe.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 6,
@@ -542,6 +723,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   minBet: {
     name: 'Table Minimum Bet',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: null,
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 5,
@@ -549,6 +731,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   maxBet: {
     name: 'Table Maximum Bet',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: null,
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 1000,
@@ -556,6 +739,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   shufflePoint: {
     name: 'Deck Penitration',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'Enter the number of cards dealt before the shuffle card comes out. CAVEAT #1: lowering the "Decks per Shoe" condition without adjusting this number as well may result in more cards being cut off than are in the shoe. If, during a simulation, this is the case, the simulation will adjust the "Deck Penitration" to half the size of the shoe. CAVEAT #2: it is up to the user to make sure that the deck penitration isn\'t so deep that dealer runs out of cards in the middle of a round. If, during a simulation, that is the case, then the simulation will treat the entire hand like a push. Even a blackjack will push against any dealer hand. While this will keep the simulation from freezing, it will skew results.',
     displayWith: DisplayWith.NUMBER_INPUT,
     value: 1000,
@@ -563,6 +747,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   canDoubleOn: {
     name: 'The Player May Double on...',
     featureToggle: ClassicFeatureToggles.IS_STANDARD,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: null,
     displayWith: DisplayWith.RADIO_GROUP,
     radioGroup: doubleDownOnList,
@@ -571,6 +756,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   surrender: {
     name: 'Surrender Rules',
     featureToggle: ClassicFeatureToggles.ENHANCED_SURRENDER,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: null,
     displayWith: DisplayWith.RADIO_GROUP,
     radioGroup: surrenderTypesList,
@@ -579,6 +765,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DFL: {
     name: 'Double For Less',
     featureToggle: ClassicFeatureToggles.DOUBLE_FOR_LESS,
+    featureGroup: ClassicFeatureGroups.CAMO_PLAYS,
     whatsThis: 'Doubling for less is a camoflage technique and is generally done when the dealr ha a 12 or a 13 and should hit against a dealers 2 or 3 (depending on the variation). TODO - CREATE A UI AND LOGIC TO IMPLEMENT THIS',
     displayWith: DisplayWith.RADIO_GROUP,
     radioGroup: doubleForLessMinRuleList,
@@ -587,6 +774,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   countBurnCard: {
     name: 'Count the Burn Card',
     featureToggle: ClassicFeatureToggles.SEEN_CARD_ADVANTAGE,
+    featureGroup: ClassicFeatureGroups.EV_HACKS,
     whatsThis: 'Some dealers will systematically show the burn card. When this happens, especially in pitch games, your edge increases, maybe even enough to justify a bigger get the first hand of the shoe.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -594,6 +782,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   countBottomCard: {
     name: 'Count the Bottom Card',
     featureToggle: ClassicFeatureToggles.SEEN_CARD_ADVANTAGE,
+    featureGroup: ClassicFeatureGroups.EV_HACKS,
     whatsThis: 'Some dealers will systematically show the bottom card of a pitch deck. When this happens your edge increases, maybe even enough to justify a bigger get the first hand of the shoe.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -601,6 +790,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   charlieType: {
     name: 'Include A Charlie?',
     featureToggle: ClassicFeatureToggles.HAS_CHARLIE,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Is there a 5, 6 or 7 card Charlie offered? If yes, don\'t miss the "charliePayout" condition.',
     displayWith: DisplayWith.RADIO_GROUP, 
     radioGroup: charlieTypeList,
@@ -609,56 +799,126 @@ export const defaultFullClassicConditions: ClassicConditions = {
   charliePayout: {
     name: 'A Charlie Pays Out...',
     featureToggle: ClassicFeatureToggles.HAS_CHARLIE,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'There is no need for seperate Charlie payouts as a table will never have more than 1.',
     displayWith: DisplayWith.RADIO_GROUP, 
     radioGroup: payRatioList,
     value: PayRatio.TWO_to_ONE,
   },
+  charlieAfterSplit: {
+    name: 'Allow Charlie After Splitting',
+    featureToggle: ClassicFeatureToggles.HAS_CHARLIE,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.CHECKBOX, 
+    value: false,
+  },
   bonusFor678: {
     name: '6-7-8 Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_678,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
+  },
+  bonusFor678Payout: {
+    name: '6-7-8 Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_678,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.TWO_to_ONE,
   },
   bonusFor678Suited: {
     name: 'Suited 6-7-8 Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_678_SUITED,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
+  },
+  bonusFor678SuitedPayout: {
+    name: 'Suited 6-7-8 Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_678_SUITED,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.THREE_to_ONE,
   },
   bonusFor777: {
     name: '7-7-7 Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_777,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
+  },
+  bonusFor777Payout: {
+    name: '7-7-7 Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_777,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.TWO_to_ONE,
   },
   bonusFor777Suited: {
     name: 'Suited 7-7-7 Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_777_SUITED,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
   },
+  bonusFor777SuitedPayout: {
+    name: 'Suited 7-7-7 Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_777_SUITED,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.THREE_to_ONE,
+  },
   bonusForSuitedBlackjack: {
     name: 'Suited Blackjack Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_SUITED_BLACKJACK,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
+  },
+  bonusForSuitedBlackjackPayout: {
+    name: 'Suited Blackjack Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_SUITED_BLACKJACK,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.TWO_to_ONE,
   },
   bonusForSuitedBlackjackOfSpades: {
     name: 'Spaded Blackjack Bonus',
     featureToggle: ClassicFeatureToggles.BONUS_FOR_SUITED_BLACKJACK,
+    featureGroup: ClassicFeatureGroups.BONUSES,
     whatsThis: 'Bonuses and promotions like this add EV.',
     displayWith: DisplayWith.CUSTOM, // radio button group
     value: null,
   },
+  bonusForSuitedBlackjackOfSpadesPayout: {
+    name: 'Spaded Blackjack Bonus Payout',
+    featureToggle: ClassicFeatureToggles.BONUS_FOR_SUITED_BLACKJACK,
+    featureGroup: ClassicFeatureGroups.BONUSES,
+    whatsThis: '',
+    displayWith: DisplayWith.RADIO_GROUP,
+    radioGroup: payRatioList,
+    value: PayRatio.TWO_to_ONE,
+  },
   allowTripleDownOn3Cards: {
     name: 'Allow Triple Down on 3 Cards',
     featureToggle: ClassicFeatureToggles.ALLOW_TRIPLE_DOWN_ON_3_CARDS,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Rules like this can add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -666,6 +926,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowTripleDownOnAnyAmountOfCards: {
     name: 'Allow Triple Down on Any Amount of Cards',
     featureToggle: ClassicFeatureToggles.ALLOW_TRIPLE_DOWN_ON_ANY_AMOUNT_OF_CARDS,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Rules like this can add a lot EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -673,6 +934,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowSurrenderAferDouble: {
     name: 'Allow Surrender After Doubling',
     featureToggle: ClassicFeatureToggles.ALLOW_SURRENDER_AFTER_DOUBLE,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Rules like this can add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -680,6 +942,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowSurrenderAtAnyTime: {
     name: 'Allow Surrender At Any Time',
     featureToggle: ClassicFeatureToggles.ALLOW_SURRENDER_AT_ANY_TIME,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Rules like this can add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -687,6 +950,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowDoubleDownOn3CardsWith9Thru11: {
     name: 'Doubling on 3 Card Totals of 9, 10, 11 is Allowed',
     featureToggle: ClassicFeatureToggles.ALLOW_DOUBLE_DOWN_ON_3_CARDS_WITH_9_THRU_11,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'This rule is from Panamanian blackjack. The Wizard of Odds provides a basic strategy chart for it. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -694,6 +958,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowDoubleDownOnAny3Cards: {
     name: 'Doubling on Any 3 Cards is Allowed',
     featureToggle: ClassicFeatureToggles.ALLOW_DOUBLE_DOWN_ON_ANY_3_CARDS,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'This rule is from a variation of Panamanian blackjack. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -701,6 +966,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   allowDoubleDownOnAnyNumberOfCards: {
     name: 'Allow Surrender At Any Time',
     featureToggle: ClassicFeatureToggles.ALLOW_DOUBLE_DOWN_ON_ANY_NUMBER_OF_CARDS,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'Promotions like this can add EV. To maximize EV create a new deviation chart.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -708,6 +974,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   dealerPushesOn22: {
     name: 'Dealer Pushes on 22',
     featureToggle: ClassicFeatureToggles.DEALER_PUSHES_ON_22,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'By itself, this rule should be avoided, but if combined with enough special rules, it may be worth running the simulation.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -715,6 +982,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   holeCardPolicy: {
     name: 'Hole Card Rules',
     featureToggle: ClassicFeatureToggles.NHC,
+    featureGroup: ClassicFeatureGroups.STANDARD,
     whatsThis: 'In some games, the dealer does not take a hole card until all other players\' hands are played. The difference from having the hole card dealt before the players play their hands is that the dealer has no card to peek at under a ten or an ace. The players will play their cards, including splitting and doubling down, and the bets associated with those hands that would not have been made under the standard, hole card included, method. If the dealer ends up having blackjack, the player will lose the original bet only in the (OBO) variation, but will loses all bets with the European No Hole Card rules (ENHC). Very rarely, a casino will have a hybrid version where the dealer will deal a hole card, but not peek at it and apply either the OBO or ENHC rules for a blackjack.',
     displayWith: DisplayWith.RADIO_GROUP, 
     radioGroup: holeCardTypesList,
@@ -723,6 +991,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   doubleExposure: {
     name: "Double Exposure",
     featureToggle: ClassicFeatureToggles.DX,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'In a "double expossur" game, both the dealers cards are exposed. This would seem great for the player, but to make up for it a the house will win all ties, sometimes including blackjack, or may limit splitting. If you select this option, be sure to select the other rules that come with it.',
     displayWith: DisplayWith.CHECKBOX, 
     value: false,
@@ -730,6 +999,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DXTIES: {
     name: "Double Exposure, Dealer Push Policy",
     featureToggle: ClassicFeatureToggles.DX,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'This rule is part of "Double Exposure". By itself, it, renders a game unplayable.',
     displayWith: DisplayWith.CUSTOM, 
     value: false,
@@ -737,6 +1007,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DXTIEDBJ: {
     name: "Double Exposure, Tied Blackjacks Policy",
     featureToggle: ClassicFeatureToggles.DX,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'This rule primarily applies to "Double Exposure" blackjack.',
     displayWith: DisplayWith.RADIO_GROUP, 
     radioGroup: dxTiedBlackjackPolicyList,
@@ -746,6 +1017,7 @@ export const defaultFullClassicConditions: ClassicConditions = {
   DXSPLIT10: {
     name: "Double Exposure, Splitting Tens Policy",
     featureToggle: ClassicFeatureToggles.DX,
+    featureGroup: ClassicFeatureGroups.WEIRD_RULES,
     whatsThis: 'This rule primarily applies to "Double Exposure" blackjack where some casinos will only allow splitting of truly paired 10s.',
     displayWith: DisplayWith.RADIO_GROUP, 
     radioGroup: dxSplittingTensPolicyList,

@@ -1,3 +1,44 @@
 <div class="classic-customizations-insurance page">
-  Hello classic-customizations-insurance
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="strategyTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="strategies"
+    [configurationType]="localStorageItemsEnum.INSURANCE"
+    [variation]="localStorageVariationKeys.CLASSIC"
+  ></abj-strategy-selector>
+  <div class="insurance-content">
+  @if(!activeStrategy.neverInsure) {
+    <div class="checkbox-wrapper">
+      <abj-checkbox
+        name="Always Take Insurance"
+        [checked]="activeStrategy.alwaysInsure"
+        (action)="updateActiveStrategy('alwaysInsure')"
+      ></abj-checkbox>
+    </div>
+  }
+  @if(!activeStrategy.alwaysInsure) {
+    <div class="checkbox-wrapper">
+      <abj-checkbox
+        name="Never Take Insurance"
+        [checked]="activeStrategy.neverInsure"
+        (action)="updateActiveStrategy('neverInsure')"
+      ></abj-checkbox>
+    </div>
+  }
+  @if(!activeStrategy.alwaysInsure && !activeStrategy.neverInsure) {
+    <div class="flex wrapper">
+      <label>Take Insurance at or above TC:</label>
+      <div class="input-wrapper flex">
+        <input
+          type="number"
+          step=".1"
+          [(ngModel)]="activeStrategy.atTCof"
+        >
+      </div>
+    </div>
+  }
+  </div>
 </div>

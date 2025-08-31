@@ -1,4 +1,4 @@
-import { InsurancePlan } from "../models-constants-enums/models";
+import { InsurancePlan } from "../classic-models/classic-strategies.models";
 
 export const neverInsure: InsurancePlan = {
   title: "Never Insure",
@@ -21,14 +21,16 @@ export const insureAbove3: InsurancePlan = {
   atTCof: 3,
 };
 
-export const insuranceTitles: string[] = [
+export const classicInsuranceTitles: string[] = [
   'Never Insure', 
   'Always Insure', 
   'Insure Above True 3', 
 ];
 
-export const defaultInsurancePlans: { [k: string]: InsurancePlan } = {
+export const classicInsurancePlans: { [k: string]: InsurancePlan } = {
   'Never Insure': neverInsure, 
   'Always Insure': alwaysInsure, 
   'Insure Above True 3': insureAbove3, 
 };
+
+export const classicDefaultInsurancePlan: InsurancePlan = neverInsure;

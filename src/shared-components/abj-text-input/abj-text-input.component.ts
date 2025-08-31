@@ -20,7 +20,7 @@ export class ABJTextInputComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.innerInput.nativeElement.focus();
+    // this.innerInput.nativeElement.focus();
   }
 
   handleInput() {
