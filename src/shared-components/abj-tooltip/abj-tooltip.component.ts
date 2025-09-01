@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TooltipService } from '../../services/tooltip.service';
 
@@ -14,7 +14,6 @@ export class ABJTooltipComponent implements OnInit {
   @Input() body: string;
   @Input() status: boolean;
   @Input() toolTipId: string;
-  // @Output() action = new EventEmitter<void>();
 
   constructor(private tooltipService: TooltipService) {}
 
@@ -22,6 +21,5 @@ export class ABJTooltipComponent implements OnInit {
 
   handleClose() {
     this.tooltipService.tooltipCloser$.next();
-    // this.action.emit();
   }
 }

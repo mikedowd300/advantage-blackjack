@@ -5,5 +5,156 @@
   .classic-customizations-unit-resizing {
     width: 100%;
     box-sizing: border-box;
+
+    .unit-resizing-content {
+      width: 100%;
+      max-width: 400px;
+      min-width: 300px;
+
+      .icon-group-wrapper {
+        justify-content: space-between;
+
+        .instructions {
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin: 0 6px;
+          font-weight: normal;
+          font-size: 20px;
+        }
+
+        .icon-wrapper {
+
+          span {
+            width: 48px;
+            height: 48px;
+            font-size: 48px;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .column-header {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+
+        p {
+          font-size: 22px;
+          width: 40%;
+          margin: 4px 0;
+          text-align: center;
+
+          &:nth-child(1) {
+            width: 30%;
+              padding-right: 12px;
+            border-right: 1px solid grey;
+          }
+
+          &:nth-child(2) {
+            padding: 0 8px;
+            border-right: 1px solid grey;
+          }
+
+          &:nth-child(3) {
+            padding-left: 8px;
+          }
+
+          @media only screen and (max-width: 400px) {
+            font-size: 18px;
+            font-weight: 700;
+          }
+        }
+      }
+
+      .chart-wrapper {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 22px;
+
+        .row-wrapper {
+          position: relative;
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: space-between;
+          margin-bottom: 4px;
+
+          &:nth-child(odd) {
+            background-color: rgba(0, 0, 0, .1);
+            padding: 4px 0;
+            border-radius: 3px;
+          }
+
+          .tip-input-wrapper {
+            box-sizing: border-box;
+            width: 115px;
+            align-items: center;
+
+            ::ng-deep abj-tooltip .abj-tooltip {
+              right: 0;
+              top: -38px;
+              font-size: 18px;
+              width: 350px;
+              padding: 4px 12px;
+            }
+
+            .input-wrapper {
+
+              input {
+                width: 60px;
+                min-width: 60px;
+                box-sizing: border-box;
+                border: none;
+              }
+            }
+
+            .tool-tip-wrapper {
+              display: flex;
+              align-items: center;
+              margin: 0 8px 0 6px;
+
+              span {
+                font-size: 36px;
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          .input-wrapper {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0;
+            border: 1px solid black;
+            border-radius: 3px;
+            background-color: white;
+
+            &:not(.units) {
+              width: 108px;
+            }
+
+            input {
+              width: 108px;
+              box-sizing: border-box;
+              border: none;
+              font-size: 22px;
+              padding: 6px 6px;
+              background-color: transparent;
+            }
+
+            &.input-placeholder {
+              box-sizing: border-box;
+              background-color: transparent;
+              background-color: black;
+            }         
+          }
+        }
+      }
+    }
   }
 }

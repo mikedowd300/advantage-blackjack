@@ -96,7 +96,7 @@ export class LocalStorageService {
     console.log(variationKey);
     console.log(itemKey);
     console.log(value.name);
-    console.log(value);
+    console.log(JSON.stringify(value));
     let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
     if(typeof variation === "string") {
       variation = JSON.parse(variation)

@@ -9,4 +9,68 @@
     [configurationType]="localStorageItemsEnum.UNIT_RESIZE"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="unit-resizing-content">
+
+    <div class="icon-group-wrapper flex">
+      <div (click)="addResizingPoint()" class="icon-wrapper">
+        <span class="material-symbols-outlined">add_circle</span>
+      </div>
+      <p class="instructions"> Add or Delete Resizing Points</p>
+      <div (click)="deleteResizingPoint()" class="icon-wrapper">
+        <span class="material-symbols-outlined">delete</span>
+      </div>
+    </div>
+
+    <div class="column-header flex">
+      <p>Betting Unit Progression</p>
+      <p>Resize Up</p>
+      <p>Resize Down</p>
+    </div>
+
+    <div class="chart-wrapper flex-column">
+    @for(unit of activeStrategy.unitProgression; track unit) {
+      <div class="flex row-wrapper">
+        <div class="tip-input-wrapper flex">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen(toolTipIds[$index])"
+            >
+              help
+            </span>
+            <abj-tooltip
+              [body]="toolTipBody[$index]"
+              [status]="toolTipIds[$index] === (tooltipService.activeId$ | async)"
+              [toolTipId]="toolTipIds[$index]"
+            ></abj-tooltip>
+          </div>
+          <div class="input-wrapper units">
+            <input type="number" [(ngModel)]="activeStrategy.unitProgression[$index]">
+          </div>
+        </div>
+        <div
+          class="input-wrapper resize-up"
+          [class.input-placeholder]="!activeStrategy.increaseAtMultiple[$index] && $index === activeStrategy.increaseAtMultiple.length - 1"
+        >
+        @if(activeStrategy.increaseAtMultiple[$index] || $index !== activeStrategy.increaseAtMultiple.length - 1) {
+          <input type="number" [(ngModel)]="activeStrategy.increaseAtMultiple[$index]">
+        } @else {
+          <div class="input-placeholder"></div>
+        }
+        </div>
+        <div
+          class="input-wrapper resize-down"
+          [class.input-placeholder]="!activeStrategy.decreaseAtMultiple[$index] && $index === 0"
+        >
+         @if(activeStrategy.decreaseAtMultiple[$index] || $index !== 0) {
+          <input type="number" [(ngModel)]="activeStrategy.decreaseAtMultiple[$index]">
+         } @else {
+          <div class="input-placeholder"></div>
+        }
+        </div>
+      </div>
+    }
+    </div>
+
+  </div>
 </div>
