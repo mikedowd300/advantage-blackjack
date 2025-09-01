@@ -66,6 +66,7 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy)
     this.activeStrategy$.next({ ...this.defaultConfig });
     this.getStrategies();
+    console.log(this.includedStrategies);
   }
   
   ngOnDestroy(): void {} 
