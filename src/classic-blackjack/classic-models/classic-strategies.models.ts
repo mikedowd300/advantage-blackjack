@@ -58,6 +58,19 @@ export enum CharlieRule {
   PUSHES_TO_BLACKJACK_ONLY = 'noCharlieAgainstDealersCharlie',
 }
 
+export enum ChipTypeEnum {
+  WHITE = "white",
+  RED = "red",
+  GREEN = "green",
+  BLACK = "black",
+};
+
+export enum RoundingMethodEnum {
+  CEILING = "ceiling",
+  FLOOR = "floor",
+  ROUND = "round",
+};
+
 export enum CharlieType {
   FIVE = 'five',
   SIX = 'six',
@@ -85,7 +98,38 @@ export interface RadioButton {
 
 export type RadioButtonGroup = RadioButton[];
 
-export const dxTiedBlackjackPolicyList = [
+export const chipTypeRadioGroup: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: 'White Chip',
+    value: ChipTypeEnum.WHITE,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Red Chip',
+    value: ChipTypeEnum.RED,
+  },
+];
+
+export const roundingMethodRadioGroup: RadioButtonGroup = [
+  {
+    whatsThis: '',
+    labelText: 'Round Down',
+    value: RoundingMethodEnum.CEILING,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Round Up',
+    value: RoundingMethodEnum.FLOOR,
+  },
+  {
+    whatsThis: '',
+    labelText: 'Round Off',
+    value: RoundingMethodEnum.ROUND,
+  },
+];
+
+export const dxTiedBlackjackPolicyList: RadioButtonGroup = [
   {
     whatsThis: '',
     labelText: 'Player Wins',
@@ -103,7 +147,7 @@ export const dxTiedBlackjackPolicyList = [
   },
 ]
 
-export const dxSplittingTensPolicyList = [
+export const dxSplittingTensPolicyList: RadioButtonGroup = [
   {
     whatsThis: 'There are no restrictions for splitting tens.',
     labelText: 'Any',
@@ -121,7 +165,7 @@ export const dxSplittingTensPolicyList = [
   },
 ]
 
-export const charlieTypeList = [
+export const charlieTypeList: RadioButtonGroup = [
   {
     whatsThis: '',
     labelText: '5',
@@ -453,19 +497,6 @@ export interface AbbreviatedClassicConditions {
   DXSPLIT10: any,
 };
 
-export enum ChipTypeEnum {
-  WHITE = "white",
-  RED = "red",
-  GREEN = "green",
-  BLACK = "black",
-};
-
-export enum RoundingMethodEnum {
-  CEILING = "ceiling",
-  FLOOR = "floor",
-  ROUND = "round",
-};
-
 export enum CardNameEnum {
   C_A = 'A',
   C_2 = '2',
@@ -540,7 +571,7 @@ export interface PlayerConfig {
 
 export interface TippingPlan {
   title: string;
-  tipToBetsizeRatios: number[][];
+  tippingBreakpoints: number[][];
   maxTip: number;
   afterBlackjack: boolean;
   dealerJoins: boolean;

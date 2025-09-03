@@ -2,7 +2,7 @@ import { TippingPlan } from "../classic-models/classic-strategies.models";
 
 export const cheapTipper: TippingPlan = {
   title: "Cheap Tipper",
-  tipToBetsizeRatios: [ [1, 50], [2, 500] ],
+  tippingBreakpoints: [ [1, 50], [2, 500] ],
   maxTip: 2,
   afterBlackjack: true,
   dealerJoins: true,
@@ -19,7 +19,7 @@ export const cheapTipper: TippingPlan = {
 
 export const generousTipper: TippingPlan = {
   title: "Generous Tipper",
-  tipToBetsizeRatios: [ [1, 25], [2, 50], [3, 100], [5, 250], [10, 500], [25, 1000] ],
+  tippingBreakpoints: [ [1, 25], [2, 50], [3, 100], [5, 250], [10, 500], [25, 1000] ],
   maxTip: 50,
   afterBlackjack: true,
   dealerJoins: true,
@@ -36,7 +36,7 @@ export const generousTipper: TippingPlan = {
 
 export const neverTips: TippingPlan = {
   title: "Never Tips",
-  tipToBetsizeRatios: [],
+  tippingBreakpoints: [ [0, 0] ],
   maxTip: 0,
   afterBlackjack: false,
   dealerJoins: false,

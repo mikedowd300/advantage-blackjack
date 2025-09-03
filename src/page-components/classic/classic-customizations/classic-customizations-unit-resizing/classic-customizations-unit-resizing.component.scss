@@ -8,7 +8,7 @@
 
     .unit-resizing-content {
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
       min-width: 300px;
 
       .icon-group-wrapper {
@@ -153,6 +153,16 @@
               background-color: black;
             }         
           }
+        }
+      }
+
+      .rounding-details {
+        justify-content: center;
+        position: relative;
+
+        .round-to-chip, .round-method {
+          padding: 4px;
+          border: 1px solid black;
         }
       }
     }

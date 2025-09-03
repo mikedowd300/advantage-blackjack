@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Condition, RadioButtonGroup } from '../../classic-blackjack/classic-models/classic-strategies.models';
@@ -13,12 +13,14 @@ import { TooltipService } from '../../services/tooltip.service';
   templateUrl: './abj-radio-group.component.html',
   styleUrl: './abj-radio-group.component.scss'
 })
-export class ABJRadioButtonGroupComponent implements AfterViewInit, OnInit {
+export class ABJRadioButtonGroupComponent implements OnInit {
   @ViewChild('innerInput') innerInput: ElementRef;
   @Input() condition: Condition;
+  @Input() whatsThis: string;
   @Input() group: RadioButtonGroup;
   @Input() value: any;
   @Input() label: string;
+  @Input() name: string;
   @Input() radioGroupId: string;
   @Output() changeEvent = new EventEmitter<number>();
   radioGroupValue: string;
@@ -29,13 +31,9 @@ export class ABJRadioButtonGroupComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.activeConditionId$ = this.tooltipService.activeId$
-    this.radioGroupValue = this.condition.value;
+    this.radioGroupValue = this.condition? this.condition.value : this.value;
     this.tooltipService.tooltipCloser$.subscribe(() => this.activeToolTip$.next(-1));
     this.tooltipService.activeId$.subscribe(() => this.activeToolTip$.next(-1));
-  }
-
-  ngAfterViewInit(): void {
-    // this.innerInput.nativeElement.focus();
   }
 
   handleInput(value: any) {
