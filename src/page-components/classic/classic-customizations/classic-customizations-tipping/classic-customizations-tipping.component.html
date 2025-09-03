@@ -9,4 +9,68 @@
     [configurationType]="localStorageItemsEnum.TIPPING"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="tip-content-wrapper">
+    <h2>When to Tip</h2>
+  @for(config of checkBoxConfigs; track config) {
+    <div class="checkbox-values">
+      <abj-checkbox
+        [name]="config.label"
+        [whatsThis]="config.whatsThis"
+        [checked]="config.value"
+        [checkboxId]="'tip-checkbox-' + $index"
+        (action)="handleCheck(config.key, $event)"
+      ></abj-checkbox>
+    </div>
+  }
+    <div class="input-row flex">
+      <p>Tip every </p>
+      <div class="input-wrapper">
+        <input type="number" [(ngModel)]="activeStrategy.everyXHands"/>
+      </div>
+      <p>hands.</p>
+    </div>
+    <h2>How Much to Tip</h2>
+
+    <div class="icon-group-wrapper flex">
+      <div (click)="addTippingPoint()" class="icon-wrapper">
+        <span class="material-symbols-outlined">add_circle</span>
+      </div>
+      <p class="instructions">Add or Delete Tipping Break Point</p>
+      <div (click)="deleteTippingPoint()" class="icon-wrapper">
+        <span class="material-symbols-outlined">delete</span>
+      </div>
+    </div>
+    <div class="breakpoint-wrapper">
+      <div class="flex header">
+        <p>Tip amount</p>
+        <P>for bets of or below</P>
+        <P> and above</P>
+      </div>
+    @for(point of activeStrategy.tippingBreakpoints; track point) {
+      <div class="flex breakpoint-row">
+        <div class="input-wrapper">
+          <input type="number" [(ngModel)]="activeStrategy.tippingBreakpoints[$index][0]"/>
+        </div>
+        <div class="input-wrapper">
+          <input type="number" [(ngModel)]="activeStrategy.tippingBreakpoints[$index][1]"/>
+        </div>
+      @if($index > 0) {
+        <p class="max-limit">{{activeStrategy.tippingBreakpoints[$index - 1][1]}}</p>
+      } @else {
+        <p class="max-limit">0</p>
+      }
+      </div>
+    }
+    @if(activeStrategy.maxTip > 0 && activeStrategy.tippingBreakpoints?.length > 0) {
+      <div class="input-row flex">
+        <p>Bet</p>
+        <div class="input-wrapper">
+          <input type="number" [(ngModel)]="activeStrategy.maxTip"/>
+        </div>
+        <p>for all bets over </p>
+        <p class="special-margin-left"> {{activeStrategy.tippingBreakpoints[activeStrategy.tippingBreakpoints.length - 1][1]}}</p>
+      </div>
+    }
+    </div>
+  </div>
 </div>

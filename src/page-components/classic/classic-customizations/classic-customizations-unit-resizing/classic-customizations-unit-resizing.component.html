@@ -71,6 +71,27 @@
       </div>
     }
     </div>
-
+    <div class="rounding-details flex">
+      <div class="round-to-chip">
+        <abj-radio-group
+          [whatsThis]="whatsThisRoundTo"
+          [group]="roundToRadioGroup"
+          [value]="roundToValue"
+          name="Round To:"
+          [radioGroupId]="'round-to-group'"
+          (changeEvent)="handleRadioAction($event, 'round-to-group')"
+        ></abj-radio-group>
+      </div>
+      <div class="round-method">
+        <abj-radio-group
+          [whatsThis]="whatsThisMethod"
+          [group]="roundMethodRadioGroup"
+          [value]="roundMethodValue"
+          name="Rounding Method:"
+          [radioGroupId]="'round-method'"
+          (changeEvent)="handleRadioAction($event, 'round-method')"
+        ></abj-radio-group>
+      </div>
+    </div>
   </div>
 </div>

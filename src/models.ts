@@ -24,6 +24,13 @@ export enum LocalStorageVariationKeys {
   DOUBLE_UP = 'doubleUp',
 }
 
+export interface CheckboxConfig {
+  label: string,
+  whatsThis: string,
+  key: string,
+  value: boolean,
+}
+
 export interface HeaderLink {
   url: string,
   title: string,

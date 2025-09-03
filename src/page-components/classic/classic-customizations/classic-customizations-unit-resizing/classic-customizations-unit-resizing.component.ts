@@ -4,7 +4,15 @@ import { CommonModule } from '@angular/common';
 import { EmailjsService } from '../../../../services/emailjs.service';
 import { ABJStrategySelectorComponent } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
 import { ABJTooltipComponent } from '../../../../shared-components/abj-tooltip/abj-tooltip.component';
-import { UnitResizeStrategy } from '../../../../classic-blackjack/classic-models/classic-strategies.models';
+import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-radio-group/abj-radio-group.component';
+import {
+  RoundingMethodEnum,
+  ChipTypeEnum,
+  UnitResizeStrategy,
+  chipTypeRadioGroup,
+  roundingMethodRadioGroup,
+  RadioButtonGroup
+} from '../../../../classic-blackjack/classic-models/classic-strategies.models';
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import {
   classicUnitResizingStrategyTitles,
@@ -17,7 +25,13 @@ import { TooltipService } from '../../../../services/tooltip.service';
 @Component({
   selector: 'classic-customizations-unit-resizing',
   standalone: true,
-  imports: [ABJStrategySelectorComponent, ABJTooltipComponent, CommonModule, FormsModule],
+  imports: [
+    ABJStrategySelectorComponent,
+    ABJTooltipComponent,
+    ABJRadioButtonGroupComponent,
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './classic-customizations-unit-resizing.component.html',
   styleUrl: './classic-customizations-unit-resizing.component.scss'
 })
@@ -34,6 +48,12 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
   defaultStrategyTitles: string[] = classicUnitResizingStrategyTitles;
   toolTipBody: string[];
   toolTipIds: string[];
+  roundToRadioGroup: RadioButtonGroup = chipTypeRadioGroup;
+  roundMethodRadioGroup = roundingMethodRadioGroup;
+  roundToValue: ChipTypeEnum = ChipTypeEnum.RED;
+  roundMethodValue: RoundingMethodEnum = RoundingMethodEnum.ROUND;
+  whatsThisRoundTo: string = 'Decimal betting unit resize progression are allowed, but may result in a betting unit such as 12.40. In a casino, this bet size in not allowed. Partial bet sizes round to a white or red chip. This ensures a more realistic casino experience.'
+  whatsThisMethod: string = 'Using a decimal betting unit resize progression, bet sizes round to a whole number, the rounding methods are: round down (3.9 rounds to 3), round up, (3.1 rounds to 4) or round off (3.4 rounds to 3, 3.5 rounds to 4).'
 
   constructor(
     private emailjs: EmailjsService,
@@ -48,10 +68,6 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
       this.activeStrategy = strategy
       this.createToolTipBody();
     });
-    console.log(this.activeStrategy);
-
-    console.log(this.defaultStrategyTitles);
-    console.log(classicUnitResizingStrategyTitles);
 
     this.tooltipService.tooltipCloser$.pipe()
       .subscribe(() => this.tooltipService.activeId$.next('-1'))
@@ -64,7 +80,6 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     this.activeStrategy.unitProgression.push(maxUnit + 1);
     this.activeStrategy.increaseAtMultiple.push(maxIncrease + 1000);
     this.activeStrategy.decreaseAtMultiple.push(maxDecrease + 1000);
-    console.log(this.activeStrategy);
   }
 
   deleteResizingPoint() {
@@ -74,7 +89,6 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
       increaseAtMultiple.pop();
       decreaseAtMultiple.pop();
       increaseAtMultiple[unitProgression.length - 1] = null;
-      console.log(this.activeStrategy);
     }
   }
 
@@ -96,23 +110,15 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     this.toolTipIds = unitProgression.map((u, i) => `unit-resizing-${u}-${i}`);
   }
 
-  handleTooltipOpen(id: string) {
+  handleTooltipOpen(id: string): void {
     this.tooltipService.activeId$.next(id);
   }
 
-  handleTooltipClose() {
+  handleTooltipClose(): void {
     this.tooltipService.tooltipCloser$.next();
   }
+
+  handleRadioAction(event, id): void {
+    console.log(event, id);
+  }
 }
-
-// "title":"sdfsf",
-
-// "unitProgression":[1,2,3,4,5,6,7,8,10],
-
-// "increaseAtMultiple":[30000,70000,110000,150000,200000,250000,300000,350000,400000,null],
-
-// "decreaseAtMultiple":[null,50000,90000,130000,170000,220000,270000,320000,370000],
-
-// "roundToNearest":"red",
-
-// "roundingMethod":"ceiling"

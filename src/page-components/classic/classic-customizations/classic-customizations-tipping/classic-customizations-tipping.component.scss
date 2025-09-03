@@ -1,9 +1,113 @@
 :host {
   width: 100%;
   box-sizing: border-box;
+  font-size: 20px;
 
-  .classic-customizations-tipping {
+  .classic-customizations-tipping.page {
     width: 100%;
     box-sizing: border-box;
+
+    .tip-content-wrapper {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 400px;
+      min-width: 300px;
+
+      h2 {
+        text-align: center;
+        margin: 12px 0 8px;
+      }
+
+      .icon-group-wrapper {
+        justify-content: space-around;
+
+        .instructions {
+          display: flex;
+          align-items: center;
+          margin: 0 6px;
+          font-weight: normal;
+        }
+
+        .icon-wrapper {
+
+          span {
+            width: 48px;
+            height: 48px;
+            font-size: 48px;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .checkbox-values {
+        width: 100%;
+        position: relative;
+      }
+
+      .input-row {
+        align-items: center;
+
+        p {
+          margin: 0;
+
+          &.special-margin-left {
+            margin-left: 5px;
+          }
+        }
+
+        .input-wrapper {
+          margin: 0 8px;
+        }
+      }
+
+      .input-wrapper {
+        width: 80px;
+        border-radius: 3px;
+        background-color: white;
+        border: 1px solid black;
+
+        input {
+          font-size: 22px;
+          padding: 6px;
+          width: 70px;
+          background-color: transparent;
+          border: none;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow: 2px 2px 3px black;
+          }
+        }
+      }
+
+      .breakpoint-wrapper {
+
+        .header {
+          justify-content: space-between;
+          text-decoration: underline;
+          margin-bottom: 4px;
+          text-align: center;
+
+          p {
+            margin: 0;
+          }
+        }
+
+        .breakpoint-row {
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 4px;
+
+          p {
+            margin: 0;
+            width: 60px;
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 }
