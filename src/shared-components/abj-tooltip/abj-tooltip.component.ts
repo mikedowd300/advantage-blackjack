@@ -17,7 +17,10 @@ export class ABJTooltipComponent implements OnInit {
 
   constructor(private tooltipService: TooltipService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('+++', this.status)
+    console.log(this.body);
+  }
 
   handleClose() {
     this.tooltipService.tooltipCloser$.next();

@@ -204,7 +204,7 @@
           * save
         * The only variance from the video is that in angular json, for options, since this is a custom site, for "options", the value should be: 
         { "cname": "advantageblackjack.com" }
-        * If setup correctly, running "ng deploy" from the comman line will deploy the app to the squarespace site.
+        * If setup correctly, running "ng deploy" from the command line will deploy the app to the squarespace site.
 
 
 * Create email.js account for ABJ and document

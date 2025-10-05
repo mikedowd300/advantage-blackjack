@@ -96,11 +96,11 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     const { unitProgression, increaseAtMultiple, decreaseAtMultiple } = this.activeStrategy;
     this.toolTipBody = unitProgression.map((u, i) => {
       if(i === 0) {
-        return `This means your betting unit resizes to ${u + 1} times your original betting unit when your bankroll grows to ${increaseAtMultiple[i]} times your original betting unit.`
+        return `Your betting unit (BU) resizes to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]} times your original BU.`
       } else if (i < unitProgression.length - 1) {
-        return `This means your betting unit resizes to ${u + 1} times your original betting unit when your bankroll grows to ${increaseAtMultiple[i]} times your original betting unit. If your betting unit has already resized, then, if your bankroll falls below ${decreaseAtMultiple[i]} times your original betting unit, your betting unit will resize to ${u - 1} times your original betting unit (the previous betting unit size).`
+        return `Your betting unit (BU) resizes to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]} times your original BU. If your BU has already resized, then, if your bankroll falls below ${decreaseAtMultiple[i]} times your original BU, your BU will resize to ${u - 1} times your original BU (the previous BU size).`
       } else {
-        return `Your betting unit of ${u[i]} times your original betting unit will resize down to ${u[i - 1]} times your original betting unit if your bankroll falls below ${decreaseAtMultiple[i]} times your original betting unit.`;
+        return `Your betting unit (BU) of ${u[i]} times your original (BU) will resize down to ${u[i - 1]} times your original (BU) if your bankroll falls below ${decreaseAtMultiple[i]} times your original (BU).`;
       }
     })
   }
@@ -120,5 +120,6 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
 
   handleRadioAction(event, id): void {
     console.log(event, id);
+    console.log(this.activeStrategy);
   }
 }

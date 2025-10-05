@@ -40,6 +40,7 @@ export class VideoModalService {
     // Do not get into special conditions - save that for a video on the conditions page,
     createABetSpreadUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
     makeAUnitResizingStrategyUrl: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
+    createCustomChart: 'https://www.youtube.com/embed/P6pFdeZg8LI?si=ggmaWNxzoHticL6C',
   }
 
   openModal(key: string) {

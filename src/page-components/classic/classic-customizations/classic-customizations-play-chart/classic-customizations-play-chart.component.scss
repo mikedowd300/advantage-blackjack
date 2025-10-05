@@ -5,5 +5,273 @@
   .classic-customizations-play-chart {
     width: 100%;
     box-sizing: border-box;
+
+    .accordion-wrapper {
+      width: 100%;
+      margin-bottom: 16px;
+
+      .accordion-content {
+        background-color: rgba(255, 255, 255, .75);
+        color: black;
+        text-shadow: none;
+        border-radius: 3px;
+        padding: 12px;
+
+        .striped {
+          padding: 6px;
+
+          &.new-context {
+            border: 1px solid black;
+          }
+          
+          &:nth-child(odd) {
+            background-color: rgba(0, 0, 0, .1);
+          }
+
+          &.flex {
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+
+        .bottom-margin {
+          margin-bottom: 6px;
+        }
+        
+        p {
+          margin: 0;
+
+          &.no-margin {
+            margin: 0;
+
+            &:nth-child(7) {
+              margin: 0 0 12px;
+            }
+          }
+
+          &.indent {
+            padding-left: 12px;
+          }
+        }
+
+        .play-button {
+          border: none;
+          background-color: black;
+          color: white;
+          font-size: 20px;
+          padding: 6px 16px;
+          border-radius: 3px;
+
+          &:hover {
+            cursor: pointer;
+            background-color: white;
+            color: black;
+          }
+        }
+
+        .example-wrapper {
+          box-sizing: border-box;
+          background-color: white;
+          width: 150px;
+          border-radius: 3px;
+          font-size: 28px;
+          margin: 8px 0 16px 16px;
+
+          span {
+            display: block;
+            box-sizing: border-box;
+            background-color: black;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+
+            &.dealer {
+              margin-left: 50px;
+              width: 100px;
+            }
+          }
+
+          .combo-wrapper {
+            box-sizing: border-box;
+
+            span.player {
+              display: block;
+              width: 50px;
+              padding-right: 14px;
+            }
+
+            .combo {
+              height: 60px;
+              font-size: 20px;
+              box-sizing: border-box;
+              padding: 6px 0 0 6px;
+
+              p {
+                width: 94px;
+                border-bottom: 1px solid gray;
+
+                &:nth-child(2) {
+                  padding-top: 6px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .play-chart-content {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      .up-cards-wrapper {
+        width: 100%;
+        min-width: 600px;
+        justify-content: center;
+        top: 0;
+
+        &.visibility {
+          visibility: hidden;
+        }
+
+        &.hidden {
+          display: none;
+        }
+
+        &.sticky {
+          position: fixed;
+          top: 0;
+        }
+
+        .up-card {
+          font-size: 24px;
+          box-sizing: border-box;
+          padding: 6px 0;
+          text-align: center;
+          border: 1px solid white;
+          width: 9.25%;
+          min-width: 35px;
+          background-color: black;
+          color: white;
+
+          &.empty {
+            width: 40px;
+          }
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+
+      .row-wrapper {
+        width: 100%;
+        min-width: 600px;
+        justify-content: center;
+
+        .combo-cards {
+          font-size: 24px;
+          box-sizing: border-box;
+          padding: 6px 0;
+          text-align: center;
+          border: 1px solid black;
+          width: 9.25%;
+          min-width: 35px;
+          border-top: none;
+          border-left: none;
+          justify-content: center;
+          background-color: white;
+
+          p {
+            margin: 0;
+          }
+
+          &.starting-hand {
+            background-color: black;
+            color: white;
+            border-bottom: 1px solid white;
+            right: 1px solid white;
+            width: 40px;
+          }
+
+          input {
+            width: 100%;
+            border: none;
+            overflow: scroll;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 0 0 3px 3px;
+            font-size: 16px;
+
+            &.input-conditions {
+              border-top: 1px solid rgba(0, 0, 0, .1);
+              padding: 3px 0 0 3px;
+            }
+
+            @media only screen and (max-width: 749px) {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .modal-wrapper {
+    display: none;
+
+    &.show {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, .6);
+
+      .content {
+        box-sizing: border-box;
+        height: 360px;
+        width: 50%;
+        min-width: 400px;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 16px;
+        border-radius: 3px;
+
+        .button-wrapper {
+          justify-content: flex-end;
+          width: 100%;
+
+          button {
+            border: 0;
+            background-color: transparent;
+            font-size: 36px;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+
+        h3 {
+          margin: -24px 0 12px;
+          font-size: 36px;
+          text-align: center;
+          width: calc(100% - 48px);
+        }
+
+        .error-message {
+          margin-top: 0;
+          font-size: 20px;
+        }
+      }
+    }
   }
 }

@@ -66,7 +66,6 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy)
     this.activeStrategy$.next({ ...this.defaultConfig });
     this.getStrategies();
-    console.log(this.includedStrategies);
   }
   
   ngOnDestroy(): void {} 
@@ -82,7 +81,6 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
     this.showDeleteButton$.next(!this.defaultTitles.includes(strategyName));
     this.showSaveButton$.next(!this.defaultTitles.includes(strategyName));
     this.activeStrategy$.next(this.activeStrategy);
-    console.log(this.activeStrategy);
   }
 
   saveStrategy(strategyTitle?: string): void {
@@ -101,7 +99,6 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
       configurationType: this.configurationType,
       strategy: this.activeStrategy
     }
-    console.log(strategyDetails);
     this.localStorageService.saveActiveStrategy$.next(strategyDetails);
   }
 
@@ -132,7 +129,6 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
 
     this.hasNewTitle$.next(newTitle.length >= 3); // I think this is not used
     this.showSaveButton$.next(newTitle.length >= 3);
-    // console.log(newTitle, this.activeStrategy.title);
   }
 
   // saveStrategy(): void {
