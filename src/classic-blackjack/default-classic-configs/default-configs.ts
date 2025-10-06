@@ -21,4 +21,4 @@ export const strategyConfigStorageEnumMap: any = {
   [LocalStorageItemsEnum.UNIT_RESIZE]: classicUnitResizingStrategies,
   [LocalStorageItemsEnum.WONG]: classicWongs,
   [LocalStorageItemsEnum.INSURANCE]: classicInsurancePlans,
-}
+};

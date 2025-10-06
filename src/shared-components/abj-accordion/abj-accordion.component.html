@@ -5,5 +5,10 @@
       <span class="abj-icon material-symbols-outlined">chevron_backward</span>
     </div>
   </div>
-  <p class="answer" [class.hidden]="!isExpanded">{{hiddenContent}}</p>
+@if(hiddenContent) {
+  <p class="answer" [class.hidden]="!isExpanded">{{ hiddenContent }}</p>
+}
+  <div class="answer" [class.hidden]="!isExpanded">
+    <ng-content></ng-content>
+  </div>
 </div>

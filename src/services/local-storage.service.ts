@@ -71,10 +71,7 @@ export class LocalStorageService {
     if(typeof variation === "string") {
       variation = JSON.parse(variation)
     }
-    console.log(strategies);
-    console.log(variation);
     variation[itemKey] = { ...strategies };
-    console.log(variation);
     localStorage.setItem(variationKey, JSON.stringify(variation));
     // When deleting a strategy, all the players that use the strategy must adjust. Those users will use the default strategy.
   }
@@ -93,19 +90,12 @@ export class LocalStorageService {
 
   setItemOfVariation(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, value: any) {
     // This will work with strategies because strategy objects have a title
-    console.log(variationKey);
-    console.log(itemKey);
-    console.log(value.name);
-    console.log(JSON.stringify(value));
     let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
     if(typeof variation === "string") {
       variation = JSON.parse(variation)
     }
-    console.log(variation);
     variation[itemKey] = { ...variation[itemKey], [value.title]: value };
-    console.log(variation);
     localStorage.setItem(variationKey, JSON.stringify(variation));
-    console.log('___4___');
   }
 
   getPreferredVariation() {
@@ -119,7 +109,6 @@ export class LocalStorageService {
 
   setPreferredVariation(variation: string) {
     this.setItem(LocalStorageKeys.VARIATION, variation);
-    console.log('___5___');
   }
 }
 

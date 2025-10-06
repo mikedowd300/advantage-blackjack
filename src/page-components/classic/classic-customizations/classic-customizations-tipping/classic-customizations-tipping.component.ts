@@ -104,8 +104,6 @@ export class ClassicCustomizationsTippingComponent implements OnInit {
     const ofOrBelow: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][0];
     const above: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][1];
     this.activeStrategy.tippingBreakpoints.push([ofOrBelow + 1, above + 50]);
-    // this.activeStrategy$.next(this.activeStrategy);
-    console.log(this.activeStrategy);
   }
 
   deleteTippingPoint() {
@@ -114,18 +112,3 @@ export class ClassicCustomizationsTippingComponent implements OnInit {
     }
   }
 }
-
-  // title: "Generous Tipper",
-  // tippingBreakpoints: [ [1, 25], [2, 50], [3, 100], [5, 250], [10, 500], [25, 1000] ],
-  // maxTip: 50,
-  // afterBlackjack: true,
-  // dealerJoins: true,
-  // dealerLeaves: true,
-  // tipFirstHandOfShoe: true,
-  // playerIncreasesBet: true,
-  // everyXHands: 10, 
-  // tipSplitHandToo: true,
-  // doubleDownTip: true,
-  // doubleUpTip: true,
-  // tipWongHands: true,
-  // insureTip: true,

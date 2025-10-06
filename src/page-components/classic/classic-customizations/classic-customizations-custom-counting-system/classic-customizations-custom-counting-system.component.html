@@ -1,4 +1,4 @@
-<div class="classic-customizations-insurance page">
+<div class="classic-customizations-custom-counting-system page">
   <abj-strategy-selector
     [title]="title"
     [activeTitle]="activeStrategy.title"
@@ -9,4 +9,182 @@
     [configurationType]="localStorageItemsEnum.COUNT"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="counting-system-content">
+  @if(!activeStrategy.suitAware) {
+    <div class="map-wrapper">
+      <p class="title">Set the desired count value for each card value!</p>
+      <div class="value-map-wrapper tc flex">
+      @for(name of cardNames; track name) {
+        <div class="card-name-value">
+          <label>{{ name }}</label>
+          <div class="input-wrapper flex">
+            <input
+              type="number"
+              [(ngModel)]="activeStrategy.valuesMap[name]"
+            >
+          </div>
+        </div>
+      }
+      </div>
+    </div>
+  } @else {
+    <div class="map-wrapper">
+      <p class="title">Set the desired count value for each card value by suit!</p>
+      <div class="value-map-wrapper rc flex">
+
+      @for(name of cardNames; track name) {
+        <div class="card-name-value rc">
+          <span>{{ name }}</span>
+          <div class="suites flex">
+          @for(suit of suits; track suit) {
+            <div class="input-wrapper flex">
+              <label>{{ suit.text }}</label>
+              <input
+                type="number"
+                [(ngModel)]="activeStrategy.suitAwareValuesMap[name][suit.key]"
+              >
+            </div>
+          }
+          </div>
+        </div>
+      }
+      </div>
+    </div>
+  }
+    <div class="count-details">
+      <div class="count-type nth flex">
+        <div class="flex">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen('count-details-tip')"
+            > help </span>
+            <abj-tooltip
+              [body]="toolTipBody['count-details-tip']"
+              [status]="'count-details-tip' === (tooltipService.activeId$ | async)"
+              toolTipId="count-details-tip"
+            ></abj-tooltip>
+          </div>
+          <label>Uses True Count</label>
+        </div>
+        <input type="checkbox" [(ngModel)]="activeStrategy.convertsToTC">
+      </div>
+    @if(activeStrategy.convertsToTC) {
+      <div class="rounding-style nested">
+        <div class="rounding-option flex">
+          <div class="flex">
+            <div class="tool-tip-wrapper">
+              <span
+                class="material-symbols-outlined"
+                (click)="handleTooltipOpen('rounding-down-tip')"
+              > help </span>
+              <abj-tooltip
+                [body]="toolTipBody['rounding-down-tip']"
+                [status]="'rounding-down-tip' === (tooltipService.activeId$ | async)"
+                toolTipId="rounding-down-tip"
+              ></abj-tooltip>
+            </div>
+            <label for="">Round Down</label>
+          </div>
+          <input
+            type="radio"
+            [checked]="activeStrategy.roundingMethod === 'floor'"
+            (click)="handleRoundMethodChange()"
+          >
+        </div>
+        <div class="rounding-option flex">
+          <div class="flex">
+            <div class="tool-tip-wrapper">
+              <span
+                class="material-symbols-outlined"
+                (click)="handleTooltipOpen('rounding-off-tip')"
+              > help </span>
+              <abj-tooltip
+                [body]="toolTipBody['rounding-off-tip']"
+                [status]="'rounding-off-tip' === (tooltipService.activeId$ | async)"
+                toolTipId="rounding-off-tip"
+              ></abj-tooltip>
+            </div>
+            <label>Round Off</label>
+          </div>
+          <input
+            type="radio"
+            [checked]="activeStrategy.roundingMethod !== 'floor'"
+            (click)="handleRoundMethodChange()"
+          >
+        </div>
+      </div>
+    }
+      <div class="start-count-at-zero nth flex">
+        <div class="flex">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen('start-count-at-zero-tip')"
+            > help </span>
+            <abj-tooltip
+              [body]="toolTipBody['start-count-at-zero-tip']"
+              [status]="'start-count-at-zero-tip' === (tooltipService.activeId$ | async)"
+              toolTipId="start-count-at-zero-tip"
+            ></abj-tooltip>
+          </div>
+          <label for="">Start Count At Zero</label>
+        </div>
+        <input type="checkbox" [(ngModel)]="activeStrategy.startCountAtZero">
+      </div>
+    @if(!activeStrategy.startCountAtZero) {
+      <div class="count-offset-per-deck nested flex">
+        <div class="flex horizontal-center">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen('count-offset-per-deck')"
+            > help </span>
+            <abj-tooltip
+              [body]="toolTipBody['count-offset-per-deck']"
+              [status]="'count-offset-per-deck' === (tooltipService.activeId$ | async)"
+              toolTipId="count-offset-per-deck"
+            ></abj-tooltip>
+          </div>
+          <label>Starting Count Offset per Deck</label>
+        </div>
+        <input type="number" [(ngModel)]="activeStrategy.initialCountOffsetPerDeck">
+      </div>
+    }
+      <div class="suit-aware nth flex">
+        <div class="flex">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen('suit-aware')"
+            > help </span>
+            <abj-tooltip
+              [body]="toolTipBody['suit-aware']"
+              [status]="'suit-aware' === (tooltipService.activeId$ | async)"
+              toolTipId="suit-aware"
+            ></abj-tooltip>
+          </div>
+          <label>Suit Aware</label>
+        </div>
+        <input type="checkbox" [(ngModel)]="activeStrategy.suitAware">
+      </div>
+      <div class="ace-side-count nth flex">
+        <div class="flex">
+          <div class="tool-tip-wrapper">
+            <span
+              class="material-symbols-outlined"
+              (click)="handleTooltipOpen('ace-side-count')"
+            > help </span>
+            <abj-tooltip
+              [body]="toolTipBody['ace-side-count']"
+              [status]="'ace-side-count' === (tooltipService.activeId$ | async)"
+              toolTipId="ace-side-count"
+            ></abj-tooltip>
+          </div>
+          <label>Has Ace Side Count</label>
+        </div>
+        <input type="checkbox" [(ngModel)]="activeStrategy.aceSideCount">
+      </div>
+    </div>
+  </div>
 </div>

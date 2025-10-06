@@ -9,4 +9,159 @@
     [configurationType]="localStorageItemsEnum.PLAY"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="accordion-wrapper">
+    <abj-accordion
+      [displayedContent]="accordionQuestion"
+    >
+      <div class="accordion-content">
+        <p class="striped">The chart is not intended to be human readable so much as to be readable by the simulation. The use of colors, for example, mean nothing to the code, while the use of characters like <b>?</b> aren't so intuitive to a human.</p>
+        <p>Stick with it though, the explanation below should provide you with what you need. If however you do find it lacking, please leave
+        <abj-anchor
+          text="feedback."
+          [onLightBackground]="false"
+          routerLink="/feedback"
+          [showTextLink]="true"
+        ></abj-anchor></p>
+        <p class="striped">When creating a strategy chart, for any given card combination there are 2 rows of values that a user must consider.</p>
+        <p class="striped">The top row is known as the <i>option decision chain</i> and will be explained in the upcoming example.</p>
+        <div class="striped">
+          <p>Valid decision options include <b>R D P S H</b> and must be capitalized</p>
+          <p class="no-margin indent"><b>H</b> is Hit</p>
+          <p class="no-margin indent"><b>D</b> is Double Down</p>
+          <p class="no-margin indent"><b>P</b> is Split</p>
+          <p class="no-margin indent"><b>R</b> is Surrender</p>
+          <p class="no-margin indent"><b>S</b> is Stay or Stand</p>
+        </div>
+        <p class="striped">The bottom row is for the <i>conditions</i> and will always correspond to the play option directly above it.</p>
+        <p class="striped">The conditions are, <i>for the most part</i>, the count at which the corresponding option is played.</p>
+        <div class="striped">
+          <p class="indent">For example:</p>
+          <div class="example-wrapper">
+            <span class="dealer">7</span>
+            <div class="combo-wrapper flex">
+              <span class="player">9</span>
+              <div class="combo">
+                <p>D H S</p>
+                <p>3</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="striped">In this case when the dealer shows a 7 and the player has a 9 (for the first 2 cards), the correct option is to double down at a true 3 or higher.</p>
+        <p class="striped">By the way, a positive 3 is interpreted by the simulation as <i>choose this option at <b>3</b> or <b>higher</b></i>, while <b>-3</b> is interpreted as <i>choose this option at <b>-3</b> or <b>less</b></i>.</p>
+        <p class="striped">The <b>D H S</b> options form the <i>option decision chain</i>. The simulation will attempt to use the first decision in the chain, in this case <b>D</b>.</p>
+        <p class="striped">The simulation will choose the first option only if the corresponding condition is met or if there is no corresponding condition.</p>
+        <p class="striped">In this case, if the count is less than 3, or if the player's <b>9</b> is composed of 3 or more cards then the <b>D</b>, the option to double down, will be <i>filtered out</i> of the option decision chain.</p>
+        <p class="striped">When the <b>D</b> is <i>filtered out</i> so is the condition associated with it, the <b>3</b>.</p>
+        <p class="striped">The next option in the chain is the <b>H</b> and there is no corrosponding condition, so the simulation will opt to <i>hit</i> the hand.</p>
+        <p class="striped">You may be wondering what the point of the <b>S</b> at the end of the chain if the <b>H</b> was chosen?</p>
+        <div class="striped">
+          <p class="indent bottom-margin">This chart may be used at a table with very unique or rare conditions, even if that was not the original intention when the chart was created.</p>
+          <p class="indent bottom-margin">There are too many unique situations with unexpected option decision chains to consider them all when making a chart.</p>
+          <p class="indent bottom-margin">As an example, in a <i>5 Card Charlie</i> game (which may or may not be implemented at the time of this reading), with a 5 card 15 against a dealer's 9 the <b>H</b> is filtered out.</p>
+          <p class="indent bottom-margin">With no <b>S</b> at the end of that chain, the simulation has no option to choose and will freeze.</p>
+        </div>
+        <p class="striped">To insure <i>freezing</i> never happens, it is my advice (actually it is enforced) that <b>S</b> be added to the end of all option decision chains.</p>
+        <p class="striped new-context">You may have noticed a <b>?</b> character in a few condition chains, such as in the following example:</p>
+        <div class="example-wrapper striped">
+          <span class="dealer">A</span>
+          <div class="combo-wrapper flex">
+            <span class="player">16</span>
+            <div class="combo">
+              <p>R S H S</p>
+              <p>? 3</p>
+            </div>
+          </div>
+        </div>
+        <p class="striped">In this example, with a 16 against a dealers Ace, the proper decision is to surrender.</p>
+        <p class="striped">The simulation will always look at the <i>table conditions</i> associated with the simulation, as well as the state of a hand in regards to number of cards taken and the actual value of the hand, to decide which options are valid in any situation.</p>
+        <p class="striped">The invalid options will be filtered out along with any associated conditions.</p>
+        <p class="striped">In this case, the simulation looks at the table conditions to check if <i>surrender</i> is allowed. If it's not, the <b>R</b> will be filtered out.</p>
+        <p class="striped">The <b>?</b> exists as a place holder only. Without it, the simulation would look to filter away the next condition and find the <b>3</b> instead.</p>
+        <p class="striped">To avoid filtering out conditions which become relevant further down the option decision chain, the <b>?</b> place holder is filtered out from the conditions.</p>
+        <p class="striped">Now the process continues as in the first example.</p>
+        <p class="striped">The next option, <b>S</b>, is contingent on a true count of <b>3</b> or higher. So depending on the true count, the simulation will either <i>stay</i> or go to the next option in the chain which is <i>hit</i>.</p>
+        <p class="striped">Again, it's hard to think of a situation where the <b>S</b> will ever makes sense, but just in case, it is included as the final option.</p>
+        <p class="striped new-context">Some Additional Notes</p>
+        <p class="striped">The <b>?</b> place holder could have been any character, but it is enforced in the application to be a <b>?</b>.</p>
+        <p class="striped">If there are no counting decisions further down the chain, then there is no need to add the <b>?</b>. In fact condition chains ending with <b>?</b> will cause an error message to display.</p>
+        <p class="striped flex">Do you still have questions? Try watching this video.
+          <button class="play-button" (click)="playVideo()">Play</button>
+        </p>
+      </div>
+    </abj-accordion>
+  </div>
+  <div class="play-chart-content flex-column">
+    <div
+      #dealersUpcards
+      class="up-cards-wrapper flex"
+      id="dealers-upcards"
+      [class.visibility]="isSticky"
+    >
+      <div class="up-card empty"></div>
+    @for(card of dealersUpCard; track card) {
+      <div class="up-card">
+        <p>{{ card }}</p>
+      </div>
+    }
+    </div>
+    <div
+      #dealersUpcardsStickVersion
+      class="up-cards-wrapper flex"
+      id="dealers-upcards-sticky-version"
+      [class.sticky]="isSticky"
+      [class.hidden]="!isSticky"
+    >
+      <div class="up-card empty"></div>
+    @for(card of dealersUpCard; track card) {
+      <div class="up-card">
+        <p>{{ card }}</p>
+      </div>
+    }
+    </div>
+    @for(startingHand of startingHandCombos; track startingHand) {
+    <div class="row-wrapper flex">
+      <div class="combo-cards starting-hand flex-column">
+        <p>{{ startingHand }}</p>
+      </div>
+
+      @for(card of dealersUpCard; track card) {
+      <div class="combo-cards flex-column">
+        <input
+          [id]="'option-' + card + '-' + startingHand"
+          class="input-options"
+          type="text" 
+          [(ngModel)]="activeStrategy.combos[card + '-' + startingHand].options"
+          (focusout)="handleInputChange(card + '-' + startingHand, 'option')"
+        >
+        <input 
+          [id]="'condition-' + card + '-' + startingHand"
+          class="input-conditions"
+          type="text" 
+          [(ngModel)]="activeStrategy.combos[card + '-' + startingHand].conditions"
+          (focusout)="handleInputChange(card + '-' + startingHand, 'condition')"
+        >
+      </div>
+      }
+    </div>
+    }
+  </div>
+  <div 
+    class="modal-wrapper" 
+    [class.show]="errorMessages.length > 0 && showErrorModal"
+    (click)="stopProp($event)"
+  >
+    <div class="content">
+      <div class="button-wrapper flex">
+        <button (click)="closeErrorModal()">X</button>
+      </div>
+      <h3> Input Error</h3>
+    @if(errorType === 'option') {
+      <p class="error-message">If a valid play option does not exits, the simulation will freeze when that hand combination occurs.</p>
+    }
+    @for(message of errorMessages; track message) {
+      <p class="error-message">{{ message }}</p>
+    }
+    </div>
+  </div>
 </div>

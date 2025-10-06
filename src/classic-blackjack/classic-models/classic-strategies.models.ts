@@ -607,23 +607,48 @@ export interface CountingMethodValueMap {
   [CardNameEnum.C_K]: number;
 };
 
+export interface SuitAwareConfig {
+  heart: number;
+  diamond: number;
+  club: number;
+  spade: number;
+}
+
+export interface CountingMethodSuitAwareValueMap {
+  [CardNameEnum.C_A]: SuitAwareConfig;
+  [CardNameEnum.C_2]: SuitAwareConfig;
+  [CardNameEnum.C_3]: SuitAwareConfig;
+  [CardNameEnum.C_4]: SuitAwareConfig;
+  [CardNameEnum.C_5]: SuitAwareConfig;
+  [CardNameEnum.C_6]: SuitAwareConfig;
+  [CardNameEnum.C_7]: SuitAwareConfig;
+  [CardNameEnum.C_8]: SuitAwareConfig;
+  [CardNameEnum.C_9]: SuitAwareConfig;
+  [CardNameEnum.C_T]: SuitAwareConfig;
+  [CardNameEnum.C_J]: SuitAwareConfig;
+  [CardNameEnum.C_Q]: SuitAwareConfig;
+  [CardNameEnum.C_K]: SuitAwareConfig;
+};
+
 export interface CountingMethod {
   title: string,
-  valuesMap: CountingMethodValueMap,
-  startingCount: number;
+  valuesMap: CountingMethodValueMap;
+  suitAwareValuesMap: CountingMethodSuitAwareValueMap;
+  startCountAtZero: boolean;
+  initialCountOffsetPerDeck: number;
   isBalanced: boolean;
   convertsToTC: boolean;
   roundingMethod: RoundingMethodEnum;
   useHalfCount: boolean;
-}
-
-
+  suitAware: boolean;
+  aceSideCount: boolean;
+};
 
 export interface TableConfig {
   title: string;
   players: PlayerTableInfo[];
   conditionsTitle: string;
-}
+};
 
 export type AnyStrategy = | AbbreviatedClassicConditions
   | BetSpreadStrategy

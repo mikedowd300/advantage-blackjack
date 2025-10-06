@@ -18,6 +18,7 @@ export class ABJAnchorComponent implements OnInit {
   @Input() linkUrl: string = '';
   @Input() textWrap: boolean = true;
   @Input() isSelected: boolean = false;
+  @Input() showTextLink: boolean = false;
   @Output() action = new EventEmitter<any>();
 
   displayedResponsiveText: string;

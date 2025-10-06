@@ -3,6 +3,10 @@
     display: inline-block;
     margin-right: 12px;
 
+    a p.no-margin {
+      margin: 0;
+    }
+
     &.is-tab {
       padding: 0;
       box-sizing: border-box;

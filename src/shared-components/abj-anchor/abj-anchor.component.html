@@ -11,7 +11,11 @@
     [routerLink]="routerLink"
     (click)="handleAction(linkUrl)"
   >
+  @if(!showTextLink) {
     <p class="large" [class.wrap]="textWrap">{{ text }}</p>
-    <p class="medium" [class.wrap]="textWrap">{{ displayedResponsiveText }}</p>
+  }
+    <p class="medium" [class.wrap]="textWrap" [class.no-margin]="showTextLink">
+      {{ displayedResponsiveText }}
+    </p>
   </a>
 </div>
