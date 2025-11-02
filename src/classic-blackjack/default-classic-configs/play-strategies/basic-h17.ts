@@ -4,11 +4,11 @@ export const basic_H17: PlayStrategy = {
   title: "Basic H17",
   combos: {
     "2-AA": {
-      options: "P S",
+      options: "P H S",
       conditions: ""
     },
     "2-TT": {
-      options: "P S",
+      options: "S",
       conditions: ""
     },
     "2-99": {
@@ -648,7 +648,7 @@ export const basic_H17: PlayStrategy = {
       conditions: ""
     },
     "6-A8": {
-      options: "D H S",
+      options: "D S",
       conditions: ""
     },
     "6-A7": {
@@ -752,7 +752,7 @@ export const basic_H17: PlayStrategy = {
       conditions: ""
     },
     "7-99": {
-      options: "P S",
+      options: "S",
       conditions: ""
     },
     "7-88": {
@@ -1436,7 +1436,7 @@ export const basic_H17: PlayStrategy = {
       conditions: ""
     },
     "A-15": {
-      options: "R H S",
+      options: "H S",
       conditions: ""
     },
     "A-14": {

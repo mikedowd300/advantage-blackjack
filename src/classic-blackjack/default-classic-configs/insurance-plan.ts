@@ -24,7 +24,7 @@ export const insureAbove3: InsurancePlan = {
 export const classicInsuranceTitles: string[] = [
   'Never Insure', 
   'Always Insure', 
-  'Insure Above True 3', 
+  'Insure Above True 3',
 ];
 
 export const classicInsurancePlans: { [k: string]: InsurancePlan } = {

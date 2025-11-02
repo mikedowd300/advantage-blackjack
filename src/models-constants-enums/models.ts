@@ -145,7 +145,7 @@ export interface PlayerConfig {
   playStrategyTitle: string;
   betSpreadStrategyTitle: string;
   unitResizingStrategyTitle: string;
-  tippngStrategyTitle: string;
+  tippingStrategyTitle: string;
   wongingStrategyTitle: string;
   countStrategyTitle: string;
   insurancePlanTitle: string;

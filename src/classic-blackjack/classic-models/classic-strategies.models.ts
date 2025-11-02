@@ -563,10 +563,11 @@ export interface PlayerConfig {
   playStrategyTitle: string;
   betSpreadStrategyTitle: string;
   unitResizingStrategyTitle: string;
-  tippngStrategyTitle: string;
+  tippingStrategyTitle: string;
   wongingStrategyTitle: string;
   countStrategyTitle: string;
   insurancePlanTitle: string;
+  seatNumber?: number;
 }
 
 export interface TippingPlan {
@@ -577,12 +578,10 @@ export interface TippingPlan {
   dealerJoins: boolean;
   dealerLeaves: boolean;
   tipFirstHandOfShoe: boolean;
-  playerIncreasesBet: boolean;
   everyXHands: number;
   tipWongHands: boolean;
   tipSplitHandToo: boolean;
   doubleDownTip: boolean;
-  doubleUpTip: boolean;
   insureTip: boolean;
 };
 

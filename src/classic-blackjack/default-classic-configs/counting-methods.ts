@@ -129,7 +129,7 @@ export const redSeven: CountingMethod = {
     [CardNameEnum.C_Q]: { heart: -1, diamond: -1, club:  -1, spade: -1 },
     [CardNameEnum.C_K]: { heart: -1, diamond: -1, club:  -1, spade: -1 },
   },
-  startCountAtZero: true,
+  startCountAtZero: false,
   initialCountOffsetPerDeck: -2,
   convertsToTC: false,
   isBalanced: false,

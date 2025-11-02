@@ -4,11 +4,11 @@ export const illustrious_H17: PlayStrategy = {
   title: "Illustrious H17",
   combos: {
     "2-AA": {
-      options: "P S",
+      options: "P H S",
       conditions: ""
     },
     "2-TT": {
-      options: "P S",
+      options: "S",
       conditions: ""
     },
     "2-99": {
@@ -112,12 +112,12 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "2-13": {
-      options: "S",
-      conditions: ""
+      options: "H S",
+      conditions: "-1"
     },
     "2-12": {
-      options: "H S",
-      conditions: ""
+      options: "S H S",
+      conditions: "3"
     },
     "2-11": {
       options: "D H S",
@@ -264,8 +264,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "3-12": {
-      options: "H S",
-      conditions: ""
+      options: "S H S",
+      conditions: "2"
     },
     "3-11": {
       options: "D H S",
@@ -412,8 +412,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "4-12": {
-      options: "S",
-      conditions: ""
+      options: "H S",
+      conditions: "-1"
     },
     "4-11": {
       options: "D H S",
@@ -752,8 +752,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "7-99": {
-      options: "D P S",
-      conditions: "3"
+      options: "S",
+      conditions: ""
     },
     "7-88": {
       options: "P H S",
@@ -904,8 +904,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "8-88": {
-      options: "P H S",
-      conditions: ""
+      options: "P R H S",
+      conditions: "? 4"
     },
     "8-77": {
       options: "H S",
@@ -1052,8 +1052,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "9-88": {
-      options: "P H S",
-      conditions: ""
+      options: "P R S H S",
+      conditions: "? -1 4"
     },
     "9-77": {
       options: "H S",
@@ -1136,8 +1136,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "9-16": {
-      options: "H R S H S",
-      conditions: "-1 ? 4"
+      options: "R S H S",
+      conditions: "-1 4"
     },
     "9-15": {
       options: "R H S",
@@ -1200,8 +1200,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "10-88": {
-      options: "P H S",
-      conditions: ""
+      options: "P R S H S",
+      conditions: "? ? 1"
     },
     "10-77": {
       options: "H S",
@@ -1348,8 +1348,8 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "A-88": {
-      options: "P H S",
-      conditions: ""
+      options: "P R S H S",
+      conditions: "? ? 3"
     },
     "A-77": {
       options: "H S",
@@ -1428,7 +1428,7 @@ export const illustrious_H17: PlayStrategy = {
       conditions: ""
     },
     "A-17": {
-      options: "S",
+      options: "R S",
       conditions: ""
     },
     "A-16": {
@@ -1436,7 +1436,7 @@ export const illustrious_H17: PlayStrategy = {
       conditions: "? 3"
     },
     "A-15": {
-      options: "H R S H S",
+      options: "R H S H S",
       conditions: "-1 ? 5"
     },
     "A-14": {

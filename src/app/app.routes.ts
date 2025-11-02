@@ -18,7 +18,10 @@ import { ClassicCustomizationsTippingComponent } from '../page-components/classi
 import { ClassicCustomizationsUnitResizingComponent } from '../page-components/classic/classic-customizations/classic-customizations-unit-resizing/classic-customizations-unit-resizing.component';
 import { ClassicCustomizationsWongingComponent } from '../page-components/classic/classic-customizations/classic-customizations-wonging/classic-customizations-wonging.component';
 import { ClassicCustomizationsComponent } from '../page-components/classic/classic-customizations/classic-customizations.component';
+import { ClassicHomeComponent } from '../page-components/classic/classic-home/classic-home.component';
+import { ClassicThinkingComponent } from '../page-components/classic/thinking/thinking.component';
 import { HowToRunSimulationsComponent } from '../page-components/how-to-run-simulations/how-to-run-simulations.component';
+import { HandReviewComponent } from '../page-components/classic/hand-review/hand-review.component';
 import { FeedbackComponent } from '../page-components/feedback/feedback.component';
 import { AboutUsComponent } from '../page-components/about-us/about-us.component';
 import { FaqsComponent } from '../page-components/faqs/faqs.component';
@@ -36,7 +39,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: ClassicCustomizationsComponent,
+        component: ClassicHomeComponent,
       },
       {
         path: 'customizations',
@@ -110,6 +113,16 @@ export const routes: Routes = [
         path: 'speed-practice',
         component: ClassicSpeedPracticeComponent,
         canActivate: [RouteGuardService],
+      },
+      {
+        path: 'thinking',
+        component: ClassicThinkingComponent,
+        // canActivate: [RouteGuardService],
+      },
+      {
+        path: 'hand-review',
+        component: HandReviewComponent,
+        // canActivate: [RouteGuardService],
       },
     ]
   },

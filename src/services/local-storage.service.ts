@@ -52,18 +52,25 @@ export class LocalStorageService {
   
   getItemOfVariation(itemKey: LocalStorageItemsEnum, variationKey: LocalStorageVariationKeys) {
   // Returns a child object of a variation
-    let variation = JSON.parse(localStorage.getItem(variationKey));
-    if(variation) {
-      if(variation[itemKey]) {
-        return variation[itemKey];
-      }
-      this.setItemOfVariation(variationKey, itemKey, {})
-      return {};
+  // If variationKey doesnt even exist, 
+    if(!localStorage.getItem(variationKey)) {
+      this.setItem(variationKey,  this.getNewVariation());
     }
-    this.setItem(variationKey,  JSON.stringify(this.getNewVariation()));
-    variation = JSON.parse(localStorage.getItem(variationKey));
+    let variation = JSON.parse(localStorage.getItem(variationKey));
+    if(!variation[itemKey]) {
+      variation[itemKey] = {}
+    }
     return variation[itemKey];
   }
+
+  getItemOfItemOfVariation(
+    variationKey: LocalStorageVariationKeys,
+    itemKey: LocalStorageItemsEnum,
+    key: string) 
+  {
+    return this.getItemOfVariation(itemKey, variationKey)[key];
+  }
+
 
   deleteStrategy(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, strategies: any, strategyName: string) {
     // The new storedStrategies are configured by the caller
@@ -84,7 +91,8 @@ export class LocalStorageService {
       wong: {},
       unitResize: {},
       play: {},
-      count: {}
+      count: {},
+      insurance: {}
     }
   }
 

@@ -44,12 +44,16 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.storedVariation = this.localStorageService.getPreferredVariation();
     this.handleVariationSelection(this.storedVariation)
-    combineLatest([this.currentVariation$, this.headerFooterService.isFooterPage$])
-      .pipe().subscribe(([v, isFooterPage]) => {
+    combineLatest([
+      this.currentVariation$,
+      this.headerFooterService.isFooterPage$,
+      this.headerFooterService.variationLinks$
+    ])
+      .pipe().subscribe(([v, isFooterPage, variationLinks]) => {
         this.currentVariation = v;
         this.urlLinks = isFooterPage 
-          ? this.headerFooterService.variationLinks
-          : this.headerFooterService.variationLinks.filter(vl => vl.url !== v);
+          ? variationLinks
+          : variationLinks.filter(vl => vl.url !== v);
       });
     this.isHomePage$ = this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),

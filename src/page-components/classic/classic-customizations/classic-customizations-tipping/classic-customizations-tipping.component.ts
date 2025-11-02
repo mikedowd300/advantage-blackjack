@@ -67,12 +67,6 @@ export class ClassicCustomizationsTippingComponent implements OnInit {
         value: this.activeStrategy.tipFirstHandOfShoe,
       },
       {
-        label: 'Player Increases Bet',
-        whatsThis: 'Add a tip when your bet increases.',
-        key: 'playerIncreasesBet',
-        value: this.activeStrategy.playerIncreasesBet,
-      },
-      {
         label: 'Tip split hand',
         whatsThis: 'If you tip, and end up splitting, tip the split hand as well.',
         key: 'tipSplitHandToo',
@@ -103,12 +97,18 @@ export class ClassicCustomizationsTippingComponent implements OnInit {
     const maxIndex = this.activeStrategy.tippingBreakpoints.length
     const ofOrBelow: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][0];
     const above: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][1];
-    this.activeStrategy.tippingBreakpoints.push([ofOrBelow + 1, above + 50]);
+    if(this.activeStrategy.maxTip !== 0 ) {
+      this.activeStrategy.tippingBreakpoints.push([ofOrBelow + 1, above + 50]);
+    }
+    this.activeStrategy.maxTip = ofOrBelow + (this.activeStrategy.maxTip === 0 ? 1 : 2);
   }
 
   deleteTippingPoint() {
     if(this.activeStrategy.tippingBreakpoints.length > 1) {
-      this.activeStrategy.tippingBreakpoints.pop();
+      const oldBreakPoint = this.activeStrategy.tippingBreakpoints.pop();
+      this.activeStrategy.maxTip = oldBreakPoint[0];
+    } else if(this.activeStrategy.tippingBreakpoints.length === 1) {
+      this.activeStrategy.maxTip = 0;
     }
   }
 }
