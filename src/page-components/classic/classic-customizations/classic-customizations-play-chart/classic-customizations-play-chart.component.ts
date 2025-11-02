@@ -77,7 +77,6 @@ export class ClassicCustomizationsPlayChartComponent implements OnInit, AfterVie
 
   ngAfterViewInit() {
     this.upCards = document.querySelector('#dealers-upcards');
-    console.log();
   }
 
   handleInputChange(chartKey, inputType) {

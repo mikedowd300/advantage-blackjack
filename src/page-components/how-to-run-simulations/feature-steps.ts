@@ -11,7 +11,7 @@ export const featureSteps: FeatureDetails[] = [
       'Select a table, prebuilt or custom',
       'Select a number of rounds',
       'Results are more accurate the more rounds you run.',
-      'We are tracking AV, but with enough rounds AV and EV converge',
+      'We are tracking AV. With enough rounds AV and EV converge',
     ],
     videoUrl: 'runASimulationUrl',
     buttontext: 'Watch and Learn',

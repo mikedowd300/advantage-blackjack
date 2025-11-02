@@ -1,11 +1,10 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AbbreviatedClassicConditions, AnyStrategy } from '../../classic-blackjack/classic-models/classic-strategies.models';
-// import { LocalStorageItemsEnum } from '../../models-constants-enums/enumerations';
 import { ABJSelectComponent } from '../abj-select/abj-select.component';
 import { ABJButtonComponent } from '../abj-button/abj-button.component';
 import { ABJTextInputComponent } from '../abj-text-input/abj-text-input.component';
@@ -51,7 +50,7 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
   activeStrategy: AnyStrategy;
   localStorageItemsEnum = LocalStorageItemsEnum;
 
-  allStrategiesObj:AbbreviatedClassicConditions;
+  allStrategiesObj: AbbreviatedClassicConditions;
   storedStrategies: AbbreviatedClassicConditions;
   allStrategyTitles: string[];
   storedConditionTitles: string[];
@@ -67,8 +66,6 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
     this.activeStrategy$.next({ ...this.defaultConfig });
     this.getStrategies();
   }
-  
-  ngOnDestroy(): void {} 
   
   getStrategies(): void {
     this.storedStrategies = this.localStorageService.getItemOfVariation(this.configurationType, this.variation);
@@ -149,6 +146,8 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
   goBack(): void {
     this.router.navigate(['/classic/customizations']);
   }
+  
+  ngOnDestroy(): void {} 
 }
 
 

@@ -1,4 +1,13 @@
 <div class="classic-customizations-table page">
+  <div class="error-modal" [class.show]="showErrorModal">
+    <div class="model-content">
+      <div class="button-wrapper flex">
+        <button (click)="closeErrorModal()">X</button>
+      </div>
+      <h3>Ooops, that won't work!</h3>
+      <p class="explanation">These conditions has only <b>{{ seatsAtNewTable }}</b> seats, but you have a player assigned to seat <b>{{ highestRankedTakenSeat }}</b>.</p>
+    </div>
+  </div>
   <abj-strategy-selector
     [title]="title"
     [activeTitle]="activeStrategy.title"
@@ -9,4 +18,38 @@
     [configurationType]="localStorageItemsEnum.TABLE_CONFIG"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="classic-table-content">
+    <div class="item">
+      <abj-select
+        id="condition-selector"
+        (selectedEvent)="selectCondition($event)"
+        [options]="conditionTitles"
+        [selectValue]="activeStrategy.conditionsTitle"
+        [label]="'Select a set of table conditions'"
+      >
+      </abj-select>
+    </div>
+
+    <div class="table-assignment-wrapper flex">
+    @for(player of playersBySeat; track player) {
+      <div class="seat flex-column">
+      @if(!player) {        
+        <abj-select 
+          (selectedEvent)="selectPlayerForSeat($event, $index + 1)"
+          [options]="(availablePlayerTitles$ | async)"
+          [selectValue]="'Select'"
+          [label]="'Select Player'"
+        >
+        </abj-select>
+      }
+      @else {
+        <p class="name">{{ player }}</p>
+        <button (click)="addPlayerToAvailablePlayerList(player, $index + 1)">Remove Player</button>
+      }
+      <p class="seat-number">Seat {{ $index + 1 }}</p>
+      </div>
+    }
+    </div>
+
+  </div>
 </div>

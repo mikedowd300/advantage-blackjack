@@ -5,5 +5,181 @@
   .classic-customizations-table {
     width: 100%;
     box-sizing: border-box;
+
+    .error-modal {
+      display: none;
+
+      &.show {
+        display: flex;
+        position: fixed;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, .9);
+        width: 100%;
+        height: 100vh;
+        
+        .model-content {
+          width: 50%;
+          height: 200px;
+          background-color: white;
+          text-align: center;
+          min-width: 338px;
+          padding: 16px;
+          box-sizing: border-box;
+          border-radius: 3px;
+          box-shadow: 2px 2px 3px #ccc;
+
+          .button-wrapper {
+            justify-content: flex-end;
+
+            button {
+              border: none;
+              padding: 0 0 16px 16px;
+              background-color: transparent;
+              font-size: 24px;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          h3 {
+            font-size: 30px;
+            margin-top: -28px;
+
+            @media only screen and (max-width: 799px) {
+              font-size: 24px;
+              width: calc(100% - 32px);
+            }
+          }
+
+          .explanation {
+            font-size: 20px;
+            text-align: center;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+
+    .classic-table-content {
+      width: 100%;
+      box-sizing: border-box;
+
+      .item {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        ::ng-deep .select-dropdown-wrapper {
+          max-width: 100%;
+          align-items: center;
+          flex-direction: row;
+          justify-content: space-between;
+
+          label {
+            font-size: 24px;
+          }
+
+          @media only screen and (max-width: 629px) {
+            
+            label {
+              font-size: 20px;
+            }
+          }
+
+          @media only screen and (max-width: 574px) {
+            flex-direction: column;
+            align-items: flex-start;
+            
+            label {
+              font-size: 18px;
+              margin-top: 6px;
+            }
+
+            select {
+              width: 100%;
+              max-width: 100%;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+
+      .table-assignment-wrapper {
+        width: 100%;
+        box-sizing: border-box;
+        flex-direction: row-reverse;
+        overflow-y: scroll;
+
+        .seat {
+          border: 1px solid white;
+          height: 200px;
+          background-color: black;
+          color: white;
+          width: 50%;
+          min-width: 90px;
+          justify-content: space-between;
+
+          .name {
+            margin: 6px 0;
+            text-align: center;
+            font-size: 18px;
+            flex-wrap: wrap;
+          }
+
+          .seat-number {
+            margin: 4px 0;
+            text-align: center;
+            font-size: 16px;
+          }
+
+          button {
+            margin: 0 6px;
+            border: 1px solid #AAA;
+            padding: 6px 0;
+            font-size: 18px;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          ::ng-deep .select-dropdown-wrapper {
+            max-width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px;
+
+            select {
+              width: 100%;
+              max-width: 100%;
+              font-size: 18px;
+              max-width: 100px;
+
+              @media only screen and (max-width: 749px) {
+                font-size: 14px;
+              }
+            }
+
+            label {
+              font-size: 16px;
+            }
+
+            @media only screen and (max-width: 776px) {
+              
+              label {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

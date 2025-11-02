@@ -5,5 +5,125 @@
   .classic-customizations-player {
     width: 100%;
     box-sizing: border-box;
+
+    .player-config-content {
+      width: 100%;
+
+      .item {
+        width: 100%;
+        padding-left: 8px;
+        justify-content: space-between;
+        box-sizing: border-box;
+
+        &:hover {
+          border-top: 1px solid #CCC;
+          border-bottom: 1px solid #CCC;
+        }
+
+        &:nth-child(even) {
+          background-color: rgba(255, 255, 255, .2);
+          border-radius: 3px;
+        }
+
+        ::ng-deep .select-dropdown-wrapper {
+          flex-direction: row;
+          max-width: 100%;
+          justify-content: space-between;
+          align-items: center;
+
+          label {
+            font-size: 24px;
+          }
+
+          @media only screen and (max-width: 549px) {
+            
+            label {
+              font-size: 20px;
+            }
+          }
+
+          @media only screen and (max-width: 505px) {
+            
+            label {
+              font-size: 18px;
+            }
+
+            select {
+              width: 200px;
+            }
+          }
+
+          @media only screen and (max-width: 449px) {
+            flex-direction: column;
+            align-items: flex-start;
+            
+            label {
+              margin-top: 6px;
+            }
+
+            select {
+              width: 100%;
+              max-width: 100%;
+              font-size: 20px;
+            }
+          }
+        }
+
+        &.input-item {
+          padding: 6px 6px 6px 6px;
+          box-sizing: border-box;
+          align-items: center;
+
+          label {
+            font-size: 24px;
+          }
+
+          .input-wrapper {
+            border-radius: 3px;
+            width: 260px;
+            box-sizing: border-box;
+            padding: 8px;
+            background-color: white;
+
+            input {
+              font-size: 18px;
+              border: none;
+              background-color: transparent;
+              box-sizing: border-box;
+              width: 100%;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          @media only screen and (max-width: 549px) {
+            
+            label {
+              font-size: 20px;
+            }
+          }
+
+          @media only screen and (max-width: 505px) {
+
+            .input-wrapper {
+              width: 200px;
+            }
+            
+            label {
+              font-size: 18px;
+            }
+          }
+
+          @media only screen and (max-width: 449px) {
+
+            .input-wrapper {
+              width: 150px;
+            }
+          }
+        }
+      }
+    }
   }
 }

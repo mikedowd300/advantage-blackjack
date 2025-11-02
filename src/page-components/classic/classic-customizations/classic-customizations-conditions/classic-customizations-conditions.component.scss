@@ -11,7 +11,7 @@
       box-sizing: border-box;
 
       .condition-wrapper {
-        background-color: rgba(0, 0, 0, .05);
+        background-color: rgba(255, 255, 255, .7);
         padding: 12px;
         position: relative;
 
@@ -21,7 +21,7 @@
         }
 
         &:nth-child(odd) {
-          background-color: rgba(0, 0, 0, .1);
+          background-color: rgba(255, 255, 255, .9);
         }
       }
     }

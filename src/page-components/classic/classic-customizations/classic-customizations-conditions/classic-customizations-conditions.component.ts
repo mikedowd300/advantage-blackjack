@@ -21,7 +21,7 @@ import {
   classicConditions,
   classicConditionTitles
 } from '../../../../classic-blackjack/default-classic-configs/conditions';
-import { ClassicFeatureGroups, classicFeatureToggles } from '../../../../classic-blackjack/classic-models/classic-feature-toggles-and-groups';
+import { ClassicFeatureGroups } from '../../../../classic-blackjack/classic-models/classic-feature-toggles-and-groups';
 import { ABJCheckboxComponent } from '../../../../shared-components/abj-checkbox/abj-checkbox.component';
 import { ABJNumberInputComponent } from '../../../../shared-components/abj-number-input/abj-number-input.component';
 import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-radio-group/abj-radio-group.component';

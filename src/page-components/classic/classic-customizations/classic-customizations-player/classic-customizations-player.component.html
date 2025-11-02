@@ -9,4 +9,29 @@
     [configurationType]="localStorageItemsEnum.PLAYER_CONFIG"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+  <div class="player-config-content flex-column">
+    <div class="item input-item flex">
+      <label for="">Initial Betting Unit</label>
+      <div class="input-wrapper">
+        <input type="number" [(ngModel)]="activeStrategy.initialBettingUnit">
+      </div>
+    </div>
+    <div class="item input-item flex">
+      <label for="">Initial Bankroll</label>
+      <div class="input-wrapper">
+        <input type="number" [(ngModel)]="activeStrategy.initialBankroll">
+      </div>
+    </div>
+  @for(strategy of selectableStrategies; track strategy) {
+    <div class="item">
+      <abj-select 
+        (selectedEvent)="selectStrategy($event, strategy.key)"
+        [options]="strategy.titles"
+        [selectValue]="activeStrategy[strategy.key]"
+        [label]="strategy.text"
+      >
+      </abj-select>
+    </div>
+  }
+  </div>
 </div>

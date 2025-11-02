@@ -1,0 +1,75 @@
+<div class="hand-review page">
+@let records = (records$ | async);
+@if(records) {
+  <div class="content">
+    @let record = records[recordIndex];
+    <div class="button-wrapper flex">
+    @if(recordIndex > 0) {
+      <button (click)="decRecordIndex()">Previous</button>
+    }
+    <p class="cards-remaining"><b>{{ record.unseenCardsAtBeginningOfShoe }}</b> cards remaining at the start of the round</p>
+    @if(records.length - recordIndex > 1) {
+      <button (click)="incRecordIndex()">Next</button>
+    }
+    </div>
+    <div class="dealer-wrapper">
+      <div class="cards-wrapper flex">
+      @for(card of record.dealer.cards; track card) {
+        <div class="card-image-wrapper dealer-card">
+          <img [src]="card.image" alt="card.name">
+        </div>
+      }
+      </div>
+    </div>
+    <div class="spots-wrapper flex">
+    @for(spot of record.spots; track spot) {
+      <div class="spot flex-column">
+        <div class="hands-wrapper flex">
+        @for(hand of spot.hands; track hand) {
+          <div class="hand flex-column">
+            <div class="cards-wrapper flex-column">
+            @for(card of hand.cards; track card) {
+              <div class="card-image-wrapper">
+                <img [src]="card.image" alt="card.name">
+              </div>
+            }
+            </div>
+            <div class="hand-details flex-column">
+              <p class="detail"><span>BET: </span><span>{{ hand.betAmount }}</span></p>
+              <div class="detail">
+              @if(hand.actions.length > 0) {
+                <p class="underline">Actions:</p>
+              }
+              @for(action of hand.actions; track action) {
+                <p><span> - </span><span>{{action}}</span></p>
+              }
+              </div>
+              <div class="detail flex-column"><span class="underline">RESULT</span><span>{{ hand.outcome }}</span></div>
+            @if(hand.winnings > 0) {
+              <p class="detail"><span>WON: </span><span>{{ hand.winnings }}</span></p>
+            } 
+            @if(hand.winnings < 0) {
+              <p class="detail"><span>LOST: </span><span>{{ -(hand.winnings) }}</span></p>
+            } 
+            </div>
+          </div>
+        }
+        </div>
+        <div class="player-details flex-column">
+          <p class="details">{{ record.players[$index].handle }}</p>
+          <p class="details">
+            <span>Starting Bankroll: </span>
+            {{ record.players[$index].beginningBankroll }}
+          </p>
+          <p class="details">
+            <span>Beginning Running Count: </span>
+            {{ record.players[$index].beginningRunningCount }}
+          </p>
+        </div>
+      </div>
+    }
+    </div>
+
+  </div>
+}
+</div>

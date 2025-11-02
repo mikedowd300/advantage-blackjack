@@ -1,0 +1,42 @@
+:host {
+  .classic-home.page {
+
+    .content-wrapper {
+      flex-wrap: wrap;
+
+      button {
+        padding: 12px;
+        margin: 12px;
+        font-size: 24px;
+        box-sizing: border-box;
+        width: calc(50% - 24px);
+        border-radius: 3px;
+
+        &.hide {
+          display: none;
+        }
+
+        .button-label {
+          font-weight: bold;
+          font-size: 20px;
+          margin: 0 0 12px;
+        }
+
+        .button-description {
+          font-size: 18px;
+          margin: 0;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: black;
+          color: white;
+        }
+        
+        @media only screen and (max-width: 479px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

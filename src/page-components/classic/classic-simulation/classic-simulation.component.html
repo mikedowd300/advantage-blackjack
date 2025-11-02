@@ -1,3 +1,63 @@
 <div class="classic-simulation page">
-  Hello classic-simulation
+  <h2>Select a Table and Number of Rounds to Simulate</h2>
+  <div class="seclection-wrapper flex">
+    <div class="table-name-wrapper">
+      <abj-select 
+        (selectedEvent)="selectTable($event)"
+        [options]="allTableNames"
+        [selectValue]="selectedTableName"
+        label="Select a Table"
+      >
+      </abj-select>
+    </div>
+
+    <div class="iteration-wrapper">
+  @if(!showCustomIterationsInput) {
+      <abj-select 
+        (selectedEvent)="selectIterations($event)"
+        [options]="suggestedIterations"
+        [selectValue]="selectedIterations"
+        label="Iterations"
+      >
+      </abj-select>
+  } @else {
+    <div class="input-wrapper flex-column">
+      <label>Enter a Number</label>
+      <input type="number" [(ngModel)]="iterations">
+    </div>
+  }
+    </div>
+    <button class="start-button" (click)="startSimulation()">Start</button>
+  </div>
+  <div class="stubbed-table-wrapper">
+    <div class="rules-header flex">
+    @for(rule of displayedRules.top; track rule){
+      <span class="rule flex">{{ rule }}</span>
+    }
+    </div>
+    <div class="rules-header bottom flex">
+    @for(rule of displayedRules.bottom; track rule){
+      <span class="rule flex">{{ rule }}</span>
+    }
+    </div>
+    <div class="stubbed-players flex">
+    @for(spot of spots; track spot) {
+      <div class="info-summary flex-column" [class.empty]="spot.empty">
+        <div class="flex-column start">
+          <p class="player-info">{{ spot.title }}</p>
+          <p class="player-info">{{ spot.initialBankroll }}</p>
+          <p class="player-info">{{ spot.initialBettingUnit }} unit</p>
+          <p class="player-info">{{ spot.countStrategyTitle }}</p>
+          <p class="player-info">{{ spot.playStrategyTitle }}</p>
+          <p class="player-info">{{ spot.betSpreadStrategyTitle }}</p>
+          <p class="player-info">{{ spot.unitResizingStrategyTitle }}</p>
+          <p class="player-info">{{ spot.wongingStrategyTitle }}</p>
+          <p class="player-info">{{ spot.tippingStrategyTitle }}</p>
+          <p class="player-info">{{ spot.insurancePlanTitle }}</p>
+        </div>
+        <p class="seat-number">seat {{ $index + 1 }}</p>
+      </div>
+    }
+    </div>
+  </div>
 </div>

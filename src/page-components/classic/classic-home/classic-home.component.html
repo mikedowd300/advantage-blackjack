@@ -1,0 +1,46 @@
+<div class="classic-home page">
+  <div class="content-wrapper flex">    
+    <button (click)="navigate('customizations')">
+      <p class="button-label">Customizations</p>
+      <p class="button-description">The beauty of a simulation is that every detail of play can be customized. From player's behaviors to table conditions.</p>
+    </button>
+    <button (click)="navigate('simulation')">
+      <p class="button-label">Simulation</p>
+      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('hand-review')">
+      <p class="button-label">Playback Your Hands</p>
+      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+    </button>
+    <button (click)="navigate('simulation')">
+      <p class="button-label">Practice</p>
+      <p class="button-description">Practice the scenario for the game you created, with the player configurations you set up, and with alerts when you make an error.</p>
+    </button>
+    <button (click)="navigate('simulation')">
+      <p class="button-label">Speed Practice</p>
+      <p class="button-description">Focus just on the what to do on the first 2 cards. Set the index ranges to include the proper deviation play. Practice against different counting systems, including ones you created. Focus on the hands you need and filter out the rest. Get instant feedback when you make a mistake.</p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('create-index-chart')">
+      <p class="button-label">Custom Index Charts</p>
+      <p class="button-description">
+        Find the variations from basic strategy that correlate to the counting system you use.
+      </p>
+    </button>
+    <button (click)="navigate('expectations')">
+      <p class="button-label">Manage Your Expectations</p>
+      <p class="button-description">How often did you have a given true count? How many hands was your longest break even streak? What about a winning streak? Swings?</p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('simulation-results')">
+      <p class="button-label">Simulation Results</p>
+      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('what-if')">
+      <p class="button-label">What If ...</p>
+      <p class="button-description">That last simulation, what if you changed your betspread, or your resizing strategy, or didn't tip, or changed your insurance strategy. What if?</p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('insurance-review')">
+      <p class="button-label">Insurance Review</p>
+      <p class="button-description">Even though this is a simulation, everytime the dealer had an Ace up, it is possible to find the exact chances of the dealer having blackjack. How accurately does the true count really guide your insurance decisions? Does it ever make sense to insure for less?Is there a better way to analyse insurance?</p>
+    </button>
+  </div>
+</div>

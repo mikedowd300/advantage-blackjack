@@ -39,7 +39,7 @@ export class HeaderFooterService {
       header: 'Simm Anything',
       tagLine: 'You are in a simulation',
     }
-  }
+  };
 
   variationLinks: HeaderLink[] = [
     {
@@ -78,6 +78,17 @@ export class HeaderFooterService {
       url: 'faqs',
     },
   ];
+  variationLinks$: BehaviorSubject<HeaderLink[]> = new BehaviorSubject<HeaderLink[]>(this.variationLinks);
 
   constructor() { }
+
+  addVariationLink(link: HeaderLink) {
+    this.variationLinks.push(link);
+    this.variationLinks$.next(this.variationLinks);
+  }
+
+  removeVariationLink(url: string) {
+    this.variationLinks = this.variationLinks.filter(l => l.url !== url);
+    this.variationLinks$.next(this.variationLinks);
+  }
 }
