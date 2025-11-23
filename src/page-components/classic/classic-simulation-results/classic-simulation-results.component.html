@@ -1,3 +1,70 @@
 <div class="classic-simulation-results page">
-  Hello classic-simulation-results
+
+<!-- <div class="bankroll-chart-container">
+  <button (click)="showBankrollChart$.next(false)" class="return-x">
+    <span class="material-symbols-outlined">close</span>
+  </button> -->
+  <div class="content">
+    <div class="row row-wrapper flex">
+      <div class="select-wrapper">
+        <select (change)="handleSelectHandle($event)">
+        @for(handle of handles; track handle) {
+          <option 
+            [value]="handle" 
+            [selected]="handle === activeHandle"
+          >
+            {{handle}}
+          </option>
+        }  
+        </select>
+      </div>
+      <div class="header-wrapper flex-column">
+        @if(!isZoomMode) {
+        <p>Click here to <button class="zoom-in" (click)="setZoomMode()">Zoom In</button></p>
+        <p>Click any blue point to see that hands details.</p>
+        }
+        @if(zoomIndices.length === 0 && isZoomMode) {
+        <span>Click the zoom start point on the blue line.</span>
+        }
+        @if(zoomIndices.length === 1) {
+        <span>Click the zoom end point on the blue line.</span>
+        }
+      </div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="myChart" (click)="onCanvasClick($event)"></canvas>
+    </div>
+
+    <!-- <div class="summary">
+      <span></span>
+      <p>
+        <span>Starting Bankroll: </span>
+        <span>{{ playerStartingBankroll }}</span>
+      </p>
+      <p>
+        <span>Ending Bankroll: </span>
+        <span>{{ playerEndingBankroll }}</span>
+      </p>
+      <p>
+        <span>Money Bet: </span>
+        <span>{{ moneyBetByPlayer }}</span>
+      </p>
+      <p>
+        <span>Money Won: </span>
+        <span>{{ moneyWonByPlayer }}</span>
+      </p>
+      <p>
+        <span>Rounds Played: </span>
+        <span>{{ roundsPlayedByPlayer }}</span>
+      </p>
+      <p>
+        <span>Win Rate: </span>
+        <span>{{ playersWinRate }}%</span>
+      </p>
+      <p>
+        <span>Tipped Away: </span>
+        <span>{{ (this.vmService.tippedAway$ | async)[activeHandle] }}</span>
+      </p>
+    </div> -->
+  </div>
 </div>

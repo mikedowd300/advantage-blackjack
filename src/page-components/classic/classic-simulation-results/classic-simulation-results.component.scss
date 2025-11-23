@@ -1,5 +1,65 @@
 :host {
+
   .classic-simulation-results {
-    border: none;
+    overflow: scroll;
+    margin: 0;
+    background-color: gray;
+    color: white;
+    max-width: none;
+
+    .content {
+      width: 100%;
+
+      .row-wrapper {
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .zoom-in {
+          background-color: black;
+          margin: 6px;
+          font-size: 20px;
+          color: white;
+          border-radius: 3px;
+
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
+
+        .select-wrapper {
+          border-radius: 3px;
+          width: 160px;
+          min-width: 150px;
+          box-sizing: border-box;
+          background-color: white;
+          padding: 0;
+          margin-right: 8px;
+          height: 32px;
+    
+          select {
+            border: none;
+            font-size: 18px;
+            color: black;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 6px 8px;
+          }
+        }
+
+        .header-wrapper p {
+          margin: 0;
+          text-align: right;
+        }
+      }
+
+      .canvas-wrapper {
+        width: 100%;
+        margin-top: 24px;
+        background-color: white;
+        border-radius: 4px;
+      }
+    }
   }
 }

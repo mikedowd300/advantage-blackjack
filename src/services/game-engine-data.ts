@@ -14,6 +14,7 @@ export class GameEngineData {
   shoeConditions: ShoeConditions;
   iterations: number;
   records$: BehaviorSubject<TableRecord[]> = new BehaviorSubject<TableRecord[]>([]);
+  replayHandAtIndex$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
 
   constructor() {}
   
@@ -28,6 +29,7 @@ export class GameEngineData {
       cardsBurned: config.cardsBurned,
       shufflePoint: config.shufflePoint,
       countBurnCard: config.countBurnCard,
+      countBottomCard: config.countBottomCard,
     };
   }
 

@@ -17,7 +17,8 @@ export class Card {
     D: 'diamond',
     C: 'club',
     S: 'spade',
-  }
+  };
+  id: number = null; // This is used for the track function in @for
 
   constructor(suit: string, index: number, public isHoleCard: boolean = false) {
     this.name = `${this.cardValues[index]}${suit}`;

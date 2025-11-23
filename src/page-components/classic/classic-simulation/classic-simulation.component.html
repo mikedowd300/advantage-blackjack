@@ -41,7 +41,7 @@
     }
     </div>
     <div class="stubbed-players flex">
-    @for(spot of spots; track spot) {
+    @for(spot of spots; track $index) {
       <div class="info-summary flex-column" [class.empty]="spot.empty">
         <div class="flex-column start">
           <p class="player-info">{{ spot.title }}</p>

@@ -11,7 +11,6 @@ export class RouteGuardService implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-
       if(state.url === '/classic') {
         this.router.navigate(['/classic/home']);
         return false;

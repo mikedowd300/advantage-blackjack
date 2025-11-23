@@ -186,15 +186,17 @@ export class Player {
   }
 
   resizeUnit(): void {
-    if(this.shared.isFreshShoe()) {
+    if(this.shared.isFreshShoe() && this.resizeProgression.length > 0) {
       const increaseAtProgression = [ ...this.unitResizingStrategy.increaseAtMultiple ];
       const decreaseAtProgression = [ ...this.unitResizingStrategy.decreaseAtMultiple ];
       const resizeProgression = [ ...this.resizeProgression ];
       const currentIndex = resizeProgression.indexOf(this.bettingUnit);
       if(this.bankroll > increaseAtProgression[currentIndex] && resizeProgression[currentIndex + 1]) {
         this.bettingUnit = resizeProgression[currentIndex + 1];
+        // console.log('RESIZE UP, FROM', resizeProgression[currentIndex], 'TO:', this.bettingUnit, 'BANKROLL:', this.bankroll);
       } else if(decreaseAtProgression[currentIndex] && this.bankroll < decreaseAtProgression[currentIndex]) {
         this.bettingUnit = resizeProgression[currentIndex - 1];
+        // console.log('RESIZE DOWN, FROM', resizeProgression[currentIndex], 'TO:', this.bettingUnit, 'BANKROLL:', this.bankroll, decreaseAtProgression[currentIndex]);
       }
     }
   }

@@ -9,7 +9,7 @@
     [configurationType]="localStorageItemsEnum.CONDITIONS"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
-@for(group of featureGroupConditions; track group) {
+@for(group of featureGroupConditions; track $index) {
   <abj-content-accordion
     [expanded]="$index === 0"
     [title]="featureGroupNamesText[$index]"

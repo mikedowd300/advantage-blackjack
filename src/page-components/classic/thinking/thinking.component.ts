@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GameEngine } from '../../../classic-blackjack/classic-engine/game-engine';
 import { GameEngineData } from '../../../services/game-engine-data';
-import { combineLatest, filter } from 'rxjs';
+import { combineLatest, filter, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'classic-thinking',
@@ -12,8 +12,8 @@ import { combineLatest, filter } from 'rxjs';
   templateUrl: './thinking.component.html',
   styleUrl: './thinking.component.scss'
 })
-export class ClassicThinkingComponent implements OnInit, AfterViewInit {
-
+export class ClassicThinkingComponent implements OnInit, OnDestroy, AfterViewInit {
+  onDestroy$: Subject<void> = new Subject<void>();
   game: GameEngine;
 
   constructor(
@@ -26,11 +26,16 @@ export class ClassicThinkingComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.game = new GameEngine(this.gameData);
     combineLatest([this.game.simulationComplete$, this.game.recordStore.records$])
-      .pipe(filter(([x, y]) => x && y.length > 0))
+      .pipe(filter(([x, y]) => x && y.length > 0), takeUntil(this.onDestroy$))
       .subscribe(([, records]) => {
         this.gameData.records$.next(records);
         this.router.navigate(['classic/home']);
       });
     setTimeout(() => this.game.startSimulation());
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

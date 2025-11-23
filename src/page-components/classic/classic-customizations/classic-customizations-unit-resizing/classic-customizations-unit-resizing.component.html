@@ -9,6 +9,71 @@
     [configurationType]="localStorageItemsEnum.UNIT_RESIZE"
     [variation]="localStorageVariationKeys.CLASSIC"
   ></abj-strategy-selector>
+
+    <div class="accordion-wrapper">
+      <abj-accordion
+        [displayedContent]="accordionQuestion"
+      >
+        <div class="accordion-content">
+          <p class="striped">This feature allows for the implementation of <i>bet resizing</i>, up or down, according to the size of the player's bankroll. The decision to resize the betting unit is made at the beginning of every shoe.</p>
+          <div class="striped">
+            <p>So what does this mean?</p>
+            <div class="flex-column demo">
+              <div class="demo-header flex">
+                <p>Betting Unit Multiplier</p>
+                <p>Resize Up</p>
+                <p>Resize Down</p>
+              </div>
+              <div class="demo-input-wrapper flex">
+                <input class="demo-first" type="number" value="1">
+                <input type="number" value="7000">
+                <span class="input-placeholder demo-last"></span>
+              </div>
+              <div class="demo-input-wrapper flex">
+                <input class="demo-first" type="number" value="2">
+                <input type="number" value="10000">
+                <input class="demo-last" type="number" value="5000">
+              </div>
+              <div class="demo-input-wrapper flex">
+                <input class="demo-first" type="number" value="3">
+                <span class="input-placeholder"></span>
+                <input class="demo-last" type="number" value="8500">
+              </div>
+            </div>
+          </div>
+
+          <div class="striped">
+            <p class="center">Lets start with the <i>Betting Unit Multiplier</i>.</p>
+            <p>This is the multiplier to a players original betting unit. The multiplier times the <i>original betting unit</i> is the player's new betting unit.</p>
+            <p> It is not the betsize itself and it doesn't care what the original betting unit is, it just multiplies it.</p>
+          </div>
+          <div class="striped">
+            <p class="center">Then there is the <i>Resizes Up</i> column.</p>
+            <p>This tells the algorithm at what bankroll size to move on up the next BUM.</p>
+            <p>The players betting unit will then change, but the algorithm will always remember the players original betting unit.</p>
+          </div>
+          <p class="striped">In the example, as soon as the player's bankroll reaches $7000, the <i>Betting Unit Multiplier</i> increases to 2.
+          </p>
+          <div class="striped">
+            <p class="center">How does the <i>Resize Down</i> column work?</p>
+            <p>Once a player has resized, the algorithm will remember the new betting unit for the following hands.</p>
+            <p> There may be negative variance after the player resizes making it prudent to revert the betting unit. The point at which a player reverts to the previous betting unit doesn't have to be any number less that the <i>Round Up</i> point. There can be some wiggle room.</p>
+            <p>The <i>Resize Down</i> value creates that wiggles room.</p>
+          </div>
+          <p class="striped">In the example, after the player moves to the <i>Betting Multiplier</i> value of 2, if the bankroll falls below $5000, the player's betting unit will revert back to the previous multiplier of 1.
+          </p>
+          <div class="striped">
+            <p class="center">Can the <i>Betting Unit Multiplier</i> be a decimal?</p>
+            <p>Yes, but this may cause an <i>uncasino like experience</i></p>
+            <p>As an example, if the player starts out with a $25 betting unit, the progression of 1.2, 1.4, 1.6 make sense because the new betting units would become $30, $35 and $40 and those make sense.</p>
+            <p>But what if the original betting unit was $15?</p>
+            <p>That same progression would result in betting units of $18, $21 and $24. Those numbers are awkward and would become moreso as you spread them with the count. You could even end up with betting units like $12.50.</p>
+            <p>The math would still work out, but from a simulation of something you would never do at the tables in real life.</p>
+          </div>
+          <p class="striped">Its best to keep the players original unit size in mind. If a resizing strategy doesn't work for a player, just make a new resizing strategy</p>
+        </div>
+      </abj-accordion>
+    </div>
   <div class="unit-resizing-content">
 
     <div class="icon-group-wrapper flex">
@@ -22,7 +87,7 @@
     </div>
 
     <div class="column-header flex">
-      <p>Betting Unit Progression</p>
+      <p>Betting Unit Multiplier</p>
       <p>Resize Up</p>
       <p>Resize Down</p>
     </div>
@@ -70,28 +135,6 @@
         </div>
       </div>
     }
-    </div>
-    <div class="rounding-details flex">
-      <div class="round-to-chip">
-        <abj-radio-group
-          [whatsThis]="whatsThisRoundTo"
-          [group]="roundToRadioGroup"
-          [value]="roundToValue"
-          name="Round To:"
-          [radioGroupId]="'round-to-group'"
-          (changeEvent)="handleRadioAction($event, 'round-to-group')"
-        ></abj-radio-group>
-      </div>
-      <div class="round-method">
-        <abj-radio-group
-          [whatsThis]="whatsThisMethod"
-          [group]="roundMethodRadioGroup"
-          [value]="roundMethodValue"
-          name="Rounding Method:"
-          [radioGroupId]="'round-method'"
-          (changeEvent)="handleRadioAction($event, 'round-method')"
-        ></abj-radio-group>
-      </div>
     </div>
   </div>
 </div>

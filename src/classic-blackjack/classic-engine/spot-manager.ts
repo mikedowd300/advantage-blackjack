@@ -46,8 +46,8 @@ export class SpotManager {
     this.getTakenSpots().forEach(spot => spot.payInsurance());
   }
 
-  payDealersBlackjack(): void {
-    this.getTakenSpots().forEach(spot => spot.payDealersBlackjack());
+  payDealersBlackjack(isENHC: boolean = false): void {
+    this.getTakenSpots().forEach(spot => spot.payDealersBlackjack(isENHC));
   }
 
   payBlackjacks(): void {
