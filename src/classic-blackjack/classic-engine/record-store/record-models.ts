@@ -3,6 +3,7 @@ import { TrueCountTypeEnum, SpotStatusEnum } from '../../../models'
 export interface CardInfo {
   image: string;
   name: string;
+  id: number;
 }
 
 export enum HandActionEnum {
@@ -23,7 +24,9 @@ export enum HandOutcomeEnum {
   LOST_TO_BETTER_HAND = "Lost to better hand",
   LOST_TO_BLACKJACK = "Lost to Dealer's Blackjack",
   SURRENDERED = "Surrendered",
-  SAVED_BY_INSURANCE = "Save by Insurance"
+  SAVED_BY_INSURANCE = "Saved by Insurance",
+  WON_WITH_BONUS = "Won with a binus rule",
+  BLACKJACK_BONUS = "Blackjack Bonus",
 }
 
 export interface HandRecord {
@@ -36,6 +39,7 @@ export interface HandRecord {
   isFromSplit?: boolean;
   isFromWong?: boolean;
   tipSize?: number;
+  id?: number; // Used by track fn in @for
 }
 
 export interface ShoeRecord {

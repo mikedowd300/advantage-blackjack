@@ -1,4 +1,4 @@
-import { AbbreviatedClassicConditions, CountingMethod, PlayerTableInfo, SurrenderTypes, TableConfig } from '../classic-models/classic-strategies.models';
+import { AbbreviatedClassicConditions, CountingMethod, HoleCardType, PlayerTableInfo, SurrenderTypes, TableConfig } from '../classic-models/classic-strategies.models';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Shoe } from './shoe';
 import { SpotManager } from './spot-manager';
@@ -45,6 +45,9 @@ export class Table {
       isSpotAvailable: (x) => this.spotManager.isSpotAvailable(x),
       dealerShowsAce: () => this.dealerHand.showsAce(),
       getTotalRoundsDealt: () => this.totalRoundsDealt,
+      dealerPushesWith22: () => this.dealerHand.pushesWith22(),
+      logTable: () => this.logSelf(),
+      getPlayedRounds: () => this.getPlayedRounds(),
     };
     this.initializeTable();
     this.play();
@@ -71,18 +74,30 @@ export class Table {
   play(): void  {
     let hasSpots: boolean = this.spotManager.spots
       .filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
+    const isNHC = this.conditions.holeCardPolicy !== HoleCardType.STANDARD;
+    console.log(this.conditions);
     while(this.playedRounds < this.iterations && hasSpots) {
       this.initializeRound();
       this.initializeRecord();
-      this.deal();
+      this.deal(isNHC);
       this.offerEarlySurrender();
       this.offerInsurance();
-      this.payInsurance();
-      this.handleDealerBlackjack();
-      this.payPlayersBlackjacks();
-      this.playHands();
-      this.playDealersHand();
-      this.payHands();
+      if(!isNHC  ) {
+        this.payInsurance();
+        this.handleDealerBlackjack();
+        this.payPlayersBlackjacks();
+        this.playHands();
+        this.playDealersHand();
+        this.payHands();
+      } else {
+        this.playHands();
+        this.dealEnhcHoleCard();
+        this.payInsurance();
+        this.handleDealerBlackjack();
+        this.payPlayersBlackjacks();
+        this.playDealersHand(isNHC);
+        this.payHands();
+      }
       this.finalizeRecord();
       this.finalizeRound();
       hasSpots = this.spotManager.spots.filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
@@ -109,7 +124,7 @@ export class Table {
     return this.spotManager.spots.filter(s => s.status === SpotStatusEnum.TAKEN).length;
   }
 
-  deal(): void  {
+  deal(isNHC: boolean = false): void  {
     this.shoe.incHandCount();
     this.spotManager.getTakenSpots().forEach(spot => spot.addHand());
     this.spotManager.getTakenSpots()
@@ -119,8 +134,9 @@ export class Table {
     this.spotManager.getTakenSpots()
       .forEach(({ hands }) => hands
       .forEach(({ cards }) => cards.push(this.shoe.deal())));
-    this.dealerHand.cards.push(this.shoe.dealHoleCard());
-
+    if(!isNHC) {
+      this.dealerHand.cards.push(this.shoe.dealHoleCard());
+    }
     this.totalRoundsDealt++;
   }
 
@@ -173,7 +189,7 @@ export class Table {
 
   handleDealerBlackjack(): void  {
     if(this.dealerHand.hasBlackjack()) { 
-      this.spotManager.payDealersBlackjack();
+      this.spotManager.payDealersBlackjack(this.conditions.holeCardPolicy === HoleCardType.ENHC);
     }
   }
 
@@ -188,6 +204,9 @@ export class Table {
   }
 
   payHands(): void  {
+    if(this.conditions.holeCardPolicy === HoleCardType.ENHC) {
+      this.payPlayersBlackjacks();
+    }
     if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
       this.spotManager.payHands();
     }
@@ -226,11 +245,19 @@ export class Table {
     this.recordService.getNextRecord();
   }
 
-  playDealersHand(): void  {
-    this.shoe.flipHoleCard(this.dealerHand.cards[1]);
+  playDealersHand(isNHC: boolean = false): void  {
+    if(!isNHC) {
+      this.shoe.flipHoleCard(this.dealerHand.cards[1]);
+    }
     if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
       this.dealerHand.playHand();
     } 
+  }
+
+  dealEnhcHoleCard(): void {
+    if(this.spotManager.getTakenUnpaidSpots().length > 0) {
+      this.dealerHand.dealEnhcHoleCard();
+    }
   }
 
   getDealerHandValue(): number {
@@ -243,5 +270,13 @@ export class Table {
 
   getDealersCardLength(): number {
     return this.dealerHand.cards.length;
+  }
+
+  logSelf(): void {
+    console.log(this);
+  }
+
+  getPlayedRounds(): void {
+    console.log(this.playedRounds, this.dealerHasBlackjack());
   }
 }

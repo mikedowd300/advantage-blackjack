@@ -6,6 +6,11 @@ import {
   SpotRecord,
   TableRecord, 
 } from "./record-models";
+import { Injectable } from "@angular/core";
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class TableRecordService {
   record: TableRecord;

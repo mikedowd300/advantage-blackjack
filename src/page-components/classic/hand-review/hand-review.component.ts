@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GameEngineData } from '../../../services/game-engine-data';
-import { filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, take } from 'rxjs';
 import { PlayerRecord, TableRecord } from '../../../classic-blackjack/classic-engine/record-store/record-models';
 
 @Component({
@@ -12,10 +12,13 @@ import { PlayerRecord, TableRecord } from '../../../classic-blackjack/classic-en
   templateUrl: './hand-review.component.html',
   styleUrl: './hand-review.component.scss'
 })
-export class HandReviewComponent implements OnInit {
+export class HandReviewComponent implements AfterViewInit, OnInit {
   
   records$: Observable<TableRecord[]>;
-  recordIndex: number = 0;
+  activeRecord$: Observable<TableRecord>;
+  activeRecordIndex: number = 0;
+  activeRecordIndex$: BehaviorSubject<number> = new BehaviorSubject<number>(this.activeRecordIndex);
+  handInOutOfRange$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 
   constructor(public gameData: GameEngineData) {}
 
@@ -25,7 +28,16 @@ export class HandReviewComponent implements OnInit {
       map(rs => rs.map(r => this.syncSpotsAndPlayers(r)))
     );
 
-    this.records$.subscribe(x => console.log(x));
+    this.activeRecord$ = combineLatest([this.records$, this.activeRecordIndex$])
+      .pipe(map(([records, index]) => records[index] ));
+  }
+
+  ngAfterViewInit(): void {
+    this.gameData.replayHandAtIndex$.pipe(filter(x => !!x), take(1))
+      .subscribe(index => {
+        this.activeRecordIndex = index;
+        this.activeRecordIndex$.next(index)
+      });
   }
 
   syncSpotsAndPlayers(rec: TableRecord): TableRecord {
@@ -41,11 +53,21 @@ export class HandReviewComponent implements OnInit {
     };
   }
 
-  incRecordIndex() {
-    this.recordIndex += 1;
+  incActiveRecordIndex() {
+    this.activeRecordIndex += 1;
+    this.activeRecordIndex$.next(this.activeRecordIndex);
   }
 
-  decRecordIndex() {
-    this.recordIndex -= 1;
+  decActiveRecordIndex() {
+    this.activeRecordIndex -= 1;
+    this.activeRecordIndex$.next(this.activeRecordIndex);
+  }
+
+  jumpToHand({ target }, length: number) {
+    this.handInOutOfRange$.next(target.value < 0 || target.value >= length);
+    if(target.value >= 0 && target.value < length) {
+      this.activeRecordIndex = parseInt(target.value);
+      this.activeRecordIndex$.next(this.activeRecordIndex);
+    }
   }
 }

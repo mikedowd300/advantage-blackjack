@@ -1,7 +1,6 @@
 import { Table } from './table';
 import { Shoe } from './shoe';
 import { LocalStorageService } from '../../services/local-storage.service';
-// import { AbbreviatedClassicConditions, PlayerConfig, TableConfig } from '../classic-models/classic-strategies.models';
 import { GameEngineData } from '../../services/game-engine-data';
 import { TableRecordService } from './record-store/table-record-service';
 import { RecordStore } from './record-store/record-store';

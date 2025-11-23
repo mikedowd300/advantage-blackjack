@@ -6,17 +6,13 @@ import { HeaderFooterService } from '../../../services/header-footer.service';
 import { ABJSelectComponent } from '../../../shared-components/abj-select/abj-select.component';
 import { ABJNumberInputComponent } from '../../../shared-components/abj-number-input/abj-number-input.component';
 import { HeaderLink, LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../models';
-import { AbbreviatedClassicConditions, TableConfig, PlayerConfig, PlayerTableInfo } from "../../../classic-blackjack/classic-models/classic-strategies.models";
+import { AbbreviatedClassicConditions, TableConfig, PlayerConfig } from "../../../classic-blackjack/classic-models/classic-strategies.models";
 import {
   classicTableTitles,
   classicTables,
   defaultClassicTable
 } from "../../../classic-blackjack/default-classic-configs/table-config";
-import {
-  classicDefaultConditions,
-  classicConditions,
-  classicConditionTitles
-} from '../../../classic-blackjack/default-classic-configs/conditions';
+import { classicConditions } from '../../../classic-blackjack/default-classic-configs/conditions';
 import { classicPlayers } from '../../../classic-blackjack/default-classic-configs/player-config';
 import { PayRatio } from '../../../classic-blackjack/classic-models/classic-strategies.models'
 import { Router } from '@angular/router';

@@ -50,7 +50,7 @@
 
           &:nth-child(1) {
             width: 30%;
-              padding-right: 12px;
+            padding-right: 12px;
             border-right: 1px solid grey;
           }
 
@@ -163,6 +163,114 @@
         .round-to-chip, .round-method {
           padding: 4px;
           border: 1px solid black;
+        }
+      }
+    }
+  }
+
+  .accordion-wrapper {
+    min-width: 300px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+
+    .accordion-content {
+      min-width: 300px;
+      box-sizing: border-box;
+
+      .striped {
+        margin: 0;
+        padding: 6px;
+
+        .center {
+          text-align: center;
+          font-size: 22px;
+        }
+    
+        &:nth-child(odd) {
+          background-color: rgba(0, 0, 0, .1);
+        }
+
+        .demo {
+          background-color: white;
+          padding: 12px;
+          width: 100%;
+          box-sizing: border-box;
+
+          .demo-header {
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: space-between;
+
+            p {
+              font-size: 22px;
+              width: 40%;
+              margin: 4px 0;
+              text-align: center;
+              color: black;
+              text-shadow: none;
+
+              &:nth-child(1) {
+                width: 30%;
+                padding-right: 12px;
+                border-right: 1px solid grey;
+              }
+
+              &:nth-child(2) {
+                padding: 0 8px;
+                border-right: 1px solid grey;
+              }
+
+              &:nth-child(3) {
+                padding-left: 8px;
+              }
+
+              @media only screen and (max-width: 450px) {
+                font-size: 15px;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .demo-input-wrapper {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0;
+            justify-content: space-between;
+
+            input, .input-placeholder {
+              width: 108px;
+              font-size: 22px;
+              padding: 6px 6px;
+              border-radius: 3px;
+              margin: 6px 0;
+              margin-right: 12px;
+
+              &.demo-first {
+                width: 54px;
+                margin-left: 30px;
+              }
+
+              &.demo-last {
+                margin-right: 6px;
+              }
+
+              @media only screen and (max-width: 450px) {
+                width: 64px;
+
+                &.demo-first {
+                  margin-left: 6px;
+                }
+              }
+            }
+
+            .input-placeholder {
+              background-color: black;
+            }
+
+            &:nth-child(even) {
+              background-color: rgba(0, 0, 0, .1);
+            }
+          }
         }
       }
     }

@@ -43,7 +43,7 @@ export class HeaderFooterService {
 
   variationLinks: HeaderLink[] = [
     {
-      url: 'classic',
+      url: 'classic/home',
       title: 'Classic Blackjack',
       responsiveTitle: 'Classic',
     },
@@ -83,12 +83,19 @@ export class HeaderFooterService {
   constructor() { }
 
   addVariationLink(link: HeaderLink) {
-    this.variationLinks.push(link);
-    this.variationLinks$.next(this.variationLinks);
+    if(!this.hasLink(link.title)) {
+      this.variationLinks.push(link);
+      this.variationLinks$.next(this.variationLinks);
+    }
   }
 
   removeVariationLink(url: string) {
     this.variationLinks = this.variationLinks.filter(l => l.url !== url);
     this.variationLinks$.next(this.variationLinks);
+  }
+
+  hasLink(linkName: string) {
+    const linkNames: string[] = this.variationLinks.map(l => l.title);
+    return linkNames.includes(linkName);
   }
 }

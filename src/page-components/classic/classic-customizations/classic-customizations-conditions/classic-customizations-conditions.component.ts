@@ -137,7 +137,6 @@ export class ClassicCustomizationsConditionsComponent implements OnInit {
     this.setConditiosKeyValuePairs(defaultFullClassicConditions);
     this.activeStrategy$.pipe().subscribe(strategy => {
       if(this.activeStrategy.title !== strategy.title) {
-        // I forget what this does
         let conditionSet: ClassicConditions = { ...defaultFullClassicConditions, title: strategy.title };
         this.conditionKeys.filter(k => k !== 'title').forEach(k => conditionSet[k].value = strategy[k]);
         this.setConditiosKeyValuePairs(conditionSet);

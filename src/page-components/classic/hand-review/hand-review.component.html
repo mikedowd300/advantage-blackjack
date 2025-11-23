@@ -1,20 +1,19 @@
 <div class="hand-review page">
 @let records = (records$ | async);
-@if(records) {
+@if(activeRecord$ | async; as record) {
   <div class="content">
-    @let record = records[recordIndex];
     <div class="button-wrapper flex">
-    @if(recordIndex > 0) {
-      <button (click)="decRecordIndex()">Previous</button>
+    @if(activeRecordIndex > 0) {
+      <button (click)="decActiveRecordIndex()">Previous</button>
     }
-    <p class="cards-remaining"><b>{{ record.unseenCardsAtBeginningOfShoe }}</b> cards remaining at the start of the round</p>
-    @if(records.length - recordIndex > 1) {
-      <button (click)="incRecordIndex()">Next</button>
+    <p class="cards-remaining"><b>{{ record?.unseenCardsAtBeginningOfShoe }}</b> cards remaining at the start of the round</p>
+    @if(records.length - activeRecordIndex > 1) {
+      <button (click)="incActiveRecordIndex()">Next</button>
     }
     </div>
     <div class="dealer-wrapper">
       <div class="cards-wrapper flex">
-      @for(card of record.dealer.cards; track card) {
+      @for(card of record?.dealer.cards; track card.id) {
         <div class="card-image-wrapper dealer-card">
           <img [src]="card.image" alt="card.name">
         </div>
@@ -22,13 +21,13 @@
       </div>
     </div>
     <div class="spots-wrapper flex">
-    @for(spot of record.spots; track spot) {
+    @for(spot of record.spots; track spot.spotId) {
       <div class="spot flex-column">
         <div class="hands-wrapper flex">
-        @for(hand of spot.hands; track hand) {
+        @for(hand of spot.hands; track $index) {
           <div class="hand flex-column">
             <div class="cards-wrapper flex-column">
-            @for(card of hand.cards; track card) {
+            @for(card of hand.cards; track card.id) {
               <div class="card-image-wrapper">
                 <img [src]="card.image" alt="card.name">
               </div>
@@ -40,7 +39,7 @@
               @if(hand.actions.length > 0) {
                 <p class="underline">Actions:</p>
               }
-              @for(action of hand.actions; track action) {
+              @for(action of hand.actions; track $index) {
                 <p><span> - </span><span>{{action}}</span></p>
               }
               </div>
@@ -70,6 +69,15 @@
     }
     </div>
 
+    <div class="hand-input-wrapper flex">
+      <label for="">ENTER A HAND ID</label>
+      <div class="input-wrapper">
+        <input type="number" (change)="jumpToHand($event, records.length)">
+      </div>
+    @if(handInOutOfRange$ | async) {
+      <span>Out of range</span>
+    }
+    </div>
   </div>
 }
 </div>

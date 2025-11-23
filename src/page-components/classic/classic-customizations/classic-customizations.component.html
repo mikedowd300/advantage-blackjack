@@ -1,5 +1,5 @@
 <div class="classic-customizations page">
-@for(link of links; track link) {
+@for(link of links; track link.title) {
   <div
     class="button-wrapper"
     (click)="navigate(link.url)"

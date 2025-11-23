@@ -20,6 +20,7 @@ export class Shoe {
   private cardsBurned: number;
   private shufflePoint: number;
   private countBurnCard: boolean;
+  private countBottomCard: boolean;
   private cardsPerDeck: number = 52;
   private suitsPerDeck: number = 4;
   private cardsPerSuit: number = 13;
@@ -58,6 +59,7 @@ export class Shoe {
     this.cardsBurned = this.conditions.cardsBurned;
     this.shufflePoint = this.conditions.shufflePoint;
     this.countBurnCard = this.conditions.countBurnCard;
+    this.countBottomCard = this.conditions.countBottomCard
     this.createShoe();
   }
 
@@ -143,6 +145,7 @@ export class Shoe {
       this.shoeCount += 1;
     }
     // this.verifyShuffle(newShoe);
+    newShoe.forEach((c, i) => c.id = i);
     return newShoe;
   }
 
@@ -188,11 +191,14 @@ export class Shoe {
 
   burn(): void {
     let burnCards: Card[] = [];
+    if(this.countBottomCard) {
+      this.setRunningCounts(this.cards[0]);
+    }
     for(let i = 0; i < this.cardsBurned; i++) {
       burnCards.push(this.cards.pop());
-      if(this.countBurnCard) {
-        this.setRunningCounts(burnCards[i]);
-      }
+    }
+    if(this.countBurnCard && burnCards[0]) {
+      this.setRunningCounts(burnCards[0]);
     }
     this.discard(burnCards);
   }
@@ -225,21 +231,7 @@ export class Shoe {
   }
 
   setRunningCounts = (card: Card): void => {
-    this.countMethodNames
-      .forEach(name => {
-        if(!card) {
-        console.log(name)
-        console.log('cards remaining', this.cards.length);
-        } else {
-          this.runningCounts[name] += card.countValuesByMethodType[name];
-        }
-        // console.log(card, name)
-        // console.log('cards remaining', this.cards.length);
-        // this.runningCounts[name] += card.countValuesByMethodType[name];
-        // console.log('Test differenct counts at once');
-        // console.log('Test suite aware count');
-        // console.log(card.name name, this.runningCounts[name])
-      });
+    this.countMethodNames.forEach(name => this.runningCounts[name] += card.countValuesByMethodType[name]);
   }
 
   // This is the uncounted decks remaining

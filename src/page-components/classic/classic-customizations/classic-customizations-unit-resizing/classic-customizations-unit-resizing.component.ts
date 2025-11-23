@@ -5,14 +5,8 @@ import { EmailjsService } from '../../../../services/emailjs.service';
 import { ABJStrategySelectorComponent } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
 import { ABJTooltipComponent } from '../../../../shared-components/abj-tooltip/abj-tooltip.component';
 import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-radio-group/abj-radio-group.component';
-import {
-  RoundingMethodEnum,
-  ChipTypeEnum,
-  UnitResizeStrategy,
-  chipTypeRadioGroup,
-  roundingMethodRadioGroup,
-  RadioButtonGroup
-} from '../../../../classic-blackjack/classic-models/classic-strategies.models';
+import { ABJAccordionComponent } from "../../../../shared-components/abj-accordion/abj-accordion.component";
+import { UnitResizeStrategy } from '../../../../classic-blackjack/classic-models/classic-strategies.models';
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import {
   classicUnitResizingStrategyTitles,
@@ -26,6 +20,7 @@ import { TooltipService } from '../../../../services/tooltip.service';
   selector: 'classic-customizations-unit-resizing',
   standalone: true,
   imports: [
+    ABJAccordionComponent,
     ABJStrategySelectorComponent,
     ABJTooltipComponent,
     ABJRadioButtonGroupComponent,
@@ -48,12 +43,7 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
   defaultStrategyTitles: string[] = classicUnitResizingStrategyTitles;
   toolTipBody: string[];
   toolTipIds: string[];
-  roundToRadioGroup: RadioButtonGroup = chipTypeRadioGroup;
-  roundMethodRadioGroup = roundingMethodRadioGroup;
-  roundToValue: ChipTypeEnum = ChipTypeEnum.RED;
-  roundMethodValue: RoundingMethodEnum = RoundingMethodEnum.ROUND;
-  whatsThisRoundTo: string = 'Decimal betting unit resize progression are allowed, but may result in a betting unit such as 12.40. In a casino, this bet size in not allowed. Partial bet sizes round to a white or red chip. This ensures a more realistic casino experience.'
-  whatsThisMethod: string = 'Using a decimal betting unit resize progression, bet sizes round to a whole number, the rounding methods are: round down (3.9 rounds to 3), round up, (3.1 rounds to 4) or round off (3.4 rounds to 3, 3.5 rounds to 4).'
+  accordionQuestion: string = "How does this work?";
 
   constructor(
     private emailjs: EmailjsService,
@@ -78,7 +68,9 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     const maxIncrease = Math.max(...this.activeStrategy.increaseAtMultiple);
     const maxDecrease = Math.max(...this.activeStrategy.decreaseAtMultiple);
     this.activeStrategy.unitProgression.push(maxUnit + 1);
+    this.activeStrategy.increaseAtMultiple.pop();
     this.activeStrategy.increaseAtMultiple.push(maxIncrease + 1000);
+    this.activeStrategy.increaseAtMultiple.push(null);
     this.activeStrategy.decreaseAtMultiple.push(maxDecrease + 1000);
   }
 
@@ -96,11 +88,11 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     const { unitProgression, increaseAtMultiple, decreaseAtMultiple } = this.activeStrategy;
     this.toolTipBody = unitProgression.map((u, i) => {
       if(i === 0) {
-        return `Your betting unit (BU) resizes to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]} times your original BU.`
+        return `Your betting unit (BU) will resize to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]}.`
       } else if (i < unitProgression.length - 1) {
-        return `Your betting unit (BU) resizes to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]} times your original BU. If your BU has already resized, then, if your bankroll falls below ${decreaseAtMultiple[i]} times your original BU, your BU will resize to ${u - 1} times your original BU (the previous BU size).`
+        return `Your betting unit (BU) will resize to ${u + 1} times your original BU when your bankroll grows to ${increaseAtMultiple[i]}. If your BU has already resized, then, if your bankroll falls below ${decreaseAtMultiple[i]}, your BU will resize down to ${u - 1}, the previous size.`
       } else {
-        return `Your betting unit (BU) of ${u[i]} times your original (BU) will resize down to ${u[i - 1]} times your original (BU) if your bankroll falls below ${decreaseAtMultiple[i]} times your original (BU).`;
+        return `Your betting unit (BU) of ${u[i]} times your original BU will resize down to ${u[i - 1]} times your original BU if your bankroll falls below ${decreaseAtMultiple[i]}.`;
       }
     })
   }
@@ -116,10 +108,5 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
 
   handleTooltipClose(): void {
     this.tooltipService.tooltipCloser$.next();
-  }
-
-  handleRadioAction(event, id): void {
-    console.log(event, id);
-    console.log(this.activeStrategy);
   }
 }

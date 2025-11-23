@@ -27,6 +27,7 @@ export interface ShoeConditions {
   cardsBurned: number;
   shufflePoint: number;
   countBurnCard: boolean;
+  countBottomCard: boolean;
 }
 
 export enum LocalStorageKeys {

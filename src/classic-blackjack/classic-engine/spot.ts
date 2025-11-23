@@ -16,8 +16,13 @@ export class Spot {
       ...this.shared,
       getHandCount: () => this.getHandCount(),
       addHand: (x, y) => this.addHand(x, y), 
-      seedSplitHand: (x) => this.seedSplitHand(x)
+      seedSplitHand: (x) => this.seedSplitHand(x),
+      getHandsLength: () => this.getHandsLength(),
     };
+  }
+
+  getHandsLength(): number {
+    return this.hands.length;
   }
 
   removePlayer(): void {
@@ -87,8 +92,8 @@ export class Spot {
     this.hands.forEach(h => h.payInsurance());
   }
 
-  payDealersBlackjack(): void {
-    this.hands[0].payDealersBlackjack();
+  payDealersBlackjack(isENHC: boolean = false): void {
+    this.hands.forEach(h => h.payDealersBlackjack(isENHC));
   }
 
   payBlackjack(): void {
