@@ -1,11 +1,25 @@
-<div class="abj-footer">
-@for(link of links; track link) {
-  <abj-anchor
-    [text]="link.text"
-    [isInlineButton]="true"
-    [onLightBackground]="false"
-    [routerLink]="link.url"
-    (action)="setIsFooterPage()"
-  ></abj-anchor>
+<div class="abj-footer flex-column">
+  <div class="links-wrapper flex">
+  @for(link of links; track link) {
+    <abj-anchor
+      [text]="link.text"
+      [isInlineButton]="true"
+      [onLightBackground]="false"
+      [routerLink]="link.url"
+      (action)="setIsFooterPage()"
+    ></abj-anchor>
+  }
+  @if(showSetDefaultButton$ | async) {
+    <button class="homepage-setter inner" (click)="setDefaultVariation()">
+      <p>Make <b>{{this.storableHomePageText}}</b></p>
+      <p>my Homepage</p>
+    </button>
+  }
+  </div>
+@if(showSetDefaultButton$ | async) {
+  <button class="homepage-setter outer" (click)="setDefaultVariation()">
+    <p>Make <b>{{this.storableHomePageText}}</b></p>
+    <p>my Home Page</p>
+  </button>
 }
 </div>

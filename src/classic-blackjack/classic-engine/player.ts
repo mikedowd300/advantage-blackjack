@@ -182,6 +182,8 @@ export class Player {
       handle: this.handle,
       spotIds: this.spotIds,
       tippedAmount: 0,
+      winnings: 0,
+      totalBet: 0
     };
   }
 
@@ -355,6 +357,10 @@ export class Player {
 
   getFinalRecord(): PlayerRecord {
     this.record.tippedAmount = this.tipAmountThisRound;
+    this.record.winnings = this.bankroll - this.record.beginningBankroll;
+    this.spotIds.forEach(id => this.shared.getSpotById(id).hands
+      .forEach(h => this.record.totalBet += h.record.totalBetAmountThisHand))
+    // console.log(this.handle, this.record.beginningTrueCount);
     return this.record;
   }
 

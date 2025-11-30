@@ -29,7 +29,7 @@ export class ClassicThinkingComponent implements OnInit, OnDestroy, AfterViewIni
       .pipe(filter(([x, y]) => x && y.length > 0), takeUntil(this.onDestroy$))
       .subscribe(([, records]) => {
         this.gameData.records$.next(records);
-        this.router.navigate(['classic/home']);
+        this.router.navigate(['classic/simulation-results-dashboard']);
       });
     setTimeout(() => this.game.startSimulation());
   }

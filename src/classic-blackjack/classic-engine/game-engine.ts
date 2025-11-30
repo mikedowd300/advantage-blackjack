@@ -31,5 +31,6 @@ export class GameEngine {
       this.gameData.iterations
     );
     this.simulationComplete$.next(true);
+    this.gameData.playerResults$.next(this.table.getPlayerResults());
   }
 }

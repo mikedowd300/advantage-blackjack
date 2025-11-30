@@ -26,7 +26,7 @@ import { GameVariations, HeaderLink } from '../models';
 })
 export class HeaderComponent implements OnInit {
   variations: string[] = ['home', ...GameVariations];
-  currentVariation$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
+  // currentVariation$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
   currentVariation: string;
   storedVariation: string;
   urlLinks: HeaderLink[] = [];
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
     this.storedVariation = this.localStorageService.getPreferredVariation();
     this.handleVariationSelection(this.storedVariation)
     combineLatest([
-      this.currentVariation$,
+      this.headerFooterService.currentVariation$,
       this.headerFooterService.isFooterPage$,
       this.headerFooterService.variationLinks$
     ])
@@ -76,18 +76,18 @@ export class HeaderComponent implements OnInit {
           this.showSetDefaultButton = false;
           this.router.navigate([pageKey]);
         }
-      });;
+      });
   }
 
   handleVariationSelection(variation: string = 'home') {
-    this.currentVariation$.next(variation);
+    this.headerFooterService.currentVariation$.next(variation);
     this.router.navigate([variation !== 'home' ? variation : '']);
     this.headerFooterService.isFooterPage$.next(false);
   }
 
-  setDefaultVariation() {
-    this.localStorageService.setPreferredVariation(this.currentVariation);
-    this.storedVariation = this.localStorageService.getPreferredVariation();
-    this.headerFooterService.isFooterPage$.next(false);
-  }
+  // setDefaultVariation() {
+  //   this.localStorageService.setPreferredVariation(this.currentVariation);
+  //   this.storedVariation = this.localStorageService.getPreferredVariation();
+  //   this.headerFooterService.isFooterPage$.next(false);
+  // }
 }

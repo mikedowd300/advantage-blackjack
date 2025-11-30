@@ -16,8 +16,8 @@ export class PageService {
       title: 'Simulation',
       isSelected: false,
     }, {
-      url: '/simulation-results',
-      title: 'Simulation Results',
+      url: '/simulation-results-dashboard',
+      title: 'Simulation Results Dashboard',
       isSelected: false,
     }, {
       url: '/practice',

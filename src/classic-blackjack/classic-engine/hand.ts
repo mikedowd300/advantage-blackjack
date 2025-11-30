@@ -81,7 +81,8 @@ export class Hand {
       isFromSplit: this.isFromSplit,
       tipSize: 0,
       // isFromWong: false, Not sure what this means. Is it for tipping?
-      betAmount: this.betAmount,
+      totalBetAmountThisHand: this.betAmount,
+      betSize: this.betAmount,
       cards: [],
       value: null,
     };
@@ -101,6 +102,7 @@ export class Hand {
     if(this.insuranceAmount > 0) {
       this.record.actions.push(HandActionEnum.INSURE);
       this.player.incTotalInsuranceBet(this.insuranceAmount);
+      this.record.totalBetAmountThisHand += this.insuranceAmount;
     }
     this.player.insureTip(this.isFromWong());
   }
@@ -243,6 +245,8 @@ export class Hand {
       ? this.player.betSize 
       : this.player.remainingBankroll;
     this.betAmount += doubleAmount;
+    this.record.totalBetAmountThisHand += doubleAmount;
+    this.player.incTotalBet(doubleAmount);
     this.player.decreaseRemainingBankroll(doubleAmount);
     this.cards.push(this.shared.deal());
     if(this.isBust()) {
