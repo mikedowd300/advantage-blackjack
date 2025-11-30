@@ -1,0 +1,38 @@
+:host {
+
+  .classic-bankroll-chart {
+
+    .content {
+      width: 100%;
+      justify-content: center;
+      max-width: 650px;
+      flex-wrap: wrap;
+
+      .page-link {
+        width: 50%;
+        box-sizing: border-box;
+        max-width: 300px;
+        border-radius: 3px;
+        background-color: white;
+        margin: 8px;
+
+        img {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 8px 8px 0;
+        }
+
+        p {
+          box-sizing: border-box;
+          width: 100%;
+          margin: 0;
+          display: inline-block;
+          padding: 8px;
+          text-align: center;
+          color: white;
+          background-color: black;
+        }
+      }
+    }
+  }
+}

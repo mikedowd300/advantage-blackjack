@@ -30,7 +30,8 @@ export enum HandOutcomeEnum {
 }
 
 export interface HandRecord {
-  betAmount?: number;
+  totalBetAmountThisHand?: number;
+  betSize?: number,
   cards?: CardInfo[];
   value?: number;
   actions?: HandActionEnum[];
@@ -66,6 +67,8 @@ export interface PlayerRecord {
   beginningRunningCount: number;
   trueCountType: TrueCountTypeEnum;
   tippedAmount: number;
+  winnings: number;
+  totalBet: number;
 }
 
 export interface DealerRecord {

@@ -15,6 +15,7 @@ export class GameEngineData {
   iterations: number;
   records$: BehaviorSubject<TableRecord[]> = new BehaviorSubject<TableRecord[]>([]);
   replayHandAtIndex$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  playerResults$: BehaviorSubject<any> = new BehaviorSubject<AnalyserNode>(null); // Type this
 
   constructor() {}
   
@@ -35,6 +36,7 @@ export class GameEngineData {
 
   setPlayerConfigs(configs: PlayerConfig[]) {
     this.playerInfo = configs.map(p => ({ seatNumber: p.seatNumber, playerConfigTitle: p.title }));
+    console.log(this.playerInfo);
   }
 
   setIterations(iterations: number) {

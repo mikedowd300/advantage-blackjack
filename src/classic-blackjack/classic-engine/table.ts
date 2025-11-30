@@ -102,6 +102,8 @@ export class Table {
       this.finalizeRound();
       hasSpots = this.spotManager.spots.filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
     }
+
+    this.getPlayerResults();
     this.players.forEach(p => 
       console.log(`${p.handle}, bankroll:${p.bankroll}, total-bet:${p.totalBet} roi: ${Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100}%`));
     console.log(this);
@@ -110,6 +112,19 @@ export class Table {
   initializeRound(): void  {
     this.players.forEach(p => p.initializeRound());
   }
+  
+  getPlayerResults() {
+    let results = {};
+    this.players.forEach(p => results[p.handle] = {
+      startingBankroll: p.originalBankroll,
+      finalBankroll: p.bankroll,
+      totalMoneyBet: p.totalBet,
+      totalWon: p.bankroll - p.originalBankroll,
+      roi: Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100,
+      tippedAway: p.tippedAwayTotal
+    });
+    return results;
+  };
 
   finalizeRound(): void  {
     this.spotManager.getTakenSpots().forEach(spot => spot.resetHands());

@@ -17,6 +17,7 @@
           </option>
         }  
         </select>
+        <button class="back-button" (click)="navigate('classic/simulation-results-dashboard')">Back</button>
       </div>
       <div class="header-wrapper flex-column">
         @if(!isZoomMode) {
@@ -35,36 +36,33 @@
       <canvas id="myChart" (click)="onCanvasClick($event)"></canvas>
     </div>
 
-    <!-- <div class="summary">
-      <span></span>
+  @if(playerResults) {
+    <div class="summary">
       <p>
         <span>Starting Bankroll: </span>
-        <span>{{ playerStartingBankroll }}</span>
+        <span>{{ playerResults[activeHandle].startingBankroll }}</span>
       </p>
       <p>
         <span>Ending Bankroll: </span>
-        <span>{{ playerEndingBankroll }}</span>
+        <span>{{ playerResults[activeHandle].finalBankroll }}</span>
       </p>
       <p>
         <span>Money Bet: </span>
-        <span>{{ moneyBetByPlayer }}</span>
+        <span>{{ playerResults[activeHandle].totalMoneyBet }}</span>
       </p>
       <p>
         <span>Money Won: </span>
-        <span>{{ moneyWonByPlayer }}</span>
+        <span>{{ playerResults[activeHandle].totalWon }}</span>
       </p>
       <p>
-        <span>Rounds Played: </span>
-        <span>{{ roundsPlayedByPlayer }}</span>
-      </p>
-      <p>
-        <span>Win Rate: </span>
-        <span>{{ playersWinRate }}%</span>
+        <span>Win Rate (ROI): </span>
+        <span>{{ playerResults[activeHandle].roi }}%</span>
       </p>
       <p>
         <span>Tipped Away: </span>
-        <span>{{ (this.vmService.tippedAway$ | async)[activeHandle] }}</span>
+        <span>{{ playerResults[activeHandle].tippedAway }}</span>
       </p>
-    </div> -->
+    </div>
+  }
   </div>
 </div>

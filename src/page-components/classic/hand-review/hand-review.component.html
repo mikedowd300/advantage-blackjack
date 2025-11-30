@@ -34,7 +34,10 @@
             }
             </div>
             <div class="hand-details flex-column">
-              <p class="detail"><span>BET: </span><span>{{ hand.betAmount }}</span></p>
+              <p class="detail"><span>BET: </span>
+                <span>{{ hand.betSize }}</span>
+                <span> / </span>
+                <span>{{ hand.totalBetAmountThisHand }}</span></p>
               <div class="detail">
               @if(hand.actions.length > 0) {
                 <p class="underline">Actions:</p>

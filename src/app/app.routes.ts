@@ -4,7 +4,9 @@ import { HomeComponent } from '../page-components/home/home.component';
 import { ClassicComponent } from '../page-components/classic/classic.component';
 import { DoubleupComponent } from '../page-components/doubleup/doubleup.component';
 import { ClassicSpeedPracticeComponent } from '../page-components/classic/classic-speed-practice/classic-speed-practice.component';
-import { ClassicSimulationResultsComponent } from '../page-components/classic/classic-simulation-results/classic-simulation-results.component';
+import { ClassicBankrollChartComponent } from '../page-components/classic/classic-bankroll-chart/classic-bankroll-chart.component';
+import { ClassicRoiChartsComponent } from '../page-components/classic/classic-roi-charts/classic-roi-charts.component';
+import { ClassicSimulationResultsDashboardComponent } from '../page-components/classic/simulation-results-dashboard/simulation-results-dashboard.component';
 import { ClassicSimulationComponent } from '../page-components/classic/classic-simulation/classic-simulation.component';
 import { ClassicPracticeComponent } from '../page-components/classic/classic-practice/classic-practice.component';
 import { ClassicCustomizationsBetSpreadComponent } from '../page-components/classic/classic-customizations/classic-customizations-bet-spread/classic-customizations-bet-spread.component';
@@ -100,8 +102,17 @@ export const routes: Routes = [
         canActivate: [RouteGuardService],
       },
       {
-        path: 'simulation-results',
-        component: ClassicSimulationResultsComponent,
+        path: 'simulation-results-dashboard',
+        component: ClassicSimulationResultsDashboardComponent,
+        canActivate: [RouteGuardService],
+      },
+      {
+        path: 'bankroll-chart',
+        component: ClassicBankrollChartComponent,
+        canActivate: [RouteGuardService],
+      },{
+        path: 'roi-charts',
+        component: ClassicRoiChartsComponent,
         canActivate: [RouteGuardService],
       },
       {

@@ -1,0 +1,28 @@
+<div class="classic-roi-charts page">
+  <div class="content">
+    <div class="row row-wrapper flex">
+      <div class="select-wrapper">
+        <select (change)="handleSelectHandle($event)">
+        @for(handle of handles; track handle) {
+          <option 
+            [value]="handle" 
+            [selected]="handle === activeHandle"
+          >
+            {{handle}}
+          </option>
+        }  
+        </select>
+        <button class="back-button" (click)="navigate('classic/simulation-results-dashboard')">Back</button>
+      </div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="total-winnings-chart"></canvas>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="average-winnings-chart"></canvas>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="roi-chart"></canvas>
+    </div>
+  </div>
+</div>

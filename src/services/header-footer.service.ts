@@ -12,32 +12,39 @@ export class HeaderFooterService {
 
   headerText = {
     'home': {
-      header: 'Red Pilled Blackjack',
-      tagLine: '"Follow the white rabbit"'
+      header: 'Advantage Blackjack',
+      tagLine: '',
+      // tagLine: '"Follow the white rabbit"'
     },
     'classic': {
       header: 'Classic Blackjack',
-      tagLine: '"...I can only show you the door. You\'re the one that has to walk through it."'
+      tagLine: '',
+      // tagLine: '"...I can only show you the door. You\'re the one that has to walk through it."'
     },
     'doubleup': {
       header: 'DoubleUp Blackjack',
-      tagLine: '"There is no spoon!"'
+      tagLine: '',
+      // tagLine: '"There is no spoon!"'
     },
     'about-us': {
       header: 'About Me',
-      tagLine: 'What is the Matrix?',
+      tagLine: '',
+      // tagLine: 'What is the Matrix?',
     },
     'feedback': {
       header: 'Help Me Help You',
-      tagLine: '"You\'re here because you know something. What you know you can\'t explain, but you feel it..."',
+      tagLine: '',
+      // tagLine: '"You\'re here because you know something. What you know you can\'t explain, but you feel it..."',
     },
     'faqs': {
       header: 'So Many Questions',
-      tagLine: '"... It\'s the question that drives us, Neo!"',
+      tagLine: '',
+      // tagLine: '"... It\'s the question that drives us, Neo!"',
     }, 
     'how-to-run-simulations': {
       header: 'Simm Anything',
-      tagLine: 'You are in a simulation',
+      tagLine: '',
+      // tagLine: 'You are in a simulation',
     }
   };
 
@@ -79,6 +86,16 @@ export class HeaderFooterService {
     },
   ];
   variationLinks$: BehaviorSubject<HeaderLink[]> = new BehaviorSubject<HeaderLink[]>(this.variationLinks);
+  currentVariation$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
+
+  storeablePages: string[] = ['home', 'classic/home', 'doubleup', 'spanish21', 'bigbet'];
+  storeablePagesReadableTextMap: { [k: string]: string } = {
+    'home': 'ABJ Home',
+    'classic/home': 'Classic Blackjack',
+    'doubleup': 'Double Up',
+    'spanish21': 'Spanish 21', 
+    'bigbet': 'Big Bet Blackjack',
+  };
 
   constructor() { }
 
