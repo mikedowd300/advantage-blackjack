@@ -11,6 +11,7 @@ import {
   classicDefaultInsurancePlan
 } from "../../../../classic-blackjack/default-classic-configs/insurance-plan";
 import { BehaviorSubject } from 'rxjs';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-insurance',
@@ -31,14 +32,17 @@ export class ClassicCustomizationsInsuranceComponent implements OnInit {
   alwaysInsure: boolean;
   neverInsure: boolean;
 
-  constructor(private emailjs: EmailjsService) {
-    this.activeStrategy$.pipe().subscribe(strategy => {
-      this.activeStrategy = strategy;
-    });
+  constructor(
+    private emailjs: EmailjsService, 
+    private headerFooterService: HeaderFooterService,
+  ) {
+    // TODO - Can this be moved to ngOnInit?
+    this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy);
   }
 
   ngOnInit(): void {
     this.emailjs.setPreviousScreen$.next('Classic Custom Insurance');
+    this.headerFooterService.updateTheTagline$.next('Use an existing insurance plan, or try your own.');
   }
 
   updateActiveStrategy(key: string) {

@@ -5,9 +5,14 @@ import { BehaviorSubject } from 'rxjs';
 import { EmailjsService } from '../../../../services/emailjs.service';
 import { BetSpreadStrategy } from '../../../../classic-blackjack/classic-models/classic-strategies.models';
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
-import { classicBetSpreads, defaultClassicBetSpread, classicBetSpreadTitles } from '../../../../classic-blackjack/default-classic-configs/bet-spread-strategies';
+import { 
+  classicBetSpreads, 
+  defaultClassicBetSpread, 
+  classicBetSpreadTitles 
+} from '../../../../classic-blackjack/default-classic-configs/bet-spread-strategies';
 import { ABJCheckboxComponent } from '../../../../shared-components/abj-checkbox/abj-checkbox.component';
 import { ABJStrategySelectorComponent } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-bet-spread',
@@ -36,11 +41,14 @@ export class ClassicCustomizationsBetSpreadComponent implements OnInit {
   spreadKeys: number[];
   maxSpreadKey: number;
   minSpreadKey: number;
-
-  constructor(private emailjs: EmailjsService) {}
+  constructor(
+    private emailjs: EmailjsService,
+    private headerFooterService: HeaderFooterService,
+  ) {}
 
   ngOnInit(): void {
     this.emailjs.setPreviousScreen$.next('Classic Custom Bet Spread');
+    this.headerFooterService.updateTheTagline$.next('Use an existing bet spread strategy, or create your own.');
     this.activeStrategy$.pipe().subscribe(strategy => {
       this.activeStrategy = strategy;
       this.spreadKeys = Object.keys(this.activeStrategy.spreads)

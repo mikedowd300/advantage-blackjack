@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HeaderLink, FooterLink } from '../models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter, map, tap } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,38 +14,31 @@ export class HeaderFooterService {
   headerText = {
     'home': {
       header: 'Advantage Blackjack',
-      tagLine: '',
-      // tagLine: '"Follow the white rabbit"'
+      tagLine: 'Science the Heck Out of Blackjack',
     },
     'classic': {
       header: 'Classic Blackjack',
-      tagLine: '',
-      // tagLine: '"...I can only show you the door. You\'re the one that has to walk through it."'
+      tagLine: 'The one that started it all',
     },
     'doubleup': {
       header: 'DoubleUp Blackjack',
-      tagLine: '',
-      // tagLine: '"There is no spoon!"'
+      tagLine: 'Not all variations are NOT beatable',
     },
     'about-us': {
       header: 'About Me',
-      tagLine: '',
-      // tagLine: 'What is the Matrix?',
+      tagLine: 'If you are curious',
     },
     'feedback': {
-      header: 'Help Me Help You',
-      tagLine: '',
-      // tagLine: '"You\'re here because you know something. What you know you can\'t explain, but you feel it..."',
+      header: 'Your Feedback Is Welcome',
+      tagLine: 'Help me help you',
     },
     'faqs': {
-      header: 'So Many Questions',
-      tagLine: '',
-      // tagLine: '"... It\'s the question that drives us, Neo!"',
+      header: 'The Obvious Questions',
+      tagLine: 'You are probably wondering about...',
     }, 
     'how-to-run-simulations': {
-      header: 'Simm Anything',
-      tagLine: '',
-      // tagLine: 'You are in a simulation',
+      header: 'Simm Anything, Simm Everything',
+      tagLine: 'Then tweak your strategy',
     }
   };
 
@@ -61,13 +55,8 @@ export class HeaderFooterService {
     },
     {
       url: 'home',
-      title: 'Red Pilled Home',
+      title: 'ABJ Home',
       responsiveTitle: 'Home',
-    },
-    {
-      url: 'how-to-run-simulations',
-      title: 'Learn To Simm',
-      responsiveTitle: 'Simm Demo',
     },
   ];
 
@@ -85,9 +74,11 @@ export class HeaderFooterService {
       url: 'faqs',
     },
   ];
+  fullPageUrl$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   variationLinks$: BehaviorSubject<HeaderLink[]> = new BehaviorSubject<HeaderLink[]>(this.variationLinks);
   currentVariation$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
-
+  updateTheTagline$: BehaviorSubject<string> = 
+    new BehaviorSubject<string>('Science the Hell out of Blackjack');
   storeablePages: string[] = ['home', 'classic/home', 'doubleup', 'spanish21', 'bigbet'];
   storeablePagesReadableTextMap: { [k: string]: string } = {
     'home': 'ABJ Home',
@@ -97,7 +88,14 @@ export class HeaderFooterService {
     'bigbet': 'Big Bet Blackjack',
   };
 
-  constructor() { }
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(
+        filter((event: any) => event instanceof NavigationEnd), 
+        map(({ url }) => url === '/' ? 'home' : url.replace('/', '')),
+      )
+      .subscribe(url => this.fullPageUrl$.next(url));
+  }
 
   addVariationLink(link: HeaderLink) {
     if(!this.hasLink(link.title)) {

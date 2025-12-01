@@ -1,17 +1,7 @@
 <div class="abj-header flex-column">
-  <div class="header-text flex">
+  <div class="header-text flex-column">
     <h1>{{title}}</h1>
-  <!-- @if(currentVariation !== storedVariation && showSetDefaultButton && !(headerFooterService.isFooterPage$ | async)) {
-    <div class="button-wrapper">
-      <abj-button 
-        (action)="setDefaultVariation()"
-        text="Make this my landing Page"
-        [primary]="true"
-        [onLightBackground]="false"
-      ></abj-button>
-    </div>
-  } -->
-      <p><i>{{tagLine}}</i></p>
+    <p><i>{{ (headerFooterService.updateTheTagline$ | async) || tagLine }}</i></p>
   </div>
   <div class="nav-wrapper">
   @for(link of urlLinks; track link.url) {

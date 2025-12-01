@@ -7,7 +7,6 @@ import { PlayerConfig } from '../../../../classic-blackjack/classic-models/class
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import { classicPlayerTitles, classicPlayers, classicDefaultPlayer } from "../../../../classic-blackjack/default-classic-configs/player-config";
 import { BehaviorSubject } from 'rxjs';
-
 import { classicPlayTitles } from "../../../../classic-blackjack/default-classic-configs/play-strategies";
 import { classicTippingTitles } from "../../../../classic-blackjack/default-classic-configs/tipping-plan";
 import { classicBetSpreadTitles } from "../../../../classic-blackjack/default-classic-configs/bet-spread-strategies";
@@ -15,8 +14,8 @@ import { classicInsuranceTitles } from "../../../../classic-blackjack/default-cl
 import { classicUnitResizingStrategyTitles } from "../../../../classic-blackjack/default-classic-configs/unit-resize-strategies";
 import { classicCountTitles } from "../../../../classic-blackjack/default-classic-configs/counting-methods";
 import { classicWongingTitles } from "../../../../classic-blackjack/default-classic-configs/wonging-strategies";
-
 import { LocalStorageService } from '../../../../services/local-storage.service';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-player',
@@ -80,13 +79,15 @@ export class ClassicCustomizationsPlayerComponent implements OnInit {
   ];
 
   constructor(
-    private emailjs: EmailjsService, 
+    private emailjs: EmailjsService,
+    private headerFooterService: HeaderFooterService,
     private lsService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy);
     this.emailjs.setPreviousScreen$.next('Classic Custom Player');
+    this.headerFooterService.updateTheTagline$.next('Create players with the exact habits and strategies you want to sim.');
     this.selectableStrategies.forEach(
       t => this.getDynamicTitles(t.lsEnum).forEach(dt => t.titles.push(dt))
     );

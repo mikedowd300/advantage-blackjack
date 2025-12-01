@@ -5,6 +5,7 @@ import { WongStrategy } from '../../../../classic-blackjack/classic-models/class
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import { classicWongingTitles, classicWongs, classicDefaultWong } from "../../../../classic-blackjack/default-classic-configs/wonging-strategies";
 import { BehaviorSubject } from 'rxjs';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-wonging',
@@ -27,9 +28,10 @@ export class ClassicCustomizationsWongingComponent implements OnInit {
   minEnterAt: number;
   minExitBelow: number;
 
-  constructor() {}
+  constructor(private headerFooterService: HeaderFooterService) {}
 
   ngOnInit(): void {
+    this.headerFooterService.updateTheTagline$.next('Make a plan to wong in and out of additional hands.');
     this.activeStrategy$.pipe().subscribe(strategy => {
       this.activeStrategy = strategy
       this.maxEnterAt = Math.max(...strategy.wongedHands.map(h => h.enterAt));

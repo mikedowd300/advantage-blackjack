@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbbreviatedClassicConditions, PlayerConfig, PlayerTableInfo, TableConfig } from '../classic-blackjack/classic-models/classic-strategies.models';
 import { ShoeConditions } from '../models';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { TableRecord } from '../classic-blackjack/classic-engine/record-store/record-models';
 
 @Injectable({
@@ -36,7 +36,6 @@ export class GameEngineData {
 
   setPlayerConfigs(configs: PlayerConfig[]) {
     this.playerInfo = configs.map(p => ({ seatNumber: p.seatNumber, playerConfigTitle: p.title }));
-    console.log(this.playerInfo);
   }
 
   setIterations(iterations: number) {

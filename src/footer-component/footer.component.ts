@@ -46,18 +46,11 @@ export class FooterComponent implements OnInit {
     this.showSetDefaultButton$ = this.headerFooterService.currentVariation$
       .pipe(
         tap(v => this.storableHomePageText = this.headerFooterService.storeablePagesReadableTextMap[v]),
-        // tap(v => {
-        //   console.log(v);
-        //   console.log(this.storableHomePageText);
-        //   console.log(this.headerFooterService.storeablePages);
-        //   console.log(this.storedVariation, v);
-        // }),
         map(v => this.headerFooterService.storeablePages.includes(v) && this.storedVariation !== v)
       );
   }
 
   setDefaultVariation() {
-    console.log(this.currentVariation);
     this.localStorageService.setPreferredVariation(this.currentVariation);
     this.storedVariation = this.localStorageService.getPreferredVariation();
     this.headerFooterService.isFooterPage$.next(false);
