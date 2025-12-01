@@ -19,6 +19,7 @@ import {
 } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
 import { ABJTooltipComponent } from '../../../../shared-components/abj-tooltip/abj-tooltip.component';
 import { TooltipService } from '../../../../services/tooltip.service';   
+import { HeaderFooterService } from '../../../../services/header-footer.service';
   
 @Component({
   selector: 'classic-customizations-custom-counting-system',
@@ -53,11 +54,16 @@ export class ClassicCustomizationsCustomCountingSystemComponent implements OnIni
     'ace-side-count': 'An ace, side count is used for more accurate playing and betting decisions.',
   };
 
-  constructor(private emailjs: EmailjsService, public tooltipService: TooltipService) {}
+  constructor(
+    private emailjs: EmailjsService, 
+    public tooltipService: TooltipService,
+    private headerFooterService: HeaderFooterService,
+  ) {}
 
   ngOnInit(): void {
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy);
     this.emailjs.setPreviousScreen$.next('Classic Custom Counting System');
+    this.headerFooterService.updateTheTagline$.next('Use an existing counting system, or implement your own.');
     this.tooltipService.tooltipCloser$.pipe()
       .subscribe(() => this.tooltipService.activeId$.next('-1'))
   }

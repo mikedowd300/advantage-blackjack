@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { EmailjsService } from '../../../services/emailjs.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, Subject } from 'rxjs';
 import { Chart, ChartItem, registerables } from 'chart.js';
 import { GameEngineData } from '../../../services/game-engine-data';
 
@@ -30,7 +30,7 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
   averageWinningsByCountChart: Chart;
   roiByCountChart: Chart;
   // selectedPlayer$: BehaviorSubject<string>; 
-  // undateChartRange$: BehaviorSubject<number> = new BehaviorSubject<number>(15);
+  undateChartRange$: BehaviorSubject<number> = new BehaviorSubject<number>(10);
   // winningChartdata$: Observable<WinningsChartData>;
   // playerAndRange$: Observable<any>
   private destroy$ = new Subject();
@@ -47,10 +47,11 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
     this.handles = this.gameData.playerInfo.map(p => p.playerConfigTitle);
     this.activeHandle = this.handles[0];
     // This data would ideally come from indexDB, but for now is held in the browsers memory for now
-    setTimeout(() => { this.gameData.records$
+    setTimeout(() => { combineLatest([this.gameData.records$, this.undateChartRange$])
       .pipe(
-        map(rs => rs.map(r => r.players)),
-        map(playerRecords => {
+        map(([rs, range]) => ({playerRecords: rs.map(r => r.players), range})),
+        map(({ playerRecords, range }) => {
+          console.log(range, range, range)
           let psResult = {};
           this.handles.forEach(h => psResult[h] = {});
           playerRecords.forEach(r => r.forEach(p => {
@@ -65,17 +66,17 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
             psResult[p.handle][p.beginningTrueCount].totalWon += p.winnings;
             psResult[p.handle][p.beginningTrueCount].instances += 1;
           }))
-          return psResult;
+          return { psResult, range };
         })
       )
-      .subscribe(data => {
+      .subscribe(({ psResult, range }) => {
         this.handles.forEach(h => {
-          const labels = this.getLabels(data[h]);
+          const labels = this.getLabels(psResult[h], range);
           this.chartData[h] = {
             labels,
-            totalWinningData: this.getTotalWinningData(data[h], labels),
-            averageWinningData: this.getAverageWinningData(data[h], labels),
-            roiWinningData: this.getRoiWinningData(data[h], labels),
+            totalWinningData: this.getTotalWinningData(psResult[h], labels),
+            averageWinningData: this.getAverageWinningData(psResult[h], labels),
+            roiWinningData: this.getRoiWinningData(psResult[h], labels),
           }
         });
         this.totalWinningsByCountChart = this.createTotalWinningsByCountChart(
@@ -94,7 +95,7 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
     });  
   }
 
-  getLabels(data, range: number = 12): string[] {
+  getLabels(data, range: number): string[] {
     return Object.keys(data)
       .map(l => parseInt(l))
       .sort((a, b) => a - b)
@@ -234,6 +235,11 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
       this.chartData[this.activeHandle].roiWinningData,
       this.chartData[this.activeHandle].labels
     );
+  }
+
+  updateChartRange({ target }) {
+    console.log(target.value);
+    this.undateChartRange$.next(target.value);
   }
 
   ngOnDestroy(): void {

@@ -21,34 +21,8 @@
         }
       }
 
-      .tag-button-wrapper {
-        margin: 4px 0 6px;
-        align-items: center;
-
-        p {
-          margin: 0;
-          width: 100%;
-          font-size: 14px;
-        }
-
-        .button-wrapper {
-          display: inline-block;
-          width: 40%;
-          margin: 0 auto;
-          margin-right: 6px;
-
-          ::ng-deep abj-button .abj-button-wrapper {
-            border-radius: 3px;
-
-            button.abj-button {
-              width: 100%;
-
-              h4 {
-                font-size: 18px;
-              }
-            }
-          }
-        }
+      p {
+        margin-top: 2px;
       }
     }
   }

@@ -15,6 +15,7 @@ import {
 } from "../../../../classic-blackjack/default-classic-configs/play-strategies";
 import { BehaviorSubject } from 'rxjs';
 import { VideoModalService } from '../../../../services/video-modal.service';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-play-chart',
@@ -55,7 +56,12 @@ export class ClassicCustomizationsPlayChartComponent implements OnInit, AfterVie
   isSticky: boolean = false;
   upCards: Element;
 
-  constructor(private emailjs: EmailjsService, private videoModalService: VideoModalService, private renderer: Renderer2) {}
+  constructor(
+    private emailjs: EmailjsService,
+    private headerFooterService: HeaderFooterService,
+    private videoModalService: VideoModalService, 
+    private renderer: Renderer2
+  ) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -73,6 +79,7 @@ export class ClassicCustomizationsPlayChartComponent implements OnInit, AfterVie
   ngOnInit(): void {
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy);
     this.emailjs.setPreviousScreen$.next('Classic Custom Play Chart');
+    this.headerFooterService.updateTheTagline$.next('Use an existing play chart or experiment with your own.');
   }
 
   ngAfterViewInit() {

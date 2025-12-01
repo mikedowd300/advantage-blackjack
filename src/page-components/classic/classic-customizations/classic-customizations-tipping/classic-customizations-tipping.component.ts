@@ -7,6 +7,7 @@ import { TippingPlan } from '../../../../classic-blackjack/classic-models/classi
 import { CheckboxConfig, LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import { classicTippingTitles, classicTippingPlans, classicDefaultTippingPlan} from "../../../../classic-blackjack/default-classic-configs/tipping-plan";
 import { BehaviorSubject } from 'rxjs';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-tipping',
@@ -26,10 +27,14 @@ export class ClassicCustomizationsTippingComponent implements OnInit {
   strategyTitles: string[] = classicTippingTitles;
   checkBoxConfigs: CheckboxConfig[];
 
-  constructor(private emailjs: EmailjsService) {}
+  constructor(
+    private emailjs: EmailjsService,
+    private headerFooterService: HeaderFooterService,
+  ) {}
 
   ngOnInit(): void {
     this.emailjs.setPreviousScreen$.next('Classic Custom Tipping');
+    this.headerFooterService.updateTheTagline$.next("If you're gonna tip, at least know the cost.");
     this.activeStrategy$.pipe().subscribe(strategy => {
       this.activeStrategy = strategy;
       this.setCheckBoxConfigs();

@@ -71,6 +71,7 @@ export class ClassicSimulationComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.headerFooterService.updateTheTagline$.next('Get to the long run now');
     this.headerFooterService.addVariationLink(this.conditionsLink);
     this.emailjs.setPreviousScreen$.next('Classic Simulation');
     this.activeTable = defaultClassicTable;

@@ -11,6 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { classicConditionTitles, classicConditions } from '../../../../classic-blackjack/default-classic-configs/conditions';
 import { classicPlayerTitles } from '../../../../classic-blackjack/default-classic-configs/player-config';
 import { LocalStorageService } from '../../../../services/local-storage.service';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-table',
@@ -40,16 +41,15 @@ export class ClassicCustomizationsTableComponent implements OnInit {
 
   constructor(
     private emailjs: EmailjsService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private headerFooterService: HeaderFooterService,
   ) {}
 
   ngOnInit(): void {
     this.emailjs.setPreviousScreen$.next('Classic Custom Table');
-    
+    this.headerFooterService.updateTheTagline$.next('Create tables with the players and table conditions you want to sim.');
     this.conditionTitles$.pipe().subscribe(titles => this.conditionTitles = titles);
-
     this.availablePlayerTitles$.pipe().subscribe(aTitles => this.availablePlayerTitles = [ ...aTitles ]);
-
     this.activeStrategy$.pipe().subscribe(strategy => {
       this.activeStrategy = strategy;
       this.seatsAtTable = this.getSeatsAtTableFromTitle(strategy.conditionsTitle);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, combineLatest, filter, map, Observable, tap } from 'rxjs';
+import { combineLatest, filter, map, tap } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
 import { HeaderFooterService } from '../services/header-footer.service';
 import { ABJSelectComponent } from '../shared-components/abj-select/abj-select.component';
@@ -26,11 +26,9 @@ import { GameVariations, HeaderLink } from '../models';
 })
 export class HeaderComponent implements OnInit {
   variations: string[] = ['home', ...GameVariations];
-  // currentVariation$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
   currentVariation: string;
   storedVariation: string;
   urlLinks: HeaderLink[] = [];
-  isHomePage$: Observable<boolean>;
   title: string;
   tagLine: string;
   showSetDefaultButton: boolean = false;
@@ -47,18 +45,16 @@ export class HeaderComponent implements OnInit {
     combineLatest([
       this.headerFooterService.currentVariation$,
       this.headerFooterService.isFooterPage$,
-      this.headerFooterService.variationLinks$
+      this.headerFooterService.variationLinks$,
+      this.headerFooterService.fullPageUrl$
     ])
-      .pipe().subscribe(([v, isFooterPage, variationLinks]) => {
+      .pipe().subscribe(([v, isFooterPage, variationLinks, fullPageUrl]) => {
         this.currentVariation = v;
         this.urlLinks = isFooterPage 
           ? variationLinks
-          : variationLinks.filter(vl => vl.url !== v);
+          : variationLinks.filter(vl => vl.url !== fullPageUrl);
       });
-    this.isHomePage$ = this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd),
-      map(event => event.url === '/')
-    );
+
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd),
       tap(({ url }) => {
@@ -84,10 +80,4 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([variation !== 'home' ? variation : '']);
     this.headerFooterService.isFooterPage$.next(false);
   }
-
-  // setDefaultVariation() {
-  //   this.localStorageService.setPreferredVariation(this.currentVariation);
-  //   this.storedVariation = this.localStorageService.getPreferredVariation();
-  //   this.headerFooterService.isFooterPage$.next(false);
-  // }
 }

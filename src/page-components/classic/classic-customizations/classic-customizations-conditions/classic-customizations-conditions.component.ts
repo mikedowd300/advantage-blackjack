@@ -3,17 +3,14 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { EmailjsService } from '../../../../services/emailjs.service';
-import { LocalStorageService } from '../../../../services/local-storage.service';
 import { ABJStrategySelectorComponent } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
 import { 
   AbbreviatedClassicConditions,
   defaultFullClassicConditions,
   customizingLinks,
   CustomizingLink,
-  Condition,
   DisplayWith,
   ClassicConditions,
-  AnyStrategy
 } from '../../../../classic-blackjack/classic-models/classic-strategies.models';
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
 import {
@@ -26,6 +23,7 @@ import { ABJCheckboxComponent } from '../../../../shared-components/abj-checkbox
 import { ABJNumberInputComponent } from '../../../../shared-components/abj-number-input/abj-number-input.component';
 import { ABJRadioButtonGroupComponent } from '../../../../shared-components/abj-radio-group/abj-radio-group.component';
 import { ABJContentAccordionComponent } from '../../../../shared-components/abj-content-accordion/abj-content-accordion.component';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-conditions',
@@ -128,12 +126,13 @@ export class ClassicCustomizationsConditionsComponent implements OnInit {
 
   constructor(
     private emailjs: EmailjsService, 
-    private localStorageService: LocalStorageService
+    private headerFooterService: HeaderFooterService,
   ) {}
 
   ngOnInit(): void {
     this.classicConditionTitles = [ ...classicConditionTitles];
     this.emailjs.setPreviousScreen$.next('Classic Custom Conditions');
+    this.headerFooterService.updateTheTagline$.next('Use preset table conditions, or create your own.');
     this.setConditiosKeyValuePairs(defaultFullClassicConditions);
     this.activeStrategy$.pipe().subscribe(strategy => {
       if(this.activeStrategy.title !== strategy.title) {

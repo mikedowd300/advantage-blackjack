@@ -30,6 +30,7 @@ export class ClassicCustomizationsComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.headerFooterService.updateTheTagline$.next('Everything has a strategy, optimize it!');
     this.headerFooterService.addVariationLink(this.simulationLink);
     this.emailjs.setPreviousScreen$.next('Classic Customizations');
   }
@@ -40,5 +41,6 @@ export class ClassicCustomizationsComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.headerFooterService.removeVariationLink('classic/simulation');
+    this.headerFooterService.updateTheTagline$.next(null)
   }
 }

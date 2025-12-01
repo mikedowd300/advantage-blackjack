@@ -15,6 +15,7 @@ import {
 } from "../../../../classic-blackjack/default-classic-configs/unit-resize-strategies";
 import { BehaviorSubject } from 'rxjs';
 import { TooltipService } from '../../../../services/tooltip.service';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
 
 @Component({
   selector: 'classic-customizations-unit-resizing',
@@ -47,6 +48,7 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
 
   constructor(
     private emailjs: EmailjsService,
+    private headerFooterService: HeaderFooterService,
     public tooltipService: TooltipService,
   ) {}
 
@@ -54,6 +56,7 @@ export class ClassicCustomizationsUnitResizingComponent implements OnInit {
     this.createToolTipBody();
     this.createToolTipIds();
     this.emailjs.setPreviousScreen$.next('Classic Custom Unit Resizing');
+    this.headerFooterService.updateTheTagline$.next('Create a strategy to resize your betting unit based on your bankroll size.');
     this.activeStrategy$.pipe().subscribe(strategy => {
       this.activeStrategy = strategy
       this.createToolTipBody();
