@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ABJButtonComponent } from '../abj-button/abj-button.component';
 import { SuccessStatus } from '../../models';
 
@@ -9,7 +9,7 @@ import { SuccessStatus } from '../../models';
   templateUrl: './abj-status-modal.component.html',
   styleUrl: './abj-status-modal.component.scss'
 })
-export class ABJStatusModalComponent implements OnInit {
+export class ABJStatusModalComponent {
   @Input() status: SuccessStatus;
   @Input() message: string;
   @Input() showSubmitButton: boolean = true;
@@ -17,8 +17,6 @@ export class ABJStatusModalComponent implements OnInit {
   @Output() buttonClickEvent = new EventEmitter<string>();
 
   successStatus = SuccessStatus;
-  
-  ngOnInit(): void {}
 
   handleXClick() {
     this.xClickEvent.emit();

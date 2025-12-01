@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { EmailjsService } from '../../services/emailjs.service';
 import { VideoModalService } from '../../services/video-modal.service';
 import { ABJFeatureIntroComponent } from '../../shared-components/abj-feature-intro/abj-feature-intro.component';
@@ -26,7 +26,6 @@ export class HomeComponent implements OnDestroy, OnInit {
     private emailjs: EmailjsService, 
     private videoModalService: VideoModalService,
     private headerFooterService: HeaderFooterService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,10 +36,6 @@ export class HomeComponent implements OnDestroy, OnInit {
 
   openModal(urlKey) {
     this.videoModalService.openModal(urlKey);
-  }
-
-  testRoute() {
-    this.router.navigate(['classic/simulation']) 
   }
   
   ngOnDestroy(): void {
