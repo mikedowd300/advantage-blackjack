@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../models';
   styleUrl: './abj-strategy-selector.component.scss'
 })
 
-export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
+export class ABJStrategySelectorComponent implements OnInit {
   @ViewChild('newStrategy') newStrategy: ElementRef;
   @Input() title: string;
   @Input() activeStrategy$: BehaviorSubject<AnyStrategy>;
@@ -43,13 +43,10 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
   showDeleteButton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   showSaveButton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
   showEditableTitle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
-  hasNewTitle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  // hasNewTitle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   newTitle: string;
-
   activeStrategy: AnyStrategy;
   localStorageItemsEnum = LocalStorageItemsEnum;
-
   allStrategiesObj: AbbreviatedClassicConditions;
   storedStrategies: AbbreviatedClassicConditions;
   allStrategyTitles: string[];
@@ -58,7 +55,7 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
 
   constructor(
     private localStorageService: LocalStorageService, 
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -121,33 +118,14 @@ export class ABJStrategySelectorComponent implements OnDestroy, OnInit {
   }
 
   handleTitleEdit(newTitle: string): void {
-    // this.activeStrategy.title = newTitle;
-    this.newTitle = newTitle; //maybe
-
-    this.hasNewTitle$.next(newTitle.length >= 3); // I think this is not used
+    this.newTitle = newTitle; 
+    // this.hasNewTitle$.next(newTitle.length >= 3); // I think this is not used
     this.showSaveButton$.next(newTitle.length >= 3);
   }
-
-  // saveStrategy(): void {
-    // console.log(this.activeStrategy);
-    // if(this.activeStrategy.title.length > 2) {
-    //   this.localStorageService.saveStrategy(this.activeStrategy, this.storedStrategies, this.strategyEnumType);
-    //   this.router.navigate(['/customizations']);
-    // }
-
-        // if(strategyTitle) {
-        //   this.activeStrategy.title = strategyTitle;
-        // }
-        // this.localStorageService.setItemOfVariation(LocalStorageVariationKeys.CLASSIC, LocalStorageItemsEnum.CONDITIONS, this.activeStrategy);
-    // console.log(this.newTitle);
-    // this.saveEvent.emit(this.newTitle);
-  // }
 
   goBack(): void {
     this.router.navigate(['/classic/customizations']);
   }
-  
-  ngOnDestroy(): void {} 
 }
 
 

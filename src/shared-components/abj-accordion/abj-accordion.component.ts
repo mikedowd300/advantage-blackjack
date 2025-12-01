@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'abj-accordion',
@@ -6,12 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './abj-accordion.component.html',
   styleUrl: './abj-accordion.component.scss'
 })
-export class ABJAccordionComponent implements OnInit {
+export class ABJAccordionComponent {
   @Input() displayedContent: string;
   @Input() hiddenContent: string;
   isExpanded: boolean = false;
-
-  ngOnInit(): void {}
 
   expand() {
     this.isExpanded = !this.isExpanded;

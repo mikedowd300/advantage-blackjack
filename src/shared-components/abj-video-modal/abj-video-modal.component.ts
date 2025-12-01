@@ -42,7 +42,7 @@ export class ABJVideoModalComponent implements OnInit {
       width = width - 10;
       found = ((width * 9) / 16) <= height - 40;
     } 
-      this.videoPlayerHeight = found ? (width * 9) / 16 : 315;
-      this.videoPlayerWidth = found ? width : 560;
+    this.videoPlayerHeight = found ? (width * 9) / 16 : 315;
+    this.videoPlayerWidth = found ? width : 560;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ABJButtonComponent } from '../abj-button/abj-button.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { ABJButtonComponent } from '../abj-button/abj-button.component';
   templateUrl: './abj-feature-intro.component.html',
   styleUrl: './abj-feature-intro.component.scss'
 })
-export class ABJFeatureIntroComponent implements OnInit {
+export class ABJFeatureIntroComponent {
   @Input() isOdd: boolean = false;
   @Input() imgSrc: string;
   @Input() imgAltText: string;
@@ -18,8 +18,6 @@ export class ABJFeatureIntroComponent implements OnInit {
   @Input() buttontext: string;
   @Input() videoUrl: string;
   @Output() action = new EventEmitter<any>();
-
-  ngOnInit(): void {}
 
   launchVideo() {
     this.action.emit(this.videoUrl);

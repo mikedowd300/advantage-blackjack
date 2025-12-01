@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-;import { AsyncPipe, CommonModule } from '@angular/common';
+;import { AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { ABJTooltipComponent } from '../abj-tooltip/abj-tooltip.component';
-import { Condition, ClassicConditions } from '../../classic-blackjack/classic-models/classic-strategies.models';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Condition } from '../../classic-blackjack/classic-models/classic-strategies.models';
 import { TooltipService } from '../../services/tooltip.service';
 
 @Component({

@@ -3,7 +3,6 @@ import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EmailjsService } from '../../../services/emailjs.service';
 import { ABJButtonComponent } from '../../../shared-components/abj-button/abj-button.component';
-import { FeatureNavComponent } from '../../../shared-components/feature-nav/feature-nav.component';
 import { customizingLinks, CustomizingLink } from '../../../classic-blackjack/classic-models/classic-strategies.models';
 import { HeaderLink } from '../../../models';
 import { HeaderFooterService } from '../../../services/header-footer.service';
@@ -11,7 +10,7 @@ import { HeaderFooterService } from '../../../services/header-footer.service';
 @Component({
   selector: 'classic-customizations',
   standalone: true,
-  imports: [ABJButtonComponent, FeatureNavComponent, FormsModule, RouterOutlet, RouterLink],
+  imports: [ABJButtonComponent, FormsModule, RouterOutlet, RouterLink],
   templateUrl: './classic-customizations.component.html',
   styleUrl: './classic-customizations.component.scss'
 })
