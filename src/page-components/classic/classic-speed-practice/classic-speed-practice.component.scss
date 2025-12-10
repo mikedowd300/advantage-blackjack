@@ -1,5 +1,289 @@
 :host {
   .classic-speed-practice {
-    border: none;
+    align-items: flex-start;
+    min-width: 690px;
+
+    &.error {
+      background-color: red;
+    }
+    
+    .sub-header {
+      text-align: center;
+      width: 100%;
+
+      h2 {
+        margin: 0;
+        font-size: 28px;
+      }
+
+      p {
+        font-size: 16px;
+        margin: 2px 0 8px;
+      }
+    } 
+
+    .accordion-content {
+      min-width: 660px;
+      background-color: white;
+      padding: 4px;
+
+      .choices-wrapper {
+        justify-content: space-between;
+
+        .playchart-select-wrapper {
+          background-color: rgba(0, 0, 0, .1);
+          border-radius: 3px;
+          padding: 6px 12px;
+          justify-content: space-between;
+          width: 33%;
+          align-items: center;
+
+          .deal-button {
+            padding: 8px;
+            font-size: 24px;
+            text-align: center;
+            background-color: black;
+            color: white;
+            border-radius: 3px;
+            width: 100%;
+            margin-bottom: 12px;
+
+            &:hover {
+              background-color: white;
+              color: black;
+            }
+          }
+        }
+
+        .surrender-options {
+          width: 33%;
+          background-color: rgba(0, 0, 0, .1);
+          border-radius: 4px;
+
+          .radio-wrapper {
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 8px;
+
+            input[type="radio"] {
+              accent-color: black;
+              width: 30px;
+              height: 30px;
+            }
+
+            &:nth-child(odd) {
+              background-color: rgba(0, 0, 0, .2);
+            }
+          }
+        }
+
+        @media only screen and (max-width: 817px) {
+
+          .playchart-select-wrapper {
+            width: 50%;
+            margin-left: 6px;
+          }
+
+          .surrender-options {
+            width: 50%;
+            margin-right: 6px;
+          }
+        }
+      }
+
+      .filter-instructions {
+        width: 33%;
+        padding: 8px;
+        background-color: rgba(0, 0, 0, .1);
+        margin: 0 8px;
+        border-radius: 3px;
+
+        &.narrow-view {
+          width: 100%;
+          padding: 8px;
+          background-color: rgba(0, 0, 0, .1);
+          margin: 8px 0 0;
+          display: none;
+        } 
+          
+        @media only screen and (max-width: 817px) {
+          display: none;
+
+          &.narrow-view {
+            display: inline-block;
+          }
+        }
+      }
+
+      .chart-content {
+        margin-top: 8px;
+
+        .dealer-upcards {
+
+          span {
+            padding: 4px 4px 6px;
+            box-sizing: border-box;
+            height: 32px;
+            font-size: 22px;
+            width: calc(100% / 11);
+            min-width: 60px;
+            display: inline-block;
+            border-left: 1px solid white;
+            text-align: center;
+            background-color: black;
+            color: white;
+
+            &:hover {
+              cursor: pointer;
+              background-color: white;
+              color: black;
+              border-bottom: 1px solid black;
+            }
+
+            &.blank {
+              border-left: 1px solid black;
+              border-bottom: 1px solid white;
+          
+              @media only screen and (max-width: 678px) {
+                width: 44px;
+                min-width: 44px;
+              }
+
+              &:hover {
+                cursor: auto;
+                background-color: black;
+                color: white;
+              }
+            }
+          }
+        }
+
+        .combo-wrapper {
+
+          .horz-unit {
+            box-sizing: border-box;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            padding: 2px;
+            font-size: 12px;
+            width: calc(100% / 11);
+            min-width: 60px;
+            text-align: center;
+            height: 36px;
+
+            &.cards-wrapper {
+              padding: 4px 6px 6px 2px;
+              height: 36px;
+              font-size: 22px;
+              background-color: black;
+              color: white;
+              border-bottom: 1px solid white;
+          
+              @media only screen and (max-width: 678px) {
+                width: 44px;
+                min-width: 44px;
+              }
+
+              &:hover {
+                cursor: pointer;
+                background-color: white;
+                color: black;
+              }
+            }
+
+            &.flex-column {
+              justify-content: space-between;
+              padding: 2px;
+            }
+
+            &.black-listed {
+              background-color: rgba(0, 0, 0, .1);
+            }
+
+            .options, .conditions {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+
+    @media only screen and (max-width: 712px) {
+      padding: 16px 4px;
+    }
+
+    .practice-content {
+      margin: 0 auto;
+
+      .cards-container {
+        justify-content: center;
+
+        .upcard, .first-2-cards {
+          margin-bottom: 12px;
+          justify-content: center;
+
+          img {
+            border-radius: 3px;
+            width: 90px;
+
+            &:nth-child(even) {
+              margin-left: 8px;
+            }
+          }
+
+          .true-count {
+            border: 1px solid black;
+            padding: 8px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-left: 8px;
+            background-color: white;
+            
+            p {
+              font-size: 36px;
+              margin: 16px 0 0;
+              text-align: center;
+
+              &:nth-child(even) {
+                margin-top: 28px;
+                font-size: 15px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .action-options-container {
+      justify-content: space-around;
+
+      .action-button {
+        padding: 8px 12px;
+        font-size: 24px;
+        color: white;
+        background-color: black;
+        border-radius: 3px;
+        margin-right: 16px;
+
+        &:last-child {
+          margin-right: 0;
+        } 
+
+        &:hover {
+          cursor: pointer;
+          color: black;
+          background-color: white;
+        }
+      }
+    }
   }
 }
+    // <div class="action-options-container">
+    // @for(option of actionOptions; track option) {
+    //  <button class="action-button" click="handlePlayAction(option)">
+    //   {{option}}
+    //  </button>
+    // }
+    // </div>

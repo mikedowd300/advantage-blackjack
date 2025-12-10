@@ -13,7 +13,7 @@ export const resizeReduceRisk: UnitResizeStrategy = {
     30000, 70000, 110000, 150000, 200000, 250000, 300000, 350000, null
   ],
   decreaseAtMultiple: [
-    null, 50000, 90000, 130000, 170000, 220000, 270000, 320000, 370000 
+    null, 20000, 40000, 90000, 120000, 180000, 220000, 280000, 320000 
   ],
   roundToNearest: ChipTypeEnum.RED,
   roundingMethod: RoundingMethodEnum.CEILING

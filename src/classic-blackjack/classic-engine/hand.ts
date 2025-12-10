@@ -132,7 +132,6 @@ export class Hand {
 
   makeDecision(isForEarlySurrender: boolean = false): void  {
     const chartKey = this.createChartKey();
-    
     let options: string[] = this.playStrategy[chartKey].options
       .split(' ')
       .map(op => this.actionMap[op.trim()]);
@@ -147,12 +146,6 @@ export class Hand {
     let actionConditions: any[] = options
       .map((op, i) => ({ [op]: (conditions[i] ? this.evaluateCondition(conditions[i]) : true) }))
       .filter((x, i) => this.options.includes(options[i]));
-
-    // console.log(actionConditions);
-    // console.log(options);
-    // console.log(conditions);
-    // console.log(chartKey);
-
     let i = 0;
     let action: string = Object.keys(actionConditions[0])[0];
     while(!actionConditions[i][Object.keys(actionConditions[i])[0]]) {

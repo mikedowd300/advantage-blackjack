@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class ABJContentAccordionComponent implements OnInit {
   @Input() expanded: boolean = false;
   @Input() title: string = null;
+  @Output() action = new EventEmitter<any>();
 
   public accordionExpand: boolean = false;
 
@@ -22,6 +23,7 @@ export class ABJContentAccordionComponent implements OnInit {
   }
 
   expand() {
-    this.accordionExpand = !this.accordionExpand
+    this.accordionExpand = !this.accordionExpand;
+    this.action.emit(this.accordionExpand);
   }
 }

@@ -3,7 +3,8 @@ import {
   SurrenderTypes, 
   DoubleDownOn,
   PayRatio,
-  CharlieType
+  CharlieType,
+  HoleCardType
 } from "../classic-models/classic-strategies.models";
 
 export const classicDefaultConditions: AbbreviatedClassicConditions = {
@@ -59,7 +60,7 @@ export const classicDefaultConditions: AbbreviatedClassicConditions = {
   allowDoubleDownOnAny3Cards: false,
   allowDoubleDownOnAnyNumberOfCards: false,
   dealerPushesOn22: false,
-  holeCardPolicy: null, 
+  holeCardPolicy: HoleCardType.STANDARD, 
   doubleExposure: null,
   DXTIES: null,
   DXTIEDBJ: null,
@@ -119,7 +120,7 @@ export const normalClassicConditions: AbbreviatedClassicConditions = {
   allowDoubleDownOnAny3Cards: false,
   allowDoubleDownOnAnyNumberOfCards: false,
   dealerPushesOn22: false,
-  holeCardPolicy: null,
+  holeCardPolicy: HoleCardType.STANDARD, 
   doubleExposure: null,
   DXTIES: null,
   DXTIEDBJ: null,
@@ -179,7 +180,7 @@ export const deviationClassicConditions: AbbreviatedClassicConditions = {
   allowDoubleDownOnAny3Cards: false,
   allowDoubleDownOnAnyNumberOfCards: false,
   dealerPushesOn22: false,
-  holeCardPolicy: null,
+  holeCardPolicy: HoleCardType.STANDARD, 
   doubleExposure: null,
   DXTIES: null,
   DXTIEDBJ: null,

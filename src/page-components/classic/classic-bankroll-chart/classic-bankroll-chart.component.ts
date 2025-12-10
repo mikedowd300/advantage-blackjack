@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { BehaviorSubject, filter, map } from 'rxjs';
 import { Chart, ChartItem, registerables } from 'chart.js';
 import { GameEngineData } from '../../../services/game-engine-data';
+import { ChartDataSet } from '../../../models';
 
 @Component({
   selector: 'classic-bankroll-chart',
@@ -17,7 +18,6 @@ import { GameEngineData } from '../../../services/game-engine-data';
 
 export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
   handles: string[];
-  activeHandle: string;
   chart: Chart;
   isZoomMode: boolean = false;
   zoomIndices: number[] = [];
@@ -27,7 +27,11 @@ export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
   bankrollData: { [k: string]: number[] }  = {};
   showChart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   ctx: HTMLElement = null;
-  playerResults = null;
+  chartDataInterval: number;
+  isChecked: { [k: string]: boolean } = {};
+  longestDataList: number = 0
+  borderColors: string[] = ['blue', 'red', 'green', 'purple', 'yellow', 'orange', 'black', 'pink', 'brown'];
+  activeHandles: string[] = [];
   
   constructor(
     private emailjs: EmailjsService,
@@ -39,21 +43,18 @@ export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
     Chart.register(...registerables);
     this.emailjs.setPreviousScreen$.next('Classic Simulation Results');
     this.handles = this.gameData.playerInfo.map(p => p.playerConfigTitle);
-    this.activeHandle = this.handles[0];
     this.handles.forEach(h => this.bankrollData[h] = []);
+    this.handles.forEach(h => this.isChecked[h] = this.handles[0] === h);
+    this.activeHandles = [this.handles[0]];
     this.ctx = document.getElementById('myChart');
-    this.gameData.playerResults$.pipe(filter(x => !!x)).subscribe(results => {
-      this.playerResults = { ...results };
-      console.log(this.playerResults);
-    });
-    // This data would ideally come from indexDB, but for now is held in the browsers memory for now
     setTimeout(() => {
       this.gameData.records$
         .pipe(map(rs => rs.map(r => r.players)))
         .subscribe(playerLists => {
           playerLists.forEach(list => list.forEach(p => this.bankrollData[p.handle].push(p.beginningBankroll)));
+          this.longestDataList = Math.max(...this.handles.map(h => this.bankrollData[h].length));
+          this.getChartDataInterval(this.longestDataList);
           this.chart = this.createBankrollChart();
-          console.log(this.bankrollData);
         });
     })   
   }
@@ -62,19 +63,17 @@ export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
     if(this.chart) {
       this.chart.destroy();
     }
-    const data = expectData ? this.bankrollData[this.activeHandle] : [];
-    const labels: string[] = data.map((d, i) => i.toString());
+    const datasets: ChartDataSet[] = this.activeHandles.map(h => ({
+      label: `${h}'s Bankroll`,
+      data: expectData ? this.setIntervals(this.bankrollData[h]) : [],
+      borderWidth: 1,
+      borderColor: this.borderColors[this.handles.indexOf(h)],
+    }))
+    const labels: string[] = datasets[0].data.map((d, i) => (i * this.chartDataInterval).toString());
 
     return new Chart(this.ctx as ChartItem , {
       type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: `${this.activeHandle}'s Bankroll`,
-          data: data,
-          borderWidth: 1
-        }]
-      },
+      data: { labels, datasets },
       options: {
         scales: {
           x: { 
@@ -93,26 +92,57 @@ export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
     })
   }
 
+  private getChartDataInterval(listLength: number) {
+    if(listLength >= 1000000 ) {
+      this.chartDataInterval = 100;
+    } else if(listLength >= 100000) {
+      this.chartDataInterval = 10;
+    } else {
+      this.chartDataInterval = 1;
+    }
+  }
+          
+  private setIntervals(list: any[]): any[] {
+    let shortList: string[] = [];
+    let currentIndex: number = 0;
+    let x = 0;
+
+    while(list[currentIndex]) {
+      shortList.push(list[currentIndex]);
+      currentIndex += this.chartDataInterval;
+      x += 1;
+    }
+    if(list.length - 1 % this.chartDataInterval !== 0) {
+      shortList.push(list[list.length - 1]);
+    }
+    return shortList;
+  }
+
   onCanvasClick(event) {
     const res = this.chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true );
     if (res.length === 0) {
       return;
     }
 
+    const index = res[0].index * this.chartDataInterval;
+    console.log(res[0], index);
+
     if(this.isZoomMode) {
-      this.zoomIndices.push(res[0].index);
+      this.zoomIndices.push(index);
       if(this.zoomIndices.length === 2) {
         this.zoomIndices.sort((a, b) => a - b);
         this.zoomOffset += this.zoomIndices[0]; 
         this.handles.forEach(
           h => this.bankrollData[h] = this.bankrollData[h].slice(this.zoomIndices[0], this.zoomIndices[1] + 1)
         );
+        const listLength = this.zoomIndices[1] - this.zoomIndices[0];
+        this.getChartDataInterval(listLength);
         this.chart = this.createBankrollChart();
         this.isZoomMode = false;
         this.zoomIndices = [];
       }
     } else {
-      this.gameData.replayHandAtIndex$.next(res[0].index + this.zoomOffset);
+      this.gameData.replayHandAtIndex$.next(index + this.zoomOffset - 1);
       this.router.navigate(['classic/hand-review']);
     }
   }
@@ -121,22 +151,27 @@ export class ClassicBankrollChartComponent implements OnDestroy, OnInit {
     this.isZoomMode = true;
   }
 
-  handleSelectHandle({ target }) {
-    this.activeHandle = target.value;
+  handleHandleSelection(handle: string) {
+    if(handle === 'all') {
+      this.handles.forEach(h => this.isChecked[h] = true)
+    } else {
+      this.isChecked[handle] = !this.isChecked[handle];
+    }
+    this.activeHandles = Object.keys(this.isChecked).filter(h => this.isChecked[h]);
     setTimeout(() => this.chart = this.createBankrollChart());
   }
 
-  private sumHandWinnings(hands: any[]): number {
-    let winnings = 0;
-    hands.forEach(h => winnings += h.winnings);
-    return winnings;
-  }
+  // private sumHandWinnings(hands: any[]): number {
+  //   let winnings = 0;
+  //   hands.forEach(h => winnings += h.winnings);
+  //   return winnings;
+  // }
 
-  private sumMonetBet(hands: any[]): number {
-    let totalBet = 0;
-    hands.forEach(h => totalBet += h.betAmount);
-    return totalBet;
-  }
+  // private sumMonetBet(hands: any[]): number {
+  //   let totalBet = 0;
+  //   hands.forEach(h => totalBet += h.betAmount);
+  //   return totalBet;
+  // }
 
   navigate(url: string): void {
     this.router.navigate([url]);

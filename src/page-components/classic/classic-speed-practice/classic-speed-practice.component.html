@@ -1,3 +1,95 @@
-<div class="classic-speed-practice page">
-  Hello classic-speed-practice
+<div class="classic-speed-practice page" [class.error]="wrongChoice">
+  <div class="sub-header">
+    <h2>Speed Practice</h2>
+    <p class="speet-tagline"><i>Master the decision on your first 2 cards.</i></p>
+  </div>
+  <abj-content-accordion
+    #accordion
+    title="First, set up the game you want to practice"
+    [expanded]="isExpanded"
+    (action)="deal($event)"
+  >
+    <div class="accordion-content">
+      <div class="choices-wrapper flex">
+        <div class="surrender-options">
+        @for(sType of surrenderTypes; track sType) {
+          <div class="radio-wrapper flex">
+            <label for="">{{ surrenderTypesLabelMap[sType] }}</label>
+            <input
+              type="radio"
+              [value]="sType"
+              [checked]="selectedSurrenderType === sType"
+              (change)="updateSurrenderType(sType)"
+            >
+          </div>
+        }
+        </div>
+        <p class="filter-instructions">
+          Clicking a dealers upcard or the players first 2 cards on the chart, will filter out the entire row or column from the hands practiced. A second click will bring them back.
+        </p>
+        <div class="playchart-select-wrapper flex-column">
+          <abj-select 
+            (selectedEvent)="selectStrategy($event)"
+            [options]="strategyTitles"
+            [selectValue]="selectedTitle"
+            label="Select a play chart strategy"
+          >
+          </abj-select>
+          <button class="deal-button" (click)="closeAccordion()">Deal</button>
+        </div>
+      </div>
+      <p class="filter-instructions narrow-view">
+        Clicking a dealers upcard or the players first 2 cards on the chart, will filter out the entire row or column from the hands practiced. A second click will bring them back.
+      </p>
+    @if(strategy) {
+      <div class="chart-content">
+        <div class="dealer-upcards flex">
+          <span class="blank"></span>
+        @for(card of dealersUpCards; track card) {
+          <span (click)="blackListUpCard(card)">{{card}}</span>
+        }
+        </div>
+      @for(cards of first2Cards; track cards) {
+        <div class="combo-wrapper flex">
+          <div  (click)="blackListFirst2(cards)" class="cards-wrapper horz-unit">
+            {{cards}}
+          </div>
+        @for(card of dealersUpCards; track card) {
+          <div class="horz-unit flex-column" [class.black-listed]="blackListed[card][cards]">
+            <div class="options">{{ strategy.combos[card + '-' + cards].options }}</div>
+            <div class="conditions">{{ strategy.combos[card + '-' + cards].conditions }}</div>
+          </div>
+        }
+        </div>
+      }
+      </div>
+    }
+    </div>
+  </abj-content-accordion>
+@if(!isExpanded) {
+  <div class="practice-content flex-column">
+    <div class="cards-container flex-column">
+      <div class="upcard flex">
+        <img [src]="upcardUrl" alt="">
+      @if(minCount) {
+        <div class="true-count">
+          <p>{{ trueCount }}</p>
+          <p>True Count</p>
+        </div>
+      }
+      </div>
+      <div class="first-2-cards flex">
+        <img [src]="firstCardUrl" alt="">
+        <img [src]="secondCardUrl" alt="">
+      </div>
+    </div>
+    <div class="action-options-container flex">
+    @for(option of actionOptions; track option) {
+      <button class="action-button" (click)="handlePlayAction(option)">
+        {{option}}
+      </button>
+    }
+    </div>
+  </div>
+}
 </div>

@@ -115,3 +115,28 @@ export enum HandOptionEnums {
   SURRENDER = 'surrender',
   DOUBLE = 'double',
 }
+
+export interface WinRateInfo {
+    roundsPlayed: number,
+    winnings: number,
+    average?: number,
+    hoursPlayed?: number,
+  }
+
+export interface WinRateByBettingUnit {
+  [k: string]: WinRateInfo,
+}
+
+export interface PlayersWinRateByBettingUnit {
+  [k: string]: {
+    winRateByBettingUnit: WinRateByBettingUnit,
+    chartKeys?: string[],
+  }
+}
+
+export interface ChartDataSet {
+  label: string,
+  data: any,
+  borderWidth: number,
+  borderColor: string;
+}

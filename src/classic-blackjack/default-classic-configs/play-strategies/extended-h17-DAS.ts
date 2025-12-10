@@ -220,7 +220,7 @@ export const extended_H17_DAS: PlayStrategy = {
       conditions: "4"
     },
     "3-A4": {
-      options: "H S",
+      options: "D H S",
       conditions: "7"
     },
     "3-A3": {
@@ -380,8 +380,8 @@ export const extended_H17_DAS: PlayStrategy = {
       conditions: "3"
     },
     "4-20": {
-      options: "S",
-      conditions: ""
+      options: "P S",
+      conditions: "6"
     },
     "4-19": {
       options: "S",
@@ -496,8 +496,8 @@ export const extended_H17_DAS: PlayStrategy = {
       conditions: ""
     },
     "5-A9": {
-      options: "S",
-      conditions: ""
+      options: "D S",
+      conditions: "5"
     },
     "5-A8": {
       options: "D S",
@@ -644,8 +644,8 @@ export const extended_H17_DAS: PlayStrategy = {
       conditions: ""
     },
     "6-A9": {
-      options: "S",
-      conditions: ""
+      options: "D S",
+      conditions: "4"
     },
     "6-A8": {
       options: "H D S",
@@ -1360,8 +1360,8 @@ export const extended_H17_DAS: PlayStrategy = {
       conditions: ""
     },
     "A-55": {
-      options: "H S",
-      conditions: ""
+      options: "D H S",
+      conditions: "3"
     },
     "A-44": {
       options: "H S",

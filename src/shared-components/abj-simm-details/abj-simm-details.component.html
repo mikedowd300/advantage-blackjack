@@ -1,0 +1,43 @@
+<div class="abj-simm-details">
+    <div class="summary">
+    
+    <!-- <div class="select-wrapper">
+      <select (change)="handleSelectHandle($event)">
+      @for(handle of handles; track handle) {
+        <option 
+          [value]="handle" 
+          [selected]="handle === activeHandle"
+        >
+          {{handle}}
+        </option>
+      }  
+      </select>
+      <button class="back-button" (click)="navigate('classic/simulation-results-dashboard')">Back</button>
+    </div> -->
+
+    <p>
+      <span>Starting Bankroll: </span>
+      <span>{{ startingBankroll }}</span>
+    </p>
+    <p>
+      <span>Ending Bankroll: </span>
+      <span>{{ finalBankroll }}</span>
+    </p>
+    <p>
+      <span>Money Bet: </span>
+      <span>{{ totalMoneyBet }}</span>
+    </p>
+    <p>
+      <span>Money Won: </span>
+      <span>{{ totalWon }}</span>
+    </p>
+    <p>
+      <span>Win Rate (ROI): </span>
+      <span>{{ roi }}%</span>
+    </p>
+    <p>
+      <span>Tipped Away: </span>
+      <span>{{ tippedAway }}</span>
+    </p>
+  </div>
+</div>

@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.storedVariation = this.localStorageService.getPreferredVariation();
-    this.handleVariationSelection(this.storedVariation)
+    this.handleVariationSelection(this.storedVariation);
     combineLatest([
       this.headerFooterService.currentVariation$,
       this.headerFooterService.isFooterPage$,

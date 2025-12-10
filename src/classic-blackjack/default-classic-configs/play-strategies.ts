@@ -18,7 +18,7 @@ export const classicPlayTitles: string[] = [
 ];
 
 export const classicPlayCharts: { [k: string]: PlayStrategy } = {
-  "Basic H17": basic_DAS,
+  "Basic DAS": basic_DAS,
   "Basic Instinct": instinct,
   "Illustrious H17": illustrious_H17,
   "Extended H17 DAS": extended_H17_DAS,
