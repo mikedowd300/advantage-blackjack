@@ -4,7 +4,6 @@ body {
   width: 100%;
   max-width: 100%;
   font-family: "Lato", sans-serif;
-  // font-family: 'Matrix', sans-serif;
   background-color: #DCDCDC;
 }
 
@@ -28,7 +27,7 @@ body {
 .page {
   width: calc(100% - 32px);
   max-width: 840px;
-  min-height: calc(100vh - 230px);
+  min-height: calc(100vh - 247px);
   margin: 0 auto;
   overflow: scroll;
   padding: 16px;
@@ -38,11 +37,6 @@ body {
   align-items: center;
   justify-content: flex-start;
   position: relative;
-
-  &.with-nav {
-    height: calc(100vh - 153px - 42px - 35px);
-    max-height: calc(100vh - 153px - 42px - 35px);
-  }
 }
 
 .fixed-page {
@@ -58,10 +52,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
-  &.with-nav {
-    min-height: calc(100vh - 153px - 42px - 35px);
-  }
 }
 
 

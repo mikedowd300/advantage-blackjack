@@ -1,24 +1,21 @@
 <div class="classic-simulation-results page">
-
-<!-- <div class="bankroll-chart-container">
-  <button (click)="showBankrollChart$.next(false)" class="return-x">
-    <span class="material-symbols-outlined">close</span>
-  </button> -->
   <div class="content">
     <div class="row row-wrapper flex">
-      <div class="select-wrapper">
-        <select (change)="handleSelectHandle($event)">
+      @if(handles.length > 1) {
+        <div class="checkbox-group flex-column">
         @for(handle of handles; track handle) {
-          <option 
-            [value]="handle" 
-            [selected]="handle === activeHandle"
-          >
-            {{handle}}
-          </option>
-        }  
-        </select>
+          <div class="checkbox-wrapper flex">
+            <label for="">{{ handle }}</label>
+            <input type="checkbox" (change)="handleHandleSelection(handle)" [checked]="isChecked[handle]">
+          </div>
+        }
+          <div class="checkbox-wrapper flex">
+            <label for="">Select All</label>
+            <input type="checkbox" (change)="handleHandleSelection('all')">
+           </div>
+        </div>
+      }
         <button class="back-button" (click)="navigate('classic/simulation-results-dashboard')">Back</button>
-      </div>
       <div class="header-wrapper flex-column">
         @if(!isZoomMode) {
         <p>Click here to <button class="zoom-in" (click)="setZoomMode()">Zoom In</button></p>
@@ -35,34 +32,5 @@
     <div class="canvas-wrapper">
       <canvas id="myChart" (click)="onCanvasClick($event)"></canvas>
     </div>
-
-  @if(playerResults) {
-    <div class="summary">
-      <p>
-        <span>Starting Bankroll: </span>
-        <span>{{ playerResults[activeHandle].startingBankroll }}</span>
-      </p>
-      <p>
-        <span>Ending Bankroll: </span>
-        <span>{{ playerResults[activeHandle].finalBankroll }}</span>
-      </p>
-      <p>
-        <span>Money Bet: </span>
-        <span>{{ playerResults[activeHandle].totalMoneyBet }}</span>
-      </p>
-      <p>
-        <span>Money Won: </span>
-        <span>{{ playerResults[activeHandle].totalWon }}</span>
-      </p>
-      <p>
-        <span>Win Rate (ROI): </span>
-        <span>{{ playerResults[activeHandle].roi }}%</span>
-      </p>
-      <p>
-        <span>Tipped Away: </span>
-        <span>{{ playerResults[activeHandle].tippedAway }}</span>
-      </p>
-    </div>
-  }
   </div>
 </div>

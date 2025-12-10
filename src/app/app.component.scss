@@ -12,6 +12,10 @@
     &.show-modal {
       display: none;
     }
+
+    .content-wrapper {
+      min-height: calc(100vh - 221px);
+    }
   }
 
   .video-modal-wrapper {

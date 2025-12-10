@@ -35,8 +35,8 @@ export class HandReviewComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     this.gameData.replayHandAtIndex$.pipe(filter(x => !!x), take(1))
       .subscribe(index => {
-        this.activeRecordIndex = index;
-        this.activeRecordIndex$.next(index)
+        this.activeRecordIndex = index + 1;
+        setTimeout(() => this.activeRecordIndex$.next(this.activeRecordIndex));
       });
   }
 

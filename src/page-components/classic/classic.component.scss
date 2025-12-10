@@ -3,9 +3,10 @@
   justify-content: center;
   flex-direction: column;
 
-  .classic.page.with-nav {
+  .classic.with-nav {
     padding: 0;
     margin: 0;
     width: 100%;
+    overflow: scroll;
   }
 }

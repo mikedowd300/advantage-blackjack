@@ -1,0 +1,15 @@
+<div class="abj-hourly-win-rate">
+  <div class="content">
+    <div class="input-wrapper">
+      <label for="">Based on how many rounds per hour?</label>
+      <input type="number" [(ngModel)]="roundsPerHour" (change)="updateWinRateByBettingUnit()">
+    </div>
+  @for(key of enhancedPlayersWinRate[activeHandle].chartKeys; track key) {
+    <div class="row-wrapper">
+      <span>
+        For rounds where {{ activeHandle }} bet {{ key }} the average hourly rate was {{ enhancedPlayersWinRate[activeHandle].winRateByBettingUnit[key].average }} for {{ enhancedPlayersWinRate[activeHandle].winRateByBettingUnit[key].hoursPlayed }} hours.
+      </span> 
+    </div>
+  }
+  </div>
+</div>

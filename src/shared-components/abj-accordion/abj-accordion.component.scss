@@ -51,6 +51,7 @@
       }
 
       &.expanded {
+        border-bottom: 2px solid black;
 
         p {
           padding: 0 12px;
@@ -82,8 +83,9 @@
       margin: 0;
       font-size: 20px;
       box-sizing: border-box;
-      background-color: grey;
-      text-shadow: 1px 1px 2px black;
+      background-color: white;
+      color: black;
+      // text-shadow: 1px 1px 2px black;
 
       &.hidden {
         padding: 0;

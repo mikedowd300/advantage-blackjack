@@ -10,7 +10,6 @@ export class HeaderFooterService {
 
   isFooterPage$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentPage$: BehaviorSubject<string> = new BehaviorSubject<string>('home');
-
   headerText = {
     'home': {
       header: 'Advantage Blackjack',
@@ -41,7 +40,6 @@ export class HeaderFooterService {
       tagLine: 'Then tweak your strategy',
     }
   };
-
   variationLinks: HeaderLink[] = [
     {
       url: 'classic/home',
