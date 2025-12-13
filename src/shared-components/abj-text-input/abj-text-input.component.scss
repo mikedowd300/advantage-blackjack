@@ -23,5 +23,12 @@
         border: 1px solid #bdbdbd;
       }
     }
+    
+    &.dark {
+
+      label {
+        color: white;
+      }
+    }
   }
 }

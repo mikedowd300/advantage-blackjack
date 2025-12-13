@@ -44,6 +44,8 @@ export class VideoModalService {
   }
 
   openModal(key: string) {
+    console.log(key);
+    console.log(this.videoUrls[key]);
     this.activeUrl$.next(this.videoUrls[key]);
     this.showModal$.next(true);
   }

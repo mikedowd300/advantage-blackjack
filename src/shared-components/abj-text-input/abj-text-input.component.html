@@ -1,4 +1,4 @@
-<div class="abj-text-input flex-column">
+<div class="abj-text-input flex-column" [class.dark]="theme === 'dark'">
   <label for="">{{ label }}</label>
   <input 
     #innerInput
@@ -6,5 +6,6 @@
     [placeholder]="placeHolder" 
     [(ngModel)]="message"
     (keyup)="handleInput()"
+    (change)="handleChange()"
   >
 </div>
