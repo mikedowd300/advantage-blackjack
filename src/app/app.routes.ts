@@ -9,6 +9,7 @@ import { ClassicRoiChartsComponent } from '../page-components/classic/classic-ro
 import { ClassicSimulationResultsDashboardComponent } from '../page-components/classic/simulation-results-dashboard/simulation-results-dashboard.component';
 import { ClassicSimulationComponent } from '../page-components/classic/classic-simulation/classic-simulation.component';
 import { ClassicPracticeComponent } from '../page-components/classic/classic-practice/classic-practice.component';
+import { ClassicCustomDeviationChartComponent } from '../page-components/classic/classic-custom-deviation-chart/classic-custom-deviation-chart.component';
 import { ClassicCustomizationsBetSpreadComponent } from '../page-components/classic/classic-customizations/classic-customizations-bet-spread/classic-customizations-bet-spread.component';
 import { ClassicCustomizationsConditionsComponent } from '../page-components/classic/classic-customizations/classic-customizations-conditions/classic-customizations-conditions.component';
 import { ClassicCustomizationsCustomCountingSystemComponent } from '../page-components/classic/classic-customizations/classic-customizations-custom-counting-system/classic-customizations-custom-counting-system.component';
@@ -133,6 +134,11 @@ export const routes: Routes = [
       {
         path: 'hand-review',
         component: HandReviewComponent,
+        // canActivate: [RouteGuardService],
+      },
+      {
+        path: 'create-deviation-chart',
+        component: ClassicCustomDeviationChartComponent,
         // canActivate: [RouteGuardService],
       },
     ]

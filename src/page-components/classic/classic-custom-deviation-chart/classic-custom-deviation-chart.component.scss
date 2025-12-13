@@ -1,0 +1,282 @@
+:host {
+
+  .classic-custom-deviation-chart {
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+
+    .tagline {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    label {
+      font-size: 18px;
+    }
+
+    input[type="radio"] {
+      accent-color: black;
+      width: 24px;
+      height: 24px;
+    }
+
+    .radio-wrapper {
+      align-items: center;
+      margin-right: 12px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .accordion-content {
+      border-radius: 3px;
+      background-color: white;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+
+      &.instructions {
+
+        h3 {
+          margin: 6px;
+          padding-top: 12px;
+          border-top: 1px solid black;
+
+          &:first-child {
+            margin-top: 0;
+            border: none;
+          }
+        }
+
+        .statement {
+          display: inline-block;
+          padding: 6px;
+          border-radius: 3px;
+          margin: 0;
+
+          &:nth-child(even) {
+            background-color: rgba(0, 0, 0, .05);
+          }
+        }
+      }
+
+      .button-wrapper {
+        margin-top: 6px;
+      }
+
+      &.setup {
+        background-color: black;
+        color: white;
+
+        .input-row {
+          justify-content: space-around;
+          align-items: center;
+
+          .select-wrapper {
+            width: 50%;
+
+            ::ng-deep .select-dropdown-wrapper {
+              width: 100%;
+              max-width: none;
+
+              label {
+                font-size: 15px;
+                margin-bottom: 0;
+              }
+
+              label, select {
+                max-width: none;
+                width: 100%;
+              }
+            }
+          }
+          
+          .input-wrapper {
+            width: 50%;
+          }
+          
+          .conjunction {
+            margin: 0 12px;
+          }
+
+          @media only screen and (max-width: 585px) {
+            flex-direction: column;
+
+            .select-wrapper, .input-wrapper {
+              width: 100%;
+            }
+
+            .conjunction {
+              margin-top: 8px;
+            }
+          }
+        }
+
+        .required-config {
+          margin-top: 6px;
+          padding-top: 6px;
+          border-top: 1px solid white;
+          justify-content: space-between;
+
+          .left, .right {
+            width: 50%;
+            justify-content: space-between;
+            box-sizing: border-box;
+
+            .more-config-button {
+              background-color: white;
+              color: black;
+              padding: 6px 4px;
+              border-radius: 3px;
+              box-sizing: border-box;
+              width: 100%;
+              font-size: 18px;
+            }
+
+            .condition-input-wrapper {
+              padding: 6px 4px;
+              border-radius: 3px;
+              border-bottom: 1px solid gray;
+
+              &:last-child {
+                border: none;
+              }
+            }
+
+            .input-wrapper  {
+              width: 100%;
+              box-sizing: border-box;
+              justify-content: space-between;
+
+              input {
+                max-width: 50px;
+              }
+            }
+          }
+
+          .left {
+            padding-right: 12px;
+            border-right: 1px solid white;
+          }
+
+          .right {
+            padding-left: 12px;
+          }
+
+          @media only screen and (max-width: 585px) {
+            flex-direction: column;
+            
+            .left, .right {
+              width: 100%;
+              padding-right: 0;
+              padding-left: 0;
+              border: none;
+            }
+          }
+        }
+
+        .optional-configs {
+
+          .bonuses-rules-config {
+            width: 100%;
+
+            .bonuses-config {
+              margin-top: 6px;
+              padding-top: 6px;
+              border-top: 1px solid white;
+
+              .condition-input-wrapper {
+                justify-content: space-between;
+                align-items: center;
+
+                p {
+                  margin: 8px 0 0;
+                }
+
+                .response-wrapper {
+                  justify-content: space-between;
+
+                  .radio-wrapper {
+                    align-items: center;
+
+                    label {
+                      margin-right: 4px;
+                    }
+
+                    &:first-child {
+                      margin-right: 8px;
+                    }
+                  }
+                }
+
+                .payout-ratios-wrapper {
+                  margin-top: 6px;
+                  
+                  .ratio-wrapper {
+                    margin-right: 8px;
+
+                    &:last-child {
+                      margin-right: 0;
+                    }
+                  }
+                }
+              }
+            }
+
+            &.with-weird-rules {
+              width: 50%;
+              padding-right: 8px;
+              border-right: 1px solid gray;
+
+              @media only screen and (max-width: 865px) {
+                width: 100%;
+              }
+            }
+          }
+
+          .weird-rules-config {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid white;
+            width: 100%;
+
+            &.with-bonus-config {
+              width: 50%;
+              padding-left: 8px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+
+              @media only screen and (max-width: 865px) {
+                width: 100%;
+                margin-top: 16px;
+              }
+            }
+
+            .condition-input-wrapper {
+              align-items: center;
+              padding: 6px;
+              border-radius: 3px;
+              justify-content: space-between;
+
+              label {
+                margin-right: 12px;
+              }
+
+              &:nth-child(even) {
+                background-color: rgba(255, 255, 255, .4);
+              }
+            }
+          }
+
+          @media only screen and (max-width: 865px) {
+            flex-direction: column;
+          }
+        }
+      }
+    }
+  }
+}

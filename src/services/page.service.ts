@@ -19,13 +19,17 @@ export class PageService {
       url: '/simulation-results-dashboard',
       title: 'Simulation Results Dashboard',
       isSelected: false,
-    }, {
-      url: '/practice',
-      title: 'Practice',
-      isSelected: false,
+    // }, {
+    //   url: '/practice',
+    //   title: 'Practice',
+    //   isSelected: false,
     }, {
       url: '/speed-practice',
       title: 'Speed Practice',
+      isSelected: false,
+    }, {
+      url: '/create-deviation-chart',
+      title: 'Create Deviation Charts',
       isSelected: false,
     },
   ];

@@ -13,8 +13,10 @@ export class ABJTextInputComponent implements AfterViewInit {
   @ViewChild('innerInput') innerInput: ElementRef;
   @Input() value: string;
   @Input() label: string;
-  @Input() placeHolder: string;
+  @Input() placeHolder: string = '';
+  @Input() theme: string;
   @Output() changeEvent = new EventEmitter<string>();
+  @Output() onChangeEvent = new EventEmitter<string>();
   message: string;
 
   ngAfterViewInit(): void {
@@ -23,5 +25,9 @@ export class ABJTextInputComponent implements AfterViewInit {
 
   handleInput() {
     this.changeEvent.emit(this.message)
+  }
+
+  handleChange() {
+    this.onChangeEvent.emit(this.message)
   }
 }
