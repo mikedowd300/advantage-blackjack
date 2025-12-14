@@ -32,8 +32,8 @@ export enum PayRatio {
 
 export enum HoleCardType {
   STANDARD = 'standard',
-  OBO ="nhcLosesOriginalBetOnlyToAnAce",
-  ENHC = "enhcLosesEntireBetToAnAce"
+  OBO ="nhcLosesOriginalBetOnly",
+  ENHC = "enhcLosesEntireBet"
 }
 
 export enum SurrenderTypes {

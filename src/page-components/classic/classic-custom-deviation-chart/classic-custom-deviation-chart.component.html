@@ -55,7 +55,7 @@
       <p class="statement">If you run a simulation with a configuration and then make a slight change to the configuration, the data will be recorded, but in a completely different set. Those 2 data sets are mutually exclusive, in fact, if one data set is played against the chart for the other data set, then that data set should probably just be deleted.
       </p>
       <p class="statement">What about the chart where we record our strategies?</p>
-      <p class="statement">Before you even begin, make a chart is the simmulation section. That chart should be a copy od the included chart called "Deviations". Name the new chart whatever you want, you will reference it in the <i>Set up</i> section. As you complete a P2C study, make the changes to that row of the chart and save it. The page to make a new chart is right  <a href="/classic/table">here</a>.
+      <p class="statement">Before you even begin, make a chart is the simulation section. That chart should be a copy od the included chart called "Deviations". Name the new chart whatever you want, you will reference it in the <i>Set up</i> section. As you complete a P2C study, make the changes to that row of the chart and save it. The page to make a new chart is right  <a href="/classic/table">here</a>.
       </p>
       <p class="statement">If you are still reading you must be dedicated, that's the real key to any skill set.</p>
       <p class="statement">Caveat: The P2C you want to start with is 20, but 20 is different that a pair of tens, that's a different P2C. Same problem with A9.
@@ -106,7 +106,7 @@
 
       AC: 3 - Selecting a value from the P2C dropdown will:
         A - save the configuration name (only if selected from the AC: 2 flow)
-        B - start the simmulation -->
+        B - start the simulation -->
       
       <div class="input-row flex">
       @if(chartNames.length !== 0) {
@@ -114,7 +114,7 @@
           <abj-select 
             (selectedEvent)="selectChart($event)"
             [options]="chartNames"
-            [selectValue]="'Tom'"
+            [selectValue]="'Select a Play Strategy Chart'"
             [label]="'Select the Chart You Are Creating'"
           >
           </abj-select>
@@ -136,25 +136,53 @@
             <label for="">Number of Decks</label>
             <input type="number" [(ngModel)]="decks" (change)="handleDecks()" [disabled]="disabled">
           </div>
-          <div class="x17-wrapper condition-input-wrapper input-wrapper flex">
-            <div class="flex">
-              <label for="">SI7</label>
-              <input
-                type="radio"
-                (change)="handleX17('s17')"
-                [checked]="x17 === 's17'" 
-                [disabled]="disabled"
-              >
+          <div class="input-wrapper two-conditions flex">
+            <!-- this is gonna be just flex -->
+            <div class="holeCardRules-wrapper condition-input-wrapper input-wrapper flex-column">
+              <label for="">Hole Card</label>
+              <div class="response-wrapper flex-column">
+                <div class="radio-wrapper flex">
+                  <label for="">Standard</label>
+                  <input
+                    type="radio"
+                    (change)="handleHoleCardRules('standard')"
+                    [checked]="holeCardRules === 'standard'"
+                    [disabled]="disabled"
+                  >
+                </div>
+                <div class="radio-wrapper flex">
+                  <label for="">OBO</label>
+                  <input
+                    type="radio"
+                    (change)="handleHoleCardRules('nhcLosesOriginalBetOnly')"
+                    [checked]="holeCardRules === 'nhcLosesOriginalBetOnly'"
+                    [disabled]="disabled"
+                  >
+                </div>
+                <div class="radio-wrapper flex">
+                  <label for="">ENHC</label>
+                  <input
+                    type="radio"
+                    (change)="handleHoleCardRules('enhcLosesEntireBet')"
+                    [checked]="holeCardRules === 'enhcLosesEntireBet'"
+                    [disabled]="disabled"
+                  >
+                </div>
+              </div>
             </div>
-            <div class="flex">
-              <label for="">HI7</label>
-              <input
-                type="radio"
-                (change)="handleX17('h17')"
-                [checked]="x17 === 'h17'"
-                [disabled]="disabled"
+
+            <div class="counting-method-wrapper condition-input-wrapper input-wrapper flex">
+              <div class="select-wrapper"></div>
+
+              <abj-select 
+                (selectedEvent)="handleCountingMethod($event)"
+                [options]="countingMethods"
+                [selectValue]="'Counting Methods'"
+                [label]="'Select a Counting Method'"
               >
+              </abj-select>
             </div>
+
           </div>
           <div class="surrender-wrapper condition-input-wrapper">
           @for(sType of surrenderTypes; track sType) {
@@ -200,6 +228,26 @@
                 <label for="">NO</label>
                 <input type="radio" (change)="handleDas(false)" [checked]="das === false" [disabled]="disabled">
               </div>
+            </div>
+          </div>
+          <div class="x17-wrapper condition-input-wrapper input-wrapper flex">
+            <div class="flex">
+              <label for="">SI7</label>
+              <input
+                type="radio"
+                (change)="handleX17('s17')"
+                [checked]="x17 === 's17'" 
+                [disabled]="disabled"
+              >
+            </div>
+            <div class="flex">
+              <label for="">HI7</label>
+              <input
+                type="radio"
+                (change)="handleX17('h17')"
+                [checked]="x17 === 'h17'"
+                [disabled]="disabled"
+              >
             </div>
           </div>
           <div class="double-on-wrapper condition-input-wrapper">
@@ -622,6 +670,29 @@
         </div>
       }
       </div>
+    @if(chartName && showP2CDropDown) {
+      <div class="start-sim flex">
+        <div class="left content-wrapper">
+          <p>Removing <b><i>{{ chartName }}</i></b> will delete the simulation for this chart. If you are satisfied with your results, this may be a good idea as storage space is limited.</p>
+          <p>While removig <b><i>{{ chartName }}</i></b> will delete all the chartable data, the play strategy <b><i>{{ chartName }}</i></b> found in the Play Strategy custimazation, will still exist. If you wish to delete that, do so from custimazations.</p>
+          <button (click)="removeChartNameFromLocalStorage()">Remove {{ chartName }}</button>
+        </div>
+        <div class="right content-wrapper">
+          <p>Selecting the players first 2 cards will start the simulation</p>
+          <div class="input-wrapper">
+            <label for="">Number of rounds</label>
+            <input type="text" [(ngModel)]="iterations">
+          </div>
+          <abj-select 
+            (selectedEvent)="selectP2C($event)"
+            [options]="first2Cards"
+            [selectValue]="first2Cards[0]"
+            [label]="'Players First 2 Cards'"
+          >
+          </abj-select> 
+        </div>
+      </div>
+    }
     </div>
   </abj-content-accordion>
 </div>

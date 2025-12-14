@@ -11,12 +11,13 @@ import { FormsModule } from '@angular/forms';
 export class ABJSelectComponent implements OnInit {
   @Input() options: string[] = [];
   @Input() label: string;
-  @Input() selectValue: string;
+  @Input() selectValue: string; 
   @Output() selectedEvent = new EventEmitter<any>();
 
   showIntroMessage: boolean;
 
   ngOnInit(): void {
+    // DO NOT INCLUDE selectValue IN THE OPTIONS IF YOU EXPECT IT TO BE DISABLED
     this.showIntroMessage = this.selectValue && !this.options.includes(this.selectValue);
   }
 

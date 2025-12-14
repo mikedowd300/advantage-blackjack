@@ -7,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, filter, last, map, Subject, tap } from 'rxjs';
 import { GameEngineData } from '../../../services/game-engine-data';
 import { WinRateInfo, WinRateByBettingUnit, PlayersWinRateByBettingUnit } from '../../../models';
-import { ABJSimmDetailsComponent } from '../../../shared-components/abj-simm-details/abj-simm-details.component';
+import { ABJSimDetailsComponent } from '../../../shared-components/abj-sim-details/abj-sim-details.component';
 import { ABJAccordionComponent } from '../../../shared-components/abj-accordion/abj-accordion.component';
 import { ABJHourlyWinRateComponent } from '../../../shared-components/abj-hourly-win-rate/abj-hourly-win-rate.component';
 
@@ -16,7 +16,7 @@ import { ABJHourlyWinRateComponent } from '../../../shared-components/abj-hourly
   standalone: true,
   imports: [
     FormsModule,
-    ABJSimmDetailsComponent,
+    ABJSimDetailsComponent,
     ABJAccordionComponent,
     ABJHourlyWinRateComponent,
     CommonModule,
