@@ -2,7 +2,7 @@
   <label>{{ label }}</label>
   <select [(ngModel)]="selectValue" (change)="selectEvent(selectValue)">
   @if(showIntroMessage) {
-    <option disabled selected>{{ selectValue }}</option>
+    <option disabled>{{ selectValue }}</option>
   }
   @for(option of options; track option) {
     <option [value]="option" [selected]="selectValue === option">{{ option }}</option>

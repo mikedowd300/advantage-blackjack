@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'abj-simm-details',
+  selector: 'abj-sim-details',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './abj-simm-details.component.html',
-  styleUrl: './abj-simm-details.component.scss'
+  templateUrl: './abj-sim-details.component.html',
+  styleUrl: './abj-sim-details.component.scss'
 })
-export class ABJSimmDetailsComponent implements OnInit {
+export class ABJSimDetailsComponent implements OnInit {
   @Input() startingBankroll: number;
   @Input() finalBankroll: number;
   @Input() totalMoneyBet: number;

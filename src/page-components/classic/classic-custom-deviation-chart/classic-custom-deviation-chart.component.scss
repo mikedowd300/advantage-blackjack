@@ -253,6 +253,7 @@
               @media only screen and (max-width: 865px) {
                 width: 100%;
                 margin-top: 16px;
+                padding-left: 0;
               }
             }
 
@@ -274,6 +275,30 @@
 
           @media only screen and (max-width: 865px) {
             flex-direction: column;
+          }
+        }
+
+        .start-sim  {
+          background-color: black;
+          color: white;
+
+          .content-wrapper {
+            width: 50%;
+            margin-top: 4px;
+
+            &.left {
+              padding-right: 8px;
+              border-right: 1px solid white;
+              box-sizing: border-box;
+            
+              button {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 6px 4px;
+                border-radius: 3px;
+                font-size: 18px;
+              }
+            }
           }
         }
       }

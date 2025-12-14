@@ -31,7 +31,7 @@ export class LocalStorageService {
 
   constructor() {
     this.saveActiveStrategy$.pipe()
-      .subscribe(({ variation, configurationType, strategy}) => this.setItemOfVariation(variation, configurationType, strategy));
+      .subscribe(({ variation, configurationType, strategy, title}) => this.setItemOfVariation(variation, configurationType, strategy, title));
   }
 
   setItem(key: any, value: any): void {
@@ -83,6 +83,30 @@ export class LocalStorageService {
     // When deleting a strategy, all the players that use the strategy must adjust. Those users will use the default strategy.
   }
 
+  deleteStrategyByName(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, strategyName: string) {
+    const newObj = {};
+    let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
+    if(typeof variation === "string") {
+      variation = JSON.parse(variation)
+    }
+    const names = Object.keys(variation[itemKey]).filter(key => key !== strategyName);
+    names.forEach(name => newObj[name] = variation[itemKey][name]);
+    variation[itemKey] = { ...newObj };
+    this.setItem(variationKey, variation);
+  }
+
+  deleteChartCreatorsListByChartName(variationKey: LocalStorageVariationKeys, chartName: string) {
+    const list = this.getItem(LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP);
+    let newList = {};
+    const listNames = Object.keys(list);
+    listNames.forEach(ln => {
+      if(ln !== chartName && list[ln].split('-')[0] === variationKey) {
+        newList[ln] = list[ln];
+      }
+    })
+    this.setItem(LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP, newList);
+  }
+
   getNewVariation() {
     return {
       conditions: {},
@@ -96,13 +120,13 @@ export class LocalStorageService {
     }
   }
 
-  setItemOfVariation(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, value: any) {
+  setItemOfVariation(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, value: any, title: string = null) {
     // This will work with strategies because strategy objects have a title
     let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
     if(typeof variation === "string") {
       variation = JSON.parse(variation)
     }
-    variation[itemKey] = { ...variation[itemKey], [value.title]: value };
+    variation[itemKey] = { ...variation[itemKey], [value.title || title]: value };
     localStorage.setItem(variationKey, JSON.stringify(variation));
   }
 

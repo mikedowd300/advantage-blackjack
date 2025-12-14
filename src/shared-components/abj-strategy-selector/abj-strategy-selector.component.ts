@@ -91,7 +91,8 @@ export class ABJStrategySelectorComponent implements OnInit {
     const strategyDetails = {
       variation: this.variation,
       configurationType: this.configurationType,
-      strategy: this.activeStrategy
+      strategy: this.activeStrategy,
+      title: null
     }
     this.localStorageService.saveActiveStrategy$.next(strategyDetails);
   }
@@ -102,6 +103,13 @@ export class ABJStrategySelectorComponent implements OnInit {
       .filter(key => key !== this.activeStrategy.title)
       .forEach(key => newStoredStrategies[key] = { ...this.storedStrategies[key] });
     this.localStorageService.deleteStrategy( this.variation, this.configurationType, newStoredStrategies, this.activeStrategy.title);
+    if(this.configurationType = LocalStorageItemsEnum.PLAY) {
+      console.log('We should probably check to see if this strategy is part of the DEVIATION CHARTS');
+      console.log('If it is, we need to do 3 things');
+      console.log('1 - Interrupt the flow to warn the user this affects the deviation charts, provide a continue button.')
+      console.log('2 - Erase from the LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP');
+      console.log('3 - Erase from LocalStorageItemsEnum.DEVIATION_CHART')
+    }
     this.getStrategies();
     this.activeStrategy = this.defaultConfig;
     this.activeStrategy$.next(this.activeStrategy);

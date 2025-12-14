@@ -64,6 +64,7 @@ export enum LocalStorageItemsEnum {
   COUNT = 'count',
   DEVIATION_CHART = 'deviationChart',
   INSURANCE = 'insurance',
+  CHART_CREATORS_CONFIG_MAP = 'chartCreatorsList', // This is for key value pairs. The key will also be the name of a chart in the DEVIATION_CHART object. Here it will have the pair of the config that is being used to generate data for a play chart strategy.
 }
 
 export enum ChipTypeEnum {
