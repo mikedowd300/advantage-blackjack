@@ -2,6 +2,35 @@
 
   .classic-custom-deviation-chart {
 
+    .spinner-modal {
+      width: 100%;
+      box-sizing: border-box;
+      height: calc(100vh - 300px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      .outer-spinner {
+        background-color: white;
+        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+        border-top: 30px solid black;
+        border-bottom: 30px solid black;
+        box-sizing: border-box;
+        animation: spin 1.5s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg); /* Start at 0 degrees rotation */
+        }
+        100% {
+          transform: rotate(360deg); /* End at 360 degrees rotation */
+        }
+      }
+    }
+
     h2 {
       margin: 0 0 4px;
       font-size: 20px;
@@ -53,9 +82,10 @@
 
         .statement {
           display: inline-block;
-          padding: 6px;
+          padding: 8px 6px;
           border-radius: 3px;
           margin: 0;
+          font-size: 18px;
 
           &:nth-child(even) {
             background-color: rgba(0, 0, 0, .05);
@@ -126,6 +156,46 @@
             justify-content: space-between;
             box-sizing: border-box;
 
+            .rsa-wrapper, .x17-wrapper {
+              border-bottom: 1px solid gray;
+              border-top: 1px solid gray;
+            }
+
+            .counting-method-wrapper.condition-input-wrapper.input-wrapper {
+              margin-top: 0;
+              padding: 0 0 4px;
+
+              abj-select {
+                width: 100%;
+                
+              }
+
+              ::ng-deep .select-dropdown-wrapper {
+                padding-top: 0;
+                width: 100%;
+                max-width: none;
+
+                select {
+                  width: 100%;
+                  max-width: none;
+                }
+              }
+            }
+
+            .mhfs-wrapper.condition-input-wrapper.input-wrapper {
+              padding-top: 0;
+
+              input {
+                text-align: center;
+                box-sizing: border-box;
+                padding: 6px 2px 6px 6px;
+                font-size: 18px;
+                border-radius: 4px;
+                width: 100%;
+                max-width: 100px;
+              }
+            }
+
             .more-config-button {
               background-color: white;
               color: black;
@@ -139,7 +209,6 @@
             .condition-input-wrapper {
               padding: 6px 4px;
               border-radius: 3px;
-              border-bottom: 1px solid gray;
 
               &:last-child {
                 border: none;
@@ -150,9 +219,80 @@
               width: 100%;
               box-sizing: border-box;
               justify-content: space-between;
+              align-items: center;
 
-              input {
-                max-width: 50px;
+              // input {
+              //   max-width: 50px;
+              // }
+
+              &.two-conditions {
+                justify-content: space-between;
+                border-bottom: 1px solid gray;
+
+                .hole-card-rules-wrapper {
+                  width: 50%;
+                  border-right: 1px solid gray;
+                  margin-bottom: 2px;
+
+                  .title-label {
+                    margin: auto;
+                    padding-right: 8px;
+                  }
+
+                  .response-wrapper {
+
+                    .radio-wrapper {
+                      justify-content: space-between;
+                      margin-right: 8px;
+                    }
+                  }
+                }
+
+                .decks-wrapper {
+                  align-items: center;
+                  width: 50%;
+                  justify-content: flex-start;
+
+                  label {
+                    font-size: 16px;
+                    margin-bottom: 8px;
+                  }
+
+                  input {
+                    text-align: center;
+                    box-sizing: border-box;
+                    padding: 6px 2px 6px 6px;
+                    font-size: 18px;
+                    border-radius: 4px;
+                    width: 100%;
+                    max-width: 100px;
+                  }
+                }
+
+                @media only screen and (max-width: 585px) {
+
+                  .decks-wrapper {
+                    width: 40%;
+                  }
+                  
+                  .hole-card-rules-wrapper {
+                    width: 60%;
+
+                    .response-wrapper {
+                      flex-direction: row;
+                      width: 100%;
+                      justify-content: space-around;
+
+                      .radio-wrapper {
+                        flex-direction: column;
+
+                        label {
+                          font-size: 16px;
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -285,11 +425,11 @@
           .content-wrapper {
             width: 50%;
             margin-top: 4px;
+            box-sizing: border-box;
 
             &.left {
               padding-right: 8px;
               border-right: 1px solid white;
-              box-sizing: border-box;
             
               button {
                 width: 100%;
@@ -297,6 +437,27 @@
                 padding: 6px 4px;
                 border-radius: 3px;
                 font-size: 18px;
+              }
+            }
+
+            &.right {
+              padding: 8px 12px 8px;
+
+              .input-wrapper {
+                align-items: center;
+                margin-bottom: 16px;
+                justify-content: space-between;
+
+                label {
+                  margin-right: 12px;
+                }
+
+                input {
+                  padding: 8px;
+                  text-align: center;
+                  font-size: 18px;
+                  border-radius: 4px;
+                }
               }
             }
           }

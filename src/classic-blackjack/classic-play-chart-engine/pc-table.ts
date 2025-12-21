@@ -1,132 +1,142 @@
 import { LocalStorageService } from '../../services/local-storage.service';
+import { PlayChartDataStorageService } from './pc-data-storage.service';
 import { PlayChartDealerHand } from './pc-dealers-hand';
-import { PlayChartHand } from './pc-hand';
+import { PlayChartSpot } from './pc-spot';
 import { Shoe } from '../classic-engine/shoe';
-import { HoleCardType } from '../classic-models/classic-strategies.models';
+import { CountingMethod, HoleCardType, RoundingMethodEnum } from '../classic-models/classic-strategies.models';
+import {
+  classicCountTitles,
+  classicCounts,
+} from "../../classic-blackjack/default-classic-configs/counting-methods";
+import { LocalStorageItemsEnum } from '../../models-constants-enums/enumerations';
+import { LocalStorageVariationKeys, TrueCountTypeEnum } from '../../models';
 
 export class PlayChartTable {
   dealerHand: PlayChartDealerHand;
   roundsDealt: number = 0;
-  // players: any[] = [];
-  spots: { player: any, hands: any[] }[] = [];
-  shared
+  spots: PlayChartSpot[] = [];
+  playStrategy: any;
+  actionMap = {
+    'hit': 'H',
+    'stay': 'S',
+    'double': 'D',
+    'split': 'P',
+  };
+  upCard: string;
+  trueCountType: TrueCountTypeEnum;
+  countingMethod: CountingMethod;
+  tcAtTimeOfAction
   
   constructor(
+    private pcDataService: PlayChartDataStorageService,
     private localStorageService: LocalStorageService, 
     public conditions: any,
-    public players: any,
+    public first2Cards: string,
+    public splittableF2c: boolean,
     public shoe: Shoe,
     public iterations: number,
-    public playStrategy: any
+    public shared,
   ){
+    console.log(conditions);
+    this.addCountingMethod();
     this.shared = {
-      // addCountingMethod: (x: CountingMethod, y: number) => this.shoe.addCountingMethod(x, y),
-      // getPlayerBySpotId: (x) => this.getPlayerBySpotId(x),
-      // // getPlayerByHandle: (x: string) => this.getPlayerByHandle(x),
-      // discard: (x) => this.shoe.discard(x),
-      // deal: () => this.shoe.deal(),
-      // getTrueCount: (x: CountingMethod, y: TrueCountTypeEnum) => this.shoe.getTrueCount(x, y),
-      // getTrueCountByTenth: (x: CountingMethod) => this.shoe.getTrueCountByTenth(x),
-      // getRunningCount: (x: string) => this.shoe.getRunningCountsByMethodName(x),
-      // dealerHasBlackjack: () => this.dealerHasBlackjack(),
-      // getDealerUpCard: () => this.getDealerUpCard(),
-      // getDidDealerBust: () => this.getDidDealerBust(),
+      discard: (x) => this.shoe.discard(x),
+      deal: () => this.shoe.deal(),
+      getTrueCountByTenth: () => this.shoe.getTrueCountByTenth(this.countingMethod),
+      getDealerUpCard: () => this.getDealerUpCard(),
+      getDealerHandValue: () => this.dealerHand.getValue(),
+      getDidDealerBust: () => this.dealerHand.isBust(),
+      updateTCatTimeOfAction: (x, y) => this.updateTCatTimeOfAction(x, y),
       // getDealersCardLength: () => this.getDealersCardLength(),
-      // getDealerHandValue: () => this.getDealerHandValue(),
-      // getOccupiedActiveSpotCount: () => this.getOccupiedActiveSpotCount(),
-      // getSpotById: (x) => this.spotManager.getSpotById(x),
       // isFreshShoe: () => this.shoe.getIsFreshShoe(),
-      // isSpotAvailable: (x) => this.spotManager.isSpotAvailable(x),
       // dealerShowsAce: () => this.dealerHand.showsAce(),
       // getTotalRoundsDealt: () => this.totalRoundsDealt,
       // dealerPushesWith22: () => this.dealerHand.pushesWith22(),
-      // logTable: () => this.logSelf(),
       // getPlayedRounds: () => this.getPlayedRounds(),
+      getTrueCount: () => this.shoe.getTrueCount(this.countingMethod, this.getTrueCountType()),
     };
     this.initializeTable();
     this.play();
   }
 
-    // HAND
-    // private spotId: number,
-    // private shared, 
-    // public betAmount: number,
-    // private handId: number,
-    // private isFromSplit: boolean = false,
-    // (this.id, this.shared, betSize, this.hands.length, isFromSplit)
-
-  initializeTable(): void  {
-    // this.playersInfo.forEach(p => this.players.push(new Player(p, this.localStorageService, this.shared)));
-    this.dealerHand = new PlayChartDealerHand(this.shared);
-    this.shoe.addCountingMethod(this.conditions.countingMethod, this.conditions.decks)
-    this.players.forEach(p => {
-      this.updatePlayStrategy(p);
-      this.spots.push({ player: p, hands: [new PlayChartHand(0, this.shared , 100, 1, false, this.playStrategy, this.conditions)] })
-    })
+  getSpots() {
+    let handles: string[] = ['hit', 'stay', 'double'];
+    if(this.splittableF2c) {
+      handles.push('split');
+    }
+    handles.forEach(h => this.spots.push(new PlayChartSpot(h, this.updatePlayStrategy(h), this.shared, this.conditions)));
   }
 
-  updatePlayStrategy(player) {
+  initializeTable(): void  {
+    this.trueCountType = this.getTrueCountType();
+    this.playStrategy = this.localStorageService.getItemOfItemOfVariation(LocalStorageVariationKeys.CLASSIC, LocalStorageItemsEnum.PLAY, this.conditions.chartName);
+    this.dealerHand = new PlayChartDealerHand(this.shared, this.conditions);
+    this.getSpots();
+  }
+
+  addCountingMethod() {
+    if(classicCountTitles.includes(this.conditions.countingMethod)) {
+      this.countingMethod = classicCounts[this.conditions.countingMethod]
+    } else {
+      this.countingMethod = this.localStorageService.getItemOfVariation(LocalStorageItemsEnum.COUNT, LocalStorageVariationKeys.CLASSIC)[this.conditions.countingMethod];
+    }
+    this.shoe.addCountingMethod(this.countingMethod, this.conditions.decks)
+  }
+
+  updatePlayStrategy(action: string) {
+    const upCardsValues: string[] = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A'];
+    const chartKeys: string[] = upCardsValues.map(v => `${v}-${this.first2Cards}`);
+    const playStrategy = { ...this.playStrategy, combos: { ...this.playStrategy.combos } };
+    chartKeys.forEach(key => playStrategy.combos[key] = { 
+      options: `${this.actionMap[action]} S`, 
+      conditions: ""
+    });
     // in the play chart make the move stay, hit, split or double depending on the player
+    return playStrategy;
   }
 
   play(): void  {
+    console.log(this.conditions);
+    this.pcDataService.handleSimStart(this.conditions.chartName, this.conditions.deviationDataTitle, this.first2Cards);
     const isNHC = this.conditions.holeCardRules !== HoleCardType.STANDARD;
     while(this.roundsDealt < this.iterations) {
       this.initializeRound();
       this.deal(isNHC);
-    //   this.offerEarlySurrender();
-    //   this.offerInsurance();
-    //   if(!isNHC  ) {
-    //     this.payInsurance();
-    //     this.handleDealerBlackjack();
-    //     this.payPlayersBlackjacks();
-    //     this.playHands();
-    //     this.playDealersHand();
-    //     this.payHands();
-    //   } else {
-    //     this.playHands();
-    //     this.dealEnhcHoleCard();
-    //     this.payInsurance();
-    //     this.handleDealerBlackjack();
-    //     this.payPlayersBlackjacks();
-    //     this.playDealersHand(isNHC);
-    //     this.payHands();
-    //   }
-    //   this.finalizeRecord();
-    //   this.finalizeRound();
-      this.roundsDealt += 1;
-  }
-
-    // this.getPlayerResults();
-    // this.players.forEach(p => 
-    //   console.log(`${p.handle}, bankroll:${p.bankroll}, total-bet:${p.totalBet} roi: ${Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100}%`));
-    // console.log(this);
+      if(!isNHC  ) {
+        this.playHands();
+        this.playDealersHand();
+        this.payHands();
+      } else {
+        // this.playHands();
+        // this.dealEnhcHoleCard();
+        // this.playDealersHand(isNHC);
+        // this.payHands();
+      }
+      this.finalizeRound();
+    }
+    this.pcDataService.handleSimEnd(this.conditions.deviationDataTitle);
   }
 
   initializeRound(): void  {
-    // this.players.forEach(p => p.initializeRound());
+    // console.log('------------------------------');
+    this.spots.forEach(s => s.initializeRound());
+    this.tcAtTimeOfAction = {
+      'hit': null,
+      'stay': null,
+      'double': null,
+      'split': null,
+    };
   }
-  
-  getPlayerResults() {
-    // let results = {};
-    // this.players.forEach(p => results[p.handle] = {
-    //   startingBankroll: p.originalBankroll,
-    //   finalBankroll: p.bankroll,
-    //   totalMoneyBet: p.totalBet,
-    //   totalWon: p.bankroll - p.originalBankroll,
-    //   roi: Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100,
-    //   tippedAway: p.tippedAwayTotal
-    // });
-    // return results;
-  };
+
+  updateTCatTimeOfAction(key: string, value: number) {
+    this.tcAtTimeOfAction[key] = value.toString();
+  }
 
   finalizeRound(): void  {
-    // this.spotManager.getTakenSpots().forEach(spot => spot.resetHands());
-    // this.dealerHand.clearCards();
-    // this.shoe.shuffleCheck();
-    // this.playedRounds += 1;
-    // this.removeBrokePlayers();
-    // this.players.forEach(p => p.finalizeRound());
+    this.spots.forEach(s => s.resetHands());
+    this.dealerHand.clearCards();
+    this.shoe.shuffleCheck();
+    this.roundsDealt += 1;
   }
 
   deal(isNHC: boolean = false): void  {
@@ -142,35 +152,51 @@ export class PlayChartTable {
   }
 
   playHands(): void  {
-    // if(!this.dealerHand.hasBlackjack()) {
-    //   this.spotManager.playHands()
-    // }
+    this.spots.forEach(s => {
+      // console.log(this.first2Cards, s.hands[0].createF2cKey(), this.dealerHand.getValue(), this.dealerHand.cards[0].name, this.dealerHand.cards[1].name);
+      if(this.dealerHand.hasBlackjack() || this.first2Cards !== s.hands[0].createF2cKey()) {
+        s.hands[0].clearCards();
+        s.hands = [];
+      }
+      s.playHands();
+    })
   }
 
   payHands(): void  {
     // if(this.conditions.holeCardPolicy === HoleCardType.ENHC) {
     //   this.payPlayersBlackjacks();
     // }
-    // if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
-    //   this.spotManager.payHands();
-    // }
+    this.spots.forEach(s => s.hands.forEach(h => h.payHand()));
+    this.spots.forEach(s => {
+      if(this.tcAtTimeOfAction[s.playerHandle]) {
+        this.pcDataService.updateDeviationData(this.first2Cards, this.getDealerUpcardForDeviationChartData(), this.tcAtTimeOfAction[s.playerHandle], s.playerHandle, s.totalWon);
+      }
+    })
   }
 
   getDealerUpCard(){
-    // return this.dealerHand.cards[0].cardValue.toString();
+    return this.dealerHand.cards[0].cardValue.toString();
   }
 
-  getUnseenCards() {
-    // return this.shoe.cards.length + this.conditions.cardsBurned;
+  getDealerUpcardForDeviationChartData() {
+    return this.dealerHand.cards[0].cardSuitlessName
+      .replace('T', '10')
+      .replace('K', '10')
+      .replace('Q', '10')
+      .replace('J', '10');
   }
+
+  // getUnseenCards() {
+    // return this.shoe.cards.length + this.conditions.cardsBurned;
+  // }
 
   playDealersHand(isNHC: boolean = false): void  {
-    // if(!isNHC) {
-    //   this.shoe.flipHoleCard(this.dealerHand.cards[1]);
-    // }
-    // if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
-    //   this.dealerHand.playHand();
-    // } 
+    if(!isNHC) {
+      this.shoe.flipHoleCard(this.dealerHand.cards[1]);
+    }
+    if(this.spots.find(s => s.hasActiveHand())) {
+      this.dealerHand.playHand();
+    } 
   }
 
   dealEnhcHoleCard(): void {
@@ -179,15 +205,21 @@ export class PlayChartTable {
     // }
   }
 
-  getDealerHandValue() {
-    // return this.dealerHand.getValue();
-  }
-
-  getDidDealerBust()  {
-    // return this.dealerHand.isBust();
-  }
-
   getDealersCardLength() {
     // return this.dealerHand.cards.length;
+  }
+  
+  getTrueCountType(): TrueCountTypeEnum {
+    if(this.countingMethod.useHalfCount) {
+      if(this.countingMethod.roundingMethod === RoundingMethodEnum.ROUND) {
+        return TrueCountTypeEnum.HALF_ROUNDED;
+      } else {
+        return TrueCountTypeEnum.HALF_FLOOR;
+      }
+    } else {
+      return this.countingMethod.roundingMethod === RoundingMethodEnum.ROUND
+        ? TrueCountTypeEnum.FULL_ROUNDED
+        : TrueCountTypeEnum.FULL_FLOOR;
+    }
   }
 }

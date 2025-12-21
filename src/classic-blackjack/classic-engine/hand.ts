@@ -579,7 +579,6 @@ export class Hand {
   }
 
   isSplittable(): boolean {
-    // TODO: verify the handId is accurate and accounts for splits
     if(this.shared.getHandsLength() < this.conditions.MHFS 
       && this.player.remainingBankroll >= this.betAmount
       && this.cards[0]?.cardValue === this.cards[1]?.cardValue) {

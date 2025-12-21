@@ -3,7 +3,7 @@ import { Card } from '../classic-engine/card';
 export class PlayChartDealerHand {
   cards: Card[] = [];
 
-  constructor(private shared) {}
+  constructor(private shared, public conditions) {}
 
   getHandCardCount(): number {
     return this.cards.length
@@ -42,33 +42,36 @@ export class PlayChartDealerHand {
   }
   
   isBust(): boolean {
-    return this.shared.getConditions().dealerPushesOn22
-      ? this.getValue() > 22
-      : this.getValue() > 21;
+    // return this.shared.getConditions().dealerPushesOn22
+    //   ? this.getValue() > 22
+    //   : this.getValue() > 21;
+    return this.getValue() > 21;
   }
 
   hasSoftness(): boolean {
     return this.getSoftValue() !== this.getValue();
   }
 
-  pushesWith22(): boolean {
-    return this.shared.getConditions().dealerPushesOn22 && this.getValue() === 22;
-  }
+  // pushesWith22(): boolean {
+  //   return this.shared.getConditions().dealerPushesOn22 && this.getValue() === 22;
+  // }
 
   getDrawCondition(): boolean {
+    const S17: boolean = this.conditions.x17 === 's17';
     return (
-      this.shared.getConditions().S17 
+      S17
       && this.hasSoftness()
       && this.getSoftValue() !== 7 
       && this.getValue() < 17 
-    ) || (this.shared.getConditions().S17 && !this.hasSoftness() && this.getValue() < 17 )
-    || (!this.shared.getConditions().S17 && (this.getValue() < 17 || this.getSoftValue() === 7));
+    ) || (S17 && !this.hasSoftness() && this.getValue() < 17 )
+    || (!S17 && (this.getValue() < 17 || this.getSoftValue() === 7));
   }
 
   playHand(): void {
     while(this.getDrawCondition()) {
       this.cards.push(this.shared.deal());
     }
+    // console.log('DEALERS HAS:', this.cards.map(c => c.name + ' '))
   }
 
   dealEnhcHoleCard(): void {
