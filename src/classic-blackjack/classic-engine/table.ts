@@ -28,7 +28,6 @@ export class Table {
     this.shared = {
       addCountingMethod: (x: CountingMethod, y: number) => this.shoe.addCountingMethod(x, y),
       getPlayerBySpotId: (x) => this.getPlayerBySpotId(x),
-      // getPlayerByHandle: (x: string) => this.getPlayerByHandle(x),
       discard: (x) => this.shoe.discard(x),
       deal: () => this.shoe.deal(),
       getTrueCount: (x: CountingMethod, y: TrueCountTypeEnum) => this.shoe.getTrueCount(x, y),
@@ -75,7 +74,7 @@ export class Table {
     let hasSpots: boolean = this.spotManager.spots
       .filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
     const isNHC = this.conditions.holeCardPolicy !== HoleCardType.STANDARD;
-    console.log(this.conditions);
+    // console.log(this.conditions);
     while(this.playedRounds < this.iterations && hasSpots) {
       this.initializeRound();
       this.initializeRecord();

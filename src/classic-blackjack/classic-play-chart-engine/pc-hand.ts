@@ -2,13 +2,12 @@ import { Card } from '../classic-engine/card';
 import { CharlieType, DoubleDownOn, SurrenderTypes } from '../classic-models/classic-strategies.models';
 import { PayRatio } from '../classic-models/classic-strategies.models';
 import { playerFirst2, HandOptionEnums  } from '../../models';
-// import { Player } from './player';
 
 export class PlayChartHand {
   cards: Card[] = [];
   hasBeenPaid: boolean = false;
   hasDoubled: boolean = false;
-  hasTripled: boolean = false;
+  // hasTripled: boolean = false;
   payRatioMap = {
     [PayRatio.THREE_to_ONE]: 3,
     [PayRatio.THREE_to_TWO]: 1.5,
@@ -28,9 +27,6 @@ export class PlayChartHand {
   };
   cardMap = { 1: 'A', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: 'T' };
   dealerCardMap = { 1: 'A', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: '10' };
-  // playStrategy;
-  // conditions: any;
-  player: any;
   beginningBetAmount: number = 100;
   payOutPayRatioMap = {
     [PayRatio.HALF]: .5,
@@ -53,16 +49,12 @@ export class PlayChartHand {
   };
 
   constructor(
-    private spotId: number,
     private shared, 
     public betAmount: number,
-    private handId: number,
     private isFromSplit: boolean = false,
-    public playStrategy: any,
     public conditions: any,
   ) {
     this.beginningBetAmount = this.betAmount; // This is for ENHC OBO payouts
-
     this.decisionMap = {
       'stay': () => this.stand(),
       'split': () => this.split(),
@@ -70,7 +62,6 @@ export class PlayChartHand {
       'hit': () => this.hit(),
       'double': () => this.doubleDown(),
     };
-    // this.player = this.shared.getPlayerBySpotId(this.spotId);
   }
 
   playHand(): void  {
@@ -85,10 +76,10 @@ export class PlayChartHand {
 
   makeDecision(isForEarlySurrender: boolean = false): void  {
     const chartKey = this.createChartKey();
-    let options: string[] = this.playStrategy[chartKey].options
+    let options: string[] = this.shared.getPlayStrategyOptions(chartKey)
       .split(' ')
       .map(op => this.actionMap[op.trim()]);
-    let conditions: string[] = this.playStrategy[chartKey].conditions
+    let conditions: string[] = this.shared.getPlayStrategyConditions(chartKey)
       .split(' ')
       .filter(c => c != '')
       .map(c => c.trim());
@@ -100,6 +91,7 @@ export class PlayChartHand {
       .map((op, i) => ({ [op]: (conditions[i] ? this.evaluateCondition(conditions[i]) : true) }))
       .filter((x, i) => this.options.includes(options[i]));
     let i = 0;
+    // console.log(options, conditions, actionConditions, 'TC:', this.shared.getTrueCount(), this.shared.getTrueCountByTenth());
     let action: string = Object.keys(actionConditions[0])[0];
     while(!actionConditions[i][Object.keys(actionConditions[i])[0]]) {
       i++;
@@ -116,12 +108,8 @@ export class PlayChartHand {
   }
 
   evaluateCondition(condition: string): boolean {
-    const valCard1 = this.cards[0].cardValue;
-    const valCard2 = this.cards[1].cardValue;
     const countThreshold = parseInt(condition);
-    const trueCountType = this.shared.getPlayerBySpotId(this.spotId).trueCountType;
-    const countingMethod = this.shared.getPlayerBySpotId(this.spotId).countingMethod;
-    const trueCount = this.shared.getTrueCount(countingMethod, trueCountType);
+    const trueCount = this.shared.getTrueCount();
     if(parseInt(condition) < 0) {
       return(trueCount <= countThreshold)
     }
@@ -129,6 +117,25 @@ export class PlayChartHand {
       return(trueCount >= countThreshold)
     }
     return true
+  }
+
+  createF2cKey() {
+    let first: number;
+    let second: number;
+    if(this.cards[0].cardValue === 1) {
+      first = this.cards[0].cardValue;
+      second = this.cards[1].cardValue
+    } else if(this.cards[1].cardValue === 1) {
+      first = this.cards[1].cardValue;
+      second = this.cards[0].cardValue
+    } else {
+      first = this.cards[0].cardValue > this.cards[1].cardValue ? this.cards[0].cardValue : this.cards[1].cardValue;
+      second = this.cards[0].cardValue < this.cards[1].cardValue ? this.cards[0].cardValue : this.cards[1].cardValue
+    }
+    const first2Cards = `${ this.cardMap[first] }${ this.cardMap[second] }`;
+    return playerFirst2.includes(first2Cards)
+      ? `${ first2Cards }`
+      : `${ this.cards[0].cardValue + this.cards[1].cardValue }`;
   }
 
   createChartKey(): string {
@@ -155,9 +162,16 @@ export class PlayChartHand {
       : `${ this.dealerCardMap[this.shared.getDealerUpCard()] }-A${ this.getSoftValue() - 1 }`;
   }
 
-  stand(): void  {}
+  stand(): void  {
+    if(this.cards.length === 2) {
+      this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
+    }
+  }
 
   hit(): void  {
+    if(this.cards.length === 2) {
+      this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
+    }
     this.cards.push(this.shared.deal());
     if(this.isBust()) {
       this.payBust();
@@ -169,23 +183,28 @@ export class PlayChartHand {
   }
 
   doubleDown() {
-    if(this.cards.length > 2 && this.hasDoubled) {
-      this.hasTripled = true;
+    if(this.cards.length === 2) {
+      this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
     }
+    // if(this.cards.length > 2 && this.hasDoubled) {
+    //   this.hasTripled = true;
+    // }
     this.hasDoubled = true;
-    const doubleAmount = this.player.betSize;
-    this.betAmount += doubleAmount;
-    this.player.incTotalBet(doubleAmount);
+    this.betAmount += 100;
+    // this.shared.getPlayer().incTotalBet(100);
     this.cards.push(this.shared.deal());
     if(this.isBust()) {
       this.payBust();
-    } else if(this.isDoubleable() || this.isSurrenderable()) {
-      this.playHand();
+    // } else if(this.isDoubleable() || this.isSurrenderable()) {
+    //   this.playHand();
     }
   }
 
   split(): void {
-    this.shared.addHand(true, this.betAmount);
+    if(this.cards.length === 2) {
+      this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
+    }
+    this.shared.addHand(true, 100);
     this.shared.seedSplitHand(this.cards.pop());
     this.cards.push(this.shared.deal());
     this.isFromSplit = true;
@@ -239,12 +258,12 @@ export class PlayChartHand {
   }
 
   paySurrender(): void {
-    this.player.payBankroll(this.betAmount / (-2))
+    this.shared.payPlayer(-50);
     this.hasBeenPaid = true;
   }
 
   payBust(): void {
-    this.player.payBankroll((-1) * this.betAmount);
+    this.shared.payPlayer(-(this.betAmount))
     this.hasBeenPaid = true;
   }
 
@@ -365,15 +384,18 @@ export class PlayChartHand {
     if(this.conditions.surrender !== SurrenderTypes.LATE 
       || this.cards.length !== 2
       || this.isBust() 
-      // || this.isBlackJack()
       ) {
       return false
     }
     return true;
   }
 
-  isInRange(min: number, max: number): boolean {
-    return this.getValue() >= min && this.getValue() <= max;
+  isSplittable(): boolean {
+    if(this.shared.getHandsLength() < this.conditions.mhfs 
+      && this.cards[0]?.cardValue === this.cards[1]?.cardValue) {
+      return this.isFromSplitAces() ? this.conditions.RSA : true;
+    }
+    return false;
   }
 
   isDoubleable() {
@@ -400,9 +422,8 @@ export class PlayChartHand {
     //   return true;
     // }
     if(this.cards.length !== 2
-      // || (this.isFromSplitAces() && !this.conditions.DSA)
+      || (this.isFromSplitAces() && !this.conditions.DSA)
       || (this.isFromSplit && !this.conditions.DAS)
-      // || (this.player.remainingBankroll < this.player.betSize && !this.conditions.DFL)
     ) {
       return false;
     }
@@ -421,13 +442,8 @@ export class PlayChartHand {
     return true;
   }
 
-  isSplittable(): boolean {
-    if(this.shared.getHandsLength() < this.conditions.MHFS 
-      // && this.player.remainingBankroll >= this.betAmount
-      && this.cards[0]?.cardValue === this.cards[1]?.cardValue) {
-      return this.isFromSplitAces() ? this.shared.getConditions().RSA : true;
-    }
-    return false;
+  isInRange(min: number, max: number): boolean {
+    return this.getValue() >= min && this.getValue() <= max;
   }
 
   // handIs3SuitedCards(): boolean {
@@ -445,14 +461,15 @@ export class PlayChartHand {
     if(!this.hasBeenPaid) {
       const dealerHandValue = this.shared.getDealerHandValue();
       const dealerBusted = this.shared.getDidDealerBust();
-      if(this.shared.dealerPushesWith22()) {
-        this.shared.getPlayedRounds();
-      } else if(dealerBusted) {
-        this.player.payBankroll(this.betAmount);
+      // if(this.shared.dealerPushesWith22()) {
+      //   this.shared.getPlayedRounds();
+      // } else 
+      if(dealerBusted) {
+        this.shared.payPlayer(this.betAmount);
       } else if(this.getValue() > dealerHandValue) {
-        this.player.payBankroll(this.betAmount);
+        this.shared.payPlayer(this.betAmount);
       } else if(this.getValue() < dealerHandValue) {
-        this.player.payBankroll(-(this.betAmount));
+        this.shared.payPlayer(-(this.betAmount));
       } 
       this.hasBeenPaid = true;
     }

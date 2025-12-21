@@ -1,0 +1,64 @@
+<div class="deviation-finder-chart-wrapper">
+  <div class="f2c-instructions">
+    <p class="f">Select the players first 2 cards to evaluate</p>
+    <div class="f2cs-wrapper flex">
+    @for(f2c of playerFirst2.splittable; track f2c) {
+      <button [class.selected]="activeF2C === f2c" (click)="setActiveF2C(f2c)">{{ f2c }}</button>
+    }
+    </div>
+    <div class="f2cs-wrapper flex">
+    @for(f2c of playerFirst2.soft; track f2c) {
+      <button [class.selected]="activeF2C === f2c" (click)="setActiveF2C(f2c)">{{ f2c }}</button>
+    }
+    </div>
+    <div class="f2cs-wrapper flex">
+    @for(f2c of playerFirst2.hard; track f2c) {
+      <button
+        class="hard"
+        [class.selected]="activeF2C === f2c"
+        (click)="setActiveF2C(f2c)"
+      >
+        {{ f2c }}
+      </button>
+    }
+    </div>
+  </div>
+
+  <div class="count-range">
+    <p>Choose the count range you would like</p>
+    <div class="ranges-wrapper flex">
+      <div class="input-wrapper flex-column">
+        <label for="">Minimum Count</label>
+        <input type="number" max="0" [(ngModel)]="minAllowableCount" (change)="filterCountLabels()">
+      </div>
+      <div class="input-wrapper flex-column">
+        <label for="">Maximum Count</label>
+        <input type="number" min="0" [(ngModel)]="maxAllowableCount" (change)="filterCountLabels()">
+      </div>
+    </div>
+  </div>
+@if(activeF2C && chartData) {
+  <div class="all-charts">
+    <div class="chart-options flex">
+    @if(isSplittable) {
+      <button (click)="removeAction('split')">{{ removeActionButtonLabels.split }}</button>
+    }
+      <button (click)="removeAction('stay')">{{ removeActionButtonLabels.stay }}</button>
+      <button (click)="removeAction('hit')">{{ removeActionButtonLabels.hit }}</button>
+      <button (click)="removeAction('double')">{{ removeActionButtonLabels.double }}</button>
+      <button (click)="eraseChartKey(activeF2C)">Erase {{ activeF2C }} data</button>
+    </div>
+  @for(key of chartKeys; track key) {
+    <div class="chart-content">
+      <div class="instruction-wrapper flex">
+        <p>Dealer's {{ key }} against a players {{ activeF2C }}</p>
+        <button (click)="eraseUpcardData(activeF2C, key)">Erase Data for {{ key }} against {{ activeF2C }}</button>
+      </div>
+      <div class="canvas-wrapper flex-column">
+        <canvas class="canvas" [id]="'chart-' + key"></canvas>
+      </div>
+    </div>
+  }
+  </div>
+}
+</div>

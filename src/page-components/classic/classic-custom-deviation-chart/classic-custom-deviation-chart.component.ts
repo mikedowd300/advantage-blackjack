@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { BehaviorSubject } from 'rxjs';
 // import { EmailjsService } from '../../../services/emailjs.service';
+import { DeviationChartFinderComponent } from './deviation-chart-components/deviation-finder-chart/deviation-finder-chart.component';
 import { ABJContentAccordionComponent } from '../../../shared-components/abj-content-accordion/abj-content-accordion.component';
 import { ABJTextInputComponent } from '../../../shared-components/abj-text-input/abj-text-input.component';
 import { ABJSelectComponent } from '../../../shared-components/abj-select/abj-select.component';
 import { ABJButtonComponent } from '../../../shared-components/abj-button/abj-button.component';
 import { classicPlayTitles } from "../../../classic-blackjack/default-classic-configs/play-strategies";
-import { deviationFinder } from '../../../classic-blackjack/default-classic-configs/play-strategies/deviation-finder';
 import { 
   DoubleDownOn,
   HoleCardType,
@@ -28,6 +30,8 @@ import { classicCounts } from '../../../classic-blackjack/default-classic-config
     ABJContentAccordionComponent,
     ABJSelectComponent,
     ABJTextInputComponent,
+    DeviationChartFinderComponent,
+    CommonModule,
     FormsModule,
   ],
   templateUrl: './classic-custom-deviation-chart.component.html',
@@ -83,6 +87,7 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   }
   countingMethods: string[] = [];
   isExplanationsExpanded: boolean = false;
+  isWhatsThisExpanded: boolean = false;
   isSetupExpanded: boolean = true;
   explanationUrlKey: string = 'createCustomChart';
   chartNames: string[] = [];
@@ -103,13 +108,17 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   holeCardRules: HoleCardType;
   c678: boolean;
   s678: boolean;
+  x678: boolean;
   c777: boolean;
   s777: boolean;
+  x777: boolean;
   charlie: string;
   c678Payout: string;
   s678Payout: string;
+  x678Payout: string;
   c777Payout: string;
   s777Payout: string;
+  x777Payout: string;
   charliePayout: string;
   doubleSplitAces: boolean;
   drawOnSplitAces: boolean;
@@ -123,8 +132,10 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   dealerPushes22: boolean;
   playStrategy: PlayStrategy;
   showP2CDropDown: boolean = false;
-  iterations: number = 1000000;
+  iterations: number = 10; // 1000000
   playChartEngine: PlayChartEngine = new PlayChartEngine();
+  showSpinnerModal$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  activeF2C: string;
 
   constructor(
     // private emailjs: EmailjsService,
@@ -134,16 +145,11 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.countingMethods = this.getItemCountingMethodTitles();
-    console.log(this.countingMethods);
     this.setChartConfig();
     this.getChartNames();
   }
 
   getItemCountingMethodTitles() {
-    console.log([ 
-      ...Object.keys(this.localStorageService.getItemOfVariation( LocalStorageItemsEnum.COUNT, LocalStorageVariationKeys.CLASSIC)), 
-      ...Object.keys(classicCounts),
-    ]);
     return [ 
       ...Object.keys(this.localStorageService.getItemOfVariation( LocalStorageItemsEnum.COUNT, LocalStorageVariationKeys.CLASSIC)), 
       ...Object.keys(classicCounts),
@@ -164,6 +170,7 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     this.chartName = chartName;
     this.disabled = true;
     this.chartConfig = this.localStorageService.getItem(LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP)[chartName];
+    console.log(this.chartConfig);
     this.dissectChartConfig();
   }
 
@@ -177,7 +184,8 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     this.doubleOn = fields[7] as DoubleDownOn;
     this.surrender = fields[8] as SurrenderTypes;
     this.holeCardRules = fields[9] as HoleCardType;
-    this.countingMethod = fields[9];
+    this.countingMethod = fields[10];
+    console.log('DISSECTING CHART CONFIG')
     this.setChartConfig();
   }
 
@@ -201,6 +209,9 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   }
 
   handleMhfs(): void {
+    if(this.decks < 2) {
+      this.decks = 2;
+    } 
     this.setChartConfig();
   }
 
@@ -210,6 +221,9 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   }
 
   handleDecks(): void {
+    if(this.decks < 1) {
+      this.decks = 1;
+    }
     this.setChartConfig();
   }
 
@@ -245,6 +259,12 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     this.setChartConfig();
   }
 
+  handleX678(x678: boolean) {
+    this.x678 = x678;
+    this.x678Payout = !x678 ? PayRatio.N_A : undefined;
+    this.setChartConfig();
+  }
+
   handleC777(c777: boolean) {
     this.c777 = c777;
     this.c777Payout = !c777 ? PayRatio.N_A : undefined;
@@ -252,6 +272,12 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
   }
 
   handleS777(s777: boolean) {
+    this.s777 = s777;
+    this.s777Payout = !s777 ? PayRatio.N_A : undefined;
+    this.setChartConfig();
+  }
+
+  handleX777(s777: boolean) {
     this.s777 = s777;
     this.s777Payout = !s777 ? PayRatio.N_A : undefined;
     this.setChartConfig();
@@ -273,6 +299,11 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     this.setChartConfig();
   }
 
+  handleX678Payout(x678Payout: string) {
+    this.x678Payout = this.x678 ? x678Payout : undefined;
+    this.setChartConfig();
+  }
+
   handleC777Payout(c777Payout: string) {
     this.c777Payout = this.c777 ? c777Payout : undefined;
     this.setChartConfig();
@@ -280,6 +311,11 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
 
   handleS777Payout(s777Payout: string) {
     this.s777Payout = this.s777 ? s777Payout : undefined;
+    this.setChartConfig();
+  }
+
+  handleX777Payout(x777Payout: string) {
+    this.x777Payout = this.x777 ? x777Payout : undefined;
     this.setChartConfig();
   }
 
@@ -344,7 +380,7 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     this.chartConfig = `classic-${this.chartName}-${this.x17?.split('')[0]}-${this.rsa?.toString()}-${this.mhfs?.toString()}-${this.das?.toString()}-${this.decks?.toString()}-${this.doubleOn}-${this.surrender}-${this.holeCardRules}-${this.countingMethod}`;
 
     if(this.showBonusConfig && (this.c678 || this.s678 ||this.c777 ||this.s777)) {
-      this.chartConfig += `--BONUSES-${this.c678}-${this.c678Payout}-${this.s678}-${this.s678Payout}-${this.c777}-${this.c777Payout}-${this.s777}-${this.s777Payout}-${this.charlie}-${this.charliePayout}`;
+      this.chartConfig += `--BONUSES-${this.c678}-${this.c678Payout}-${this.s678}-${this.s678Payout}-${this.x678}-${this.x678Payout}-${this.c777}-${this.c777Payout}-${this.s777}-${this.s777Payout}-${this.x777}-${this.x777Payout}-${this.charlie}-${this.charliePayout}`;
     }
     if(this.showWeirdRulesConfig && atLeastOneWeirdRule) {
       this.chartConfig += `--WEIRD_RULES-${this.doubleSplitAces}-${this.drawOnSplitAces}-${this.tripleDownOn3Cards}-${this.tripleDownOnAnyAmountOfCards}-${this.surrenderAfterDoubling}-${this.surrenderWhenever}-${this.doubleOn3Card9to11}-${this.doubleOn3Cards}-${this.doubleOnAnyAmountOfCards}-${this.dealerPushes22}`;
@@ -355,25 +391,31 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
       let chartCreatorsList = this.localStorageService.getItem(LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP);
       chartCreatorsList[this.chartName] = this.chartConfig;
       this.localStorageService.setItem(LocalStorageItemsEnum.CHART_CREATORS_CONFIG_MAP, chartCreatorsList);
-      this.playStrategy = { ...deviationFinder, title: this.chartName };
+      // this.playStrategy = this.localStorageService.getItemOfItemOfVariation(LocalStorageVariationKeys.CLASSIC,LocalStorageItemsEnum.PLAY, this.chartName) || { ...deviationFinder, title: this.chartName };
+      // console.log(this.playStrategy);
+
+      this.playStrategy = this.playChartEngine.pcDataService.getPlayStrategy(this.chartName);
+      console.log(this.playStrategy);
 
       const playDetails = {
-        variation: 'classic',
+        variation: LocalStorageVariationKeys.CLASSIC,
         configurationType: LocalStorageItemsEnum.PLAY,
         strategy: this.playStrategy,
         title: null,
       }
       this.localStorageService.saveActiveStrategy$.next(playDetails);
 
-      const deviationChartDetails = {
-        variation: 'classic',
-        configurationType: LocalStorageItemsEnum.DEVIATION_CHART,
-        strategy: this.getNewDeviationChart(),
-        title: this.chartConfig,
+      console.log(this.chartConfig);
+      if(!this.localStorageService.getItemOfItemOfVariation(LocalStorageVariationKeys.CLASSIC , LocalStorageItemsEnum.DEVIATION_CHART, this.chartConfig)){
+        const deviationChartDetails = {
+          variation: LocalStorageVariationKeys.CLASSIC,
+          configurationType: LocalStorageItemsEnum.DEVIATION_CHART,
+          strategy: this.playChartEngine.pcDataService.getNewDeviationChart(),
+          title: this.chartConfig,
+        }
+        console.log('DO YOU SEE ME MORE THAN ONCE')
+        this.localStorageService.saveActiveStrategy$.next(deviationChartDetails);
       }
-      this.localStorageService.saveActiveStrategy$.next(deviationChartDetails);
-      // The required field part of the UI should hide
-      // A Select dropdown should appear with the P2C list
       // Also A delete button should appear to deleat the current Deviation Chart Data
       //  Deleting the Deviation Chart Data affects 2 places in local storage, classic.deviationVhart and chartCreatorsList
       // When deleating from chartCreatorsList, make sure the variation in classic, its the first part of the name
@@ -381,29 +423,6 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
       this.chartConfig = null;
       this.showP2CDropDown = false;
     }
-  }
-
-  getNewDeviationChart() {
-    let chartObj = {};
-    playerFirst2.forEach(p2c => chartObj[p2c] = this.getP2CObject(p2c))
-    return chartObj;
-  }
-
-  getP2CObject(p2c: string) {
-    const p2cRay: string[] = p2c.split('');
-    let isSplittable: boolean = p2cRay.length === 2 && p2cRay[0] === p2cRay[1] && p2c !== '11';
-    let pwcObj = {};
-    this.dealersUpCards.forEach(du => {
-      pwcObj[du] = { '0': { 
-        hit: { instances: 0, totalWon: 0 },
-        stay: { instances: 0, totalWon: 0 },
-        double: { instances: 0, totalWon: 0 },
-      }}
-      if(isSplittable) {
-        pwcObj[du]['0'].split = { instances: 0, totalWon: 0 };
-      }
-    })
-    return pwcObj;
   }
 
   setShowBonusConfig() {
@@ -424,10 +443,12 @@ export class ClassicCustomDeviationChartComponent implements OnInit {
     }
   }
 
-  selectP2C(f2c: string) {
-    console.log(f2c);
-    console.log(this.iterations);
-    console.log(this.chartConfig);
-    this.playChartEngine.startSimulation(this.iterations, this.chartConfig, f2c);
+  selectF2C(f2c: string) {
+    this.activeF2C = f2c;
+    this.showSpinnerModal$.next(true);
+    setTimeout(() => {
+      this.playChartEngine.startSimulation(this.iterations, this.chartConfig, f2c);
+      this.showSpinnerModal$.next(false);
+    });
   }
 }

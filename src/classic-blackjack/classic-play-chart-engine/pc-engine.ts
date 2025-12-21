@@ -1,6 +1,7 @@
 import { PlayChartTable } from './pc-table';
 import { Shoe } from '../classic-engine/shoe';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { PlayChartDataStorageService } from './pc-data-storage.service';
 import { ShoeConditions } from '../../models';
 import { DoubleDownOn, HoleCardType, SurrenderTypes } from '../classic-models/classic-strategies.models';
 
@@ -8,6 +9,7 @@ export class PlayChartEngine {
 
   table: PlayChartTable;
   localStorageService: LocalStorageService = new LocalStorageService();
+  pcDataService: PlayChartDataStorageService = new PlayChartDataStorageService(this.localStorageService);
   shoe: Shoe;
   shoeConditions: ShoeConditions;
   conditions;
@@ -17,6 +19,7 @@ export class PlayChartEngine {
   players: any[];
   splittableF2c: boolean;
   playStrategy: any;
+  shared = {};
   
   constructor() {}
 
@@ -25,23 +28,17 @@ export class PlayChartEngine {
     this.iterations = iterations;
     this.first2Cards = first2Cards;
     this.dissectDetails();
-    this.getPlayers();
     this.shoe = new Shoe(this.shoeConditions, this.localStorageService);
     this.table = new PlayChartTable(
+      this.pcDataService,
       this.localStorageService,
       this.conditions,
-      this.players,
+      first2Cards,
+      this.splittableF2c,
       this.shoe,
       iterations,
-      this.playStrategy,
+      this.shared,
     );
-  }
-
-  getPlayers() {
-    this.players = ['hit', 'stay', 'double'];
-    if(this.splittableF2c) {
-      this.players.push('split');
-    }
   }
 
   dissectDetails() {
@@ -49,6 +46,7 @@ export class PlayChartEngine {
     const fields: string[] = this.details.split('-');
     const f2cRay = this.first2Cards.split('');
     this.conditions = {
+      deviationDataTitle: this.details,
       chartName: fields[1],
       x17: fields[2] + '17',
       rsa: fields[3] === 'true',
