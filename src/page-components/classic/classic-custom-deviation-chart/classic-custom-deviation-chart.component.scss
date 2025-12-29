@@ -110,6 +110,7 @@
 
             ::ng-deep .select-dropdown-wrapper {
               width: 100%;
+              padding-right: 0;
               max-width: none;
 
               label {
@@ -134,13 +135,14 @@
 
           @media only screen and (max-width: 585px) {
             flex-direction: column;
+            margin-bottom: 4px;
 
             .select-wrapper, .input-wrapper {
               width: 100%;
             }
 
             .conjunction {
-              margin-top: 8px;
+              margin: 0 0 4px;
             }
           }
         }
@@ -167,17 +169,22 @@
 
               abj-select {
                 width: 100%;
-                
               }
 
               ::ng-deep .select-dropdown-wrapper {
                 padding-top: 0;
+                padding-right: 10px;
                 width: 100%;
                 max-width: none;
 
                 select {
                   width: 100%;
                   max-width: none;
+                  font-size: 17px;
+                }
+
+                @media only screen and (max-width: 585px) {
+                  padding-right: 0;
                 }
               }
             }
@@ -204,6 +211,11 @@
               box-sizing: border-box;
               width: 100%;
               font-size: 18px;
+
+              @media only screen and (max-width: 585px) {
+                margin: 4px 0;
+                width: calc(100% - 4px);
+              }
             }
 
             .condition-input-wrapper {
@@ -215,43 +227,26 @@
               }
             }
 
-            .input-wrapper  {
+            .input-wrapper {
               width: 100%;
               box-sizing: border-box;
               justify-content: space-between;
               align-items: center;
 
-              // input {
-              //   max-width: 50px;
-              // }
-
               &.two-conditions {
                 justify-content: space-between;
                 border-bottom: 1px solid gray;
 
-                .hole-card-rules-wrapper {
-                  width: 50%;
-                  border-right: 1px solid gray;
-                  margin-bottom: 2px;
-
-                  .title-label {
-                    margin: auto;
-                    padding-right: 8px;
-                  }
-
-                  .response-wrapper {
-
-                    .radio-wrapper {
-                      justify-content: space-between;
-                      margin-right: 8px;
-                    }
-                  }
-                }
-
-                .decks-wrapper {
+                .decks-wrapper, .max-min-count-wrapper {
                   align-items: center;
                   width: 50%;
                   justify-content: flex-start;
+
+                  p {
+                    text-align: center;
+                    font-size: 12px;
+                    margin: 0 0 8px;
+                  }
 
                   label {
                     font-size: 16px;
@@ -269,29 +264,84 @@
                   }
                 }
 
+                .max-min-count-wrapper {
+                  border-right: 1px solid gray;
+                  padding-right: 8px;
+
+                  input {
+                    margin-bottom: 8px;
+                  }
+                }
+
+                .create-play-strategy {
+                  background-color: white;
+                  color: black;
+                  box-sizing: border-box;
+                  width: 100%;
+                  height: 100%;
+                  justify-content: space-between;
+                  padding: 4px;
+
+                  p {
+                    font-size: 12px;
+                  }
+
+                  button {
+                    width: 100%;
+                    padding: 4px;
+                    box-sizing: border-box;
+                    background-color: black;
+                    color: white;
+                    border-radius: 3px;
+
+                    &:hover {
+                      cursor: pointer;
+                      border: 1px solid black;
+                      background-color: white;
+                      color: black;
+                    }
+                  }
+                }
+
                 @media only screen and (max-width: 585px) {
 
                   .decks-wrapper {
                     width: 40%;
                   }
-                  
-                  .hole-card-rules-wrapper {
-                    width: 60%;
 
-                    .response-wrapper {
-                      flex-direction: row;
-                      width: 100%;
-                      justify-content: space-around;
+                  .create-play-strategy {
+                    color: black;
+                    box-sizing: border-box;
+                    width: 100%;
+                    height: 100%;
 
-                      .radio-wrapper {
-                        flex-direction: column;
+                    button {
 
-                        label {
-                          font-size: 16px;
-                        }
+                      &:nth-child(2) {
+                        margin-top: 24px;
                       }
                     }
                   }
+                }
+              }
+            }
+
+            .hole-card-rules-wrapper {
+              width: 100%;
+              margin-bottom: 2px;
+
+              .title-label {
+                margin: auto;
+                padding-right: 8px;
+              }
+
+              .response-wrapper {
+                width: 100%;
+
+                .radio-wrapper {
+                  width: 100%;
+                  justify-content: space-between;
+                  margin-right: 8px;
                 }
               }
             }
@@ -430,6 +480,10 @@
             &.left {
               padding-right: 8px;
               border-right: 1px solid white;
+
+              &.content-wrapper p {
+                margin-top: 0;
+              }
             
               button {
                 width: 100%;
@@ -441,22 +495,76 @@
             }
 
             &.right {
-              padding: 8px 12px 8px;
+              padding: 0 0 0 12px;
+              justify-content: space-between;
 
-              .input-wrapper {
-                align-items: center;
-                margin-bottom: 16px;
+              abj-select {
+                ::ng-deep .select-dropdown-wrapper {
+                  padding-top: 0;
+                  width: 100%;
+                  max-width: none;
+                  box-sizing: border-box;
+
+                  label {
+                    display: none;
+                  }
+
+                  select {
+                    width: 100%;
+                    max-width: none;
+                    box-sizing: border-box;
+                  }
+                }
+              }
+
+              .input-button-wrapper {
                 justify-content: space-between;
 
-                label {
-                  margin-right: 12px;
+                .input-wrapper {
+                  align-items: center;
+                  margin: 8px 12px 0 0;
+                  justify-content: space-between;
+
+                  label {
+                    font-size: 14px;
+                  }
+
+                  input {
+                    padding: 8px;
+                    margin-top: 2px;
+                    text-align: center;
+                    font-size: 18px;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                    width: 112px;
+                    min-width: 112px;
+                  }
                 }
 
-                input {
-                  padding: 8px;
-                  text-align: center;
-                  font-size: 18px;
-                  border-radius: 4px;
+                .button-wrapper {
+                  width: 50%;
+                  box-sizing: border-box;
+                  justify-content: flex-end;
+
+                  button {
+                    box-sizing: border-box;
+                    background-color: white;
+                    border: 1px solid transparent;
+                    color: black;
+                    font-size: 16px;
+                    padding: 8px;
+                    border-radius: 3px;
+                    margin: 8px 0 1px;
+                    width: 100%;
+                    height: 38px;
+
+                    &:hover {
+                      cursor: pointer;
+                      background-color: black;
+                      border: 1px solid white;
+                      color: white;
+                    }
+                  }
                 }
               }
             }

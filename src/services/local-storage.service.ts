@@ -130,6 +130,12 @@ export class LocalStorageService {
     localStorage.setItem(variationKey, JSON.stringify(variation));
   }
 
+  setBaseItemOfVariation(variationKey: LocalStorageVariationKeys, itemKey: LocalStorageItemsEnum, value: any) {
+    let variation = JSON.parse(localStorage.getItem(variationKey)) || {};
+    variation[itemKey] = { ...value };
+    localStorage.setItem(variationKey, JSON.stringify(variation));
+  }
+
   getPreferredVariation() {
     let variationObj = this.getItem(LocalStorageKeys.VARIATION);
     if(Object.keys(variationObj).length === 0) {

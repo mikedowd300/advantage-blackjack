@@ -3,7 +3,11 @@ import { PlayChartDataStorageService } from './pc-data-storage.service';
 import { PlayChartDealerHand } from './pc-dealers-hand';
 import { PlayChartSpot } from './pc-spot';
 import { Shoe } from '../classic-engine/shoe';
-import { CountingMethod, HoleCardType, RoundingMethodEnum } from '../classic-models/classic-strategies.models';
+import {
+  CountingMethod,
+  HoleCardType,
+  RoundingMethodEnum
+} from '../classic-models/classic-strategies.models';
 import {
   classicCountTitles,
   classicCounts,
@@ -37,7 +41,6 @@ export class PlayChartTable {
     public iterations: number,
     public shared,
   ){
-    console.log(conditions);
     this.addCountingMethod();
     this.shared = {
       discard: (x) => this.shoe.discard(x),
@@ -91,12 +94,10 @@ export class PlayChartTable {
       options: `${this.actionMap[action]} S`, 
       conditions: ""
     });
-    // in the play chart make the move stay, hit, split or double depending on the player
     return playStrategy;
   }
 
   play(): void  {
-    console.log(this.conditions);
     this.pcDataService.handleSimStart(this.conditions.chartName, this.conditions.deviationDataTitle, this.first2Cards);
     const isNHC = this.conditions.holeCardRules !== HoleCardType.STANDARD;
     while(this.roundsDealt < this.iterations) {
@@ -114,11 +115,11 @@ export class PlayChartTable {
       }
       this.finalizeRound();
     }
+    this.shoe.shuffleCheck(true);
     this.pcDataService.handleSimEnd(this.conditions.deviationDataTitle);
   }
 
   initializeRound(): void  {
-    // console.log('------------------------------');
     this.spots.forEach(s => s.initializeRound());
     this.tcAtTimeOfAction = {
       'hit': null,
@@ -153,7 +154,6 @@ export class PlayChartTable {
 
   playHands(): void  {
     this.spots.forEach(s => {
-      // console.log(this.first2Cards, s.hands[0].createF2cKey(), this.dealerHand.getValue(), this.dealerHand.cards[0].name, this.dealerHand.cards[1].name);
       if(this.dealerHand.hasBlackjack() || this.first2Cards !== s.hands[0].createF2cKey()) {
         s.hands[0].clearCards();
         s.hands = [];
@@ -168,10 +168,19 @@ export class PlayChartTable {
     // }
     this.spots.forEach(s => s.hands.forEach(h => h.payHand()));
     this.spots.forEach(s => {
-      if(this.tcAtTimeOfAction[s.playerHandle]) {
+      // if(this.tcAtTimeOfAction[s.playerHandle]) {
+      if(this.isValidCount(this.tcAtTimeOfAction[s.playerHandle])) {
         this.pcDataService.updateDeviationData(this.first2Cards, this.getDealerUpcardForDeviationChartData(), this.tcAtTimeOfAction[s.playerHandle], s.playerHandle, s.totalWon);
       }
     })
+  }
+
+  isValidCount(tc: number) {
+    if(!tc) {
+      // console.log('NO TC');
+      return false;
+    }
+    return tc <= this.conditions.maxMinCount && tc >= (-(this.conditions.maxMinCount));
   }
 
   getDealerUpCard(){
@@ -185,10 +194,6 @@ export class PlayChartTable {
       .replace('Q', '10')
       .replace('J', '10');
   }
-
-  // getUnseenCards() {
-    // return this.shoe.cards.length + this.conditions.cardsBurned;
-  // }
 
   playDealersHand(isNHC: boolean = false): void  {
     if(!isNHC) {

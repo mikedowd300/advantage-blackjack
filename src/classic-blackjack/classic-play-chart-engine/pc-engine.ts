@@ -54,14 +54,16 @@ export class PlayChartEngine {
       das: fields[5] === 'true',
       decks: parseInt(fields[6]),
       doubleOn: fields[7] as DoubleDownOn,
-      surrender: fields[8] as SurrenderTypes,
-      holeCardRules: fields[9] as HoleCardType,
-      countingMethod: fields[10],
+      holeCardRules: fields[8] as HoleCardType,
+      countingMethod: fields[9],
+      maxMinCount: parseInt(fields[10]),
     }
+    const decksPerShoe = parseInt(fields[6]);
+    const cardsPerShoe = decksPerShoe * 52;
     this.shoeConditions = {
-      decksPerShoe: parseInt(fields[6]),
+      decksPerShoe,
       cardsBurned: 0,
-      shufflePoint: (parseInt(fields[6]) * 52) - 30,
+      shufflePoint: decksPerShoe > 3 ? cardsPerShoe - 48 : cardsPerShoe - 30,
       countBurnCard: false,
       countBottomCard: false,
     };

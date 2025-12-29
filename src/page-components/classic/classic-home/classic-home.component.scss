@@ -40,6 +40,9 @@
         box-sizing: border-box;
         width: calc(50% - 24px);
         border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
 
         &.hide {
           display: none;

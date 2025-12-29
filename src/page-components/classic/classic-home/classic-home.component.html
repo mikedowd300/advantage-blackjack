@@ -9,15 +9,21 @@
   <div class="content-wrapper flex">    
     <button (click)="navigate('customizations')">
       <p class="button-label">Customizations</p>
-      <p class="button-description">The beauty of a simulation is that every detail of play can be customized. From player's behaviors to table conditions.</p>
+      <p class="button-description">
+        Customize the finer details of a simulation. For players, customize their profiles when it comes to bet spreads, resizing betting units, counting systems, the complexity of the play chart, when to wong and more. For the table, set the conditions you want and add the players you want.
+      </p>
     </button>
     <button (click)="navigate('simulation')">
       <p class="button-label">Simulation</p>
-      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+      <p class="button-description">
+        After you customize a set of table conditions, a player profile and add those conditions and that player to a table, you are ready to simulate what happens after hundreds of thousands of hands. Or add players with different profiles to the same table to compare.
+      </p>
     </button>
     <button [class.hide]="!showDataDrivenPages" (click)="navigate('hand-review', true)">
       <p class="button-label">Playback Your Hands</p>
-      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+      <p class="button-description">
+        That simulation you just ran played real hands. What were those hands? Were they actually played right? Dit it actually play they way you told it to? You can step through each and every hand to see that it played exactly the way you told it to.
+      </p>
     </button>
     <!-- <button (click)="navigate('simulation')">
       <p class="button-label">Practice</p>
@@ -25,34 +31,53 @@
     </button> -->
     <button (click)="navigate('create-deviation-chart')">
       <p class="button-label">Create Custom Deviation Charts</p>
-      <p class="button-description">How did they come up with basic strategy? And deviation charts? How do we know they are right? Did they miss any? What about counts for charts for counting system other than Hi Lo? Good questions. Tease the answers out of millions of simulations. It's actually easier than you think.
+      <p class="button-description">
+        How did they come up with basic strategy? And deviation charts? How do we know they are right? Did they miss any? What about counts for charts for counting system other than Hi Lo?
+      </p> 
+      <p class="button-description">
+        These are good questions. Luckily, teasing the answers out of millions of simulations is easier than you think.
       </p>
     </button>
     <button (click)="navigate('speed-practice')">
       <p class="button-label">Speed Practice</p>
-      <p class="button-description">Focus just on the what to do on the first 2 cards. Set the index ranges to include the proper deviation play. Practice against different counting systems, including ones you created. Focus on the hands you need and filter out the rest. Get instant feedback when you make a mistake.</p>
+      <p class="button-description">
+        Focus just on the what to do on the first 2 cards. Test the proper deviation play for the true count ranges you want. Practice against different counting systems, including ones you created. Focus on the hands you need and filter out the rest. Get instant feedback when you make a mistake.
+      </p>
     </button>
     <button [class.hide]="!showDataDrivenPages" (click)="navigate('simulation-results-dashboard', true)">
       <p class="button-label">Simulation Results Dashboard</p>
-      <p class="button-description">Blackjackibus ipsum dolor sit amet in aeternum habent usque ad hileritatatenm quid pro quo double downium et bustibus.</p>
+      <p class="button-description">
+        This is where you see the results from your simulation. You will find more than just you hourly, see your bankroll chart from hand to hand, zoom in on the chart or click to see the actual cards dealt from any hand on the chart.
+      </p>
     </button>
-    <button [class.hide]="!showDataDrivenPages" (click)="navigate('create-index-chart')">
+    <!-- <button [class.hide]="!showDataDrivenPages" (click)="navigate('create-index-chart')">
       <p class="button-label">Custom Index Charts</p>
       <p class="button-description">
         Find the variations from basic strategy that correlate to the counting system you use.
       </p>
-    </button>
-    <button (click)="navigate('expectations')">
+    </button> -->
+    <!-- <button (click)="navigate('expectations')">
       <p class="button-label">Manage Your Expectations</p>
       <p class="button-description">How often did you have a given true count? How many hands was your longest break even streak? What about a winning streak? Swings?</p>
-    </button>
+    </button> -->
     <button [class.hide]="!showDataDrivenPages" (click)="navigate('what-if')">
       <p class="button-label">What If ...</p>
-      <p class="button-description">That last simulation, what if you changed your betspread, or your resizing strategy, or didn't tip, or changed your insurance strategy. What if?</p>
+      <p class="button-description">
+        That last simulation, what if you changed your bet spread, or your resizing strategy, or didn't tip, or changed your insurance strategy. What if?
+      </p>
     </button>
     <button [class.hide]="!showDataDrivenPages" (click)="navigate('insurance-review')">
       <p class="button-label">Insurance Review</p>
-      <p class="button-description">Even though this is a simulation, everytime the dealer had an Ace up, it is possible to find the exact chances of the dealer having blackjack. How accurately does the true count really guide your insurance decisions? Does it ever make sense to insure for less?Is there a better way to analyse insurance?</p>
+      <p class="button-description">
+        Even though this is a simulation, everytime the dealer has an Ace up, it is possible to find the <i>exact</i> chances of the dealer having blackjack. How accurately does that really correlete to true count based decisions? Is there a better way to analyse insurance?
+      </p>
+    </button>
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('insurance-review')">
+      <p class="button-label">Bankroll Management</p>
+      <p class="button-description"> 
+        How close were you to going broke in that simulation? Did you get lucky that time or can you feel confident that the same simulation would succeed time after time? Are you being too conservative.
+        Analyse your simulation data and find out what bets spreads are realistic with the <i>Kelly Criterion</i>.
+      </p>
     </button>
   </div>
 }

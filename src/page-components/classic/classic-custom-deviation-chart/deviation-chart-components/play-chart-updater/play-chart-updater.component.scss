@@ -1,0 +1,77 @@
+:host {
+  width: 100%;
+
+  .play-chart-updater {
+    width: 100%;
+    box-sizing: border-box;
+    color: black;
+
+    .combos-wrapper {
+      overflow: scroll;
+
+      .f2c-wrapper {
+        background-color: black;
+        font-size: 20px;
+        align-items: center;
+
+        .space-taker {
+          background-color: white;
+          width: 49px;
+          height: 18px;
+        }
+
+        p {
+          margin: 10px 12px;
+          text-align: center;
+          font-weight: 600;
+          background-color: black;
+          color: white;
+        }
+      }
+
+      .combo {
+        width: 10%;
+        min-width: 55px;
+
+        p {
+          margin: 0;
+          text-align: center;
+          border-right: 1px solid white;
+          font-weight: 600;
+          background-color: black;
+          color: white;
+        }
+
+        input {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 2px;
+        }
+      }
+    }
+
+    .buttons-wrapper {
+      padding: 12px;
+      justify-content: flex-end;
+
+      button {
+        padding: 6px 12px;
+        font-size: 18px;
+        border-radius: 3px;
+        border: 1px solid black;
+        background-color: black;
+        color: white;
+
+        &.update {
+          margin-right: 16px;
+        }
+
+        &:hover {
+          border: 1px solid black;
+          background-color: white;
+          color: black;
+        }
+      }
+    }
+  }
+}

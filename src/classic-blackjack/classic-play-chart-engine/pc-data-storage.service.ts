@@ -25,34 +25,44 @@ export class PlayChartDataStorageService {
     this.f2c = f2c;
     this.playStrategy = this.playStrategy || this.getPlayStrategy(playTitle);
     this.deviationF2cData = this.getDeviationData(deviationDataTitle);
-    console.log(this.deviationF2cData);
   }
 
   handleSimEnd(deviationChartKey: string) {
     this.playStrategy = null;
     let deviationData = this.localStorageService.getItemOfItemOfVariation(this.variation , this.deviationStorageItem, this.deviationDataTitle);
     deviationData[this.f2c] = this.deviationF2cData;
-    console.log(deviationData[this.f2c]);
+    this.logScopedF2cObject(this.deviationF2cData);
     this.allDeviationData = deviationData;
     this.localStorageService.setItemOfVariation(this.variation, this.deviationStorageItem, deviationData, deviationChartKey);
   }
 
+  logScopedF2cObject(f2cData) {
+    let scopedObj = {};
+
+    Object.keys(f2cData).forEach(uc => {
+      Object.keys(f2cData[uc]).forEach(key => scopedObj[uc] = {});
+      Object.keys(f2cData[uc])
+        .map(key => parseInt(key))
+        .filter(key => key <= 15 && key >= -15)
+        .map(key => key.toString())
+        .forEach(key => scopedObj[uc][key] = { ...f2cData[uc][key] });
+    })
+    console.log(JSON.stringify(scopedObj));
+  }
+
   getPlayStrategy(title: string) {
-    // console.log(title);
     return this.playStrategy 
     || this.localStorageService.getItemOfItemOfVariation(this.variation , this.playStorageItem, title) 
     || { ...deviationFinder, title };
   }
 
   getDeviationData(title: string) {
-    console.log(title);
     return this.localStorageService.getItemOfItemOfVariation(this.variation , this.deviationStorageItem, title)[this.f2c];
   }
 
   updateDeviationData(f2c: string, upCard: string, count: string, action: string, amount: number) {
     const f2cRay: string[] = f2c.split('');
     const includeSplit: boolean = f2cRay.length === 2 && f2cRay[0] === f2cRay[1] && f2c !== '11';
-    // console.log(f2c, upCard, count, action, amount);
     if(!this.deviationF2cData[upCard][count]) {
       this.deviationF2cData[upCard][count] = {
         double: { instances: 0, totalWon: 0 },
@@ -65,8 +75,6 @@ export class PlayChartDataStorageService {
     }
     this.deviationF2cData[upCard][count][action].instances += 1;
     this.deviationF2cData[upCard][count][action].totalWon += amount;
-    // console.log(this.deviationF2cData[upCard][count][action]);
-    // console.log(this.deviationF2cData);
   }
 
   getNewDeviationChart() {

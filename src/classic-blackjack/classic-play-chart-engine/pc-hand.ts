@@ -91,18 +91,12 @@ export class PlayChartHand {
       .map((op, i) => ({ [op]: (conditions[i] ? this.evaluateCondition(conditions[i]) : true) }))
       .filter((x, i) => this.options.includes(options[i]));
     let i = 0;
-    // console.log(options, conditions, actionConditions, 'TC:', this.shared.getTrueCount(), this.shared.getTrueCountByTenth());
     let action: string = Object.keys(actionConditions[0])[0];
     while(!actionConditions[i][Object.keys(actionConditions[i])[0]]) {
       i++;
       action = Object.keys(actionConditions[i])[0];
     }
     if(!isForEarlySurrender || action === 'surrender') {
-      // if(!action) {
-      //   console.log(`There seems to be a problem with your playchart for the chart key: ${chartKey}.`);
-      //   console.log('No play action was found.');
-      //   console.log('There is a TODO to handle this in the UI');
-      // }
       this.decisionMap[action]();
     } 
   }
@@ -191,7 +185,6 @@ export class PlayChartHand {
     // }
     this.hasDoubled = true;
     this.betAmount += 100;
-    // this.shared.getPlayer().incTotalBet(100);
     this.cards.push(this.shared.deal());
     if(this.isBust()) {
       this.payBust();
