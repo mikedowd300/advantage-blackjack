@@ -47,18 +47,28 @@
       <button (click)="removeAction('hit')">{{ removeActionButtonLabels.hit }}</button>
       <button (click)="removeAction('double')">{{ removeActionButtonLabels.double }}</button>
       <button (click)="eraseChartKey(activeF2C)">Erase {{ activeF2C }} data</button>
+      <button (click)=updatePlayChart()>Update {{ chartName }} Play Chart</button>
     </div>
   @for(key of chartKeys; track key) {
     <div class="chart-content">
       <div class="instruction-wrapper flex">
         <p>Dealer's {{ key }} against a players {{ activeF2C }}</p>
-        <button (click)="eraseUpcardData(activeF2C, key)">Erase Data for {{ key }} against {{ activeF2C }}</button>
+        <!-- <button (click)=updatePlayChart()>Update {{ chartName }} Play Chart</button> -->
+        <!-- <button (click)="eraseUpcardData(activeF2C, key)">Erase Data for {{ key }} against {{ activeF2C }}</button> -->
       </div>
       <div class="canvas-wrapper flex-column">
         <canvas class="canvas" [id]="'chart-' + key"></canvas>
       </div>
     </div>
   }
+  </div>
+  <div class="play-chart-update" [class.show]="showUpdaterUI">
+    <play-chart-updater
+      [chartName]="chartName"
+      [f2c]="activeF2C"
+      (cancel)="cancelPlayChartUpdate()"
+      (update)="updatePlayChartContent($event)"
+    ></play-chart-updater>
   </div>
 }
 </div>

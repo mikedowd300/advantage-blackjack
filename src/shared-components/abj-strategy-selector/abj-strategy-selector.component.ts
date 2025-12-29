@@ -95,6 +95,9 @@ export class ABJStrategySelectorComponent implements OnInit {
       title: null
     }
     this.localStorageService.saveActiveStrategy$.next(strategyDetails);
+    if(!strategyTitle) {
+      this.goBack();
+    }
   }
 
   deleteStrategy(): void {

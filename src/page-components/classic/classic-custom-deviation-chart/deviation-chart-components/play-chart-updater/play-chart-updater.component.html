@@ -1,0 +1,19 @@
+<div class="play-chart-updater">
+  <div class="combos-wrapper flex">
+    <div class="f2c-wrapper flex-column">
+      <div class="space-taker"></div>
+      <p>{{ f2c }}</p>
+    </div>
+  @for(key of newComboKeys; track key) {
+    <div class="combo">
+      <p>{{ upCards[$index] }}</p>
+      <input type="text" [(ngModel)]="newCombos[key].options">
+      <input type="text" [(ngModel)]="newCombos[key].conditions">
+    </div>
+  }
+  </div>
+  <div class="buttons-wrapper flex">
+    <button class="update" (click)="updatePlayChart()">Update</button>
+    <button (click)="cancelUpdate()">Cancel</button>
+  </div>
+</div>

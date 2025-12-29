@@ -1,6 +1,26 @@
 :host {
   width: 100%;
 
+  .play-chart-update {
+    box-sizing: border-box;
+    background-color: white;
+    position: fixed;
+    width: calc(100% - 24px);
+    margin: 12px;
+    border-radius: 3px;
+    top: 0;
+    left: 0;
+    padding: 12px;
+    border: 1px solid black;
+    display: none;
+    z-index: 1;
+    box-shadow: 12px 8px 8px rgba(111, 111, 111, .3);
+
+    &.show {
+      display: flex;
+    }
+  }
+
   .deviation-finder-chart-wrapper {
     overflow: scroll;
     margin: 0;

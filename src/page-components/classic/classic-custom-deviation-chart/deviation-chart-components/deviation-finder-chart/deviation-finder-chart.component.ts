@@ -2,12 +2,14 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartItem, registerables } from 'chart.js';
-// import { ChartDataSet } from '../../../../../../src/models';
+import { LocalStorageService } from '../../../../../services/local-storage.service';
+import { LocalStorageVariationKeys, LocalStorageItemsEnum } from '../../../../../models';
+import { PlayChartUpdaterComponent } from '../play-chart-updater/play-chart-updater.component';
 
 @Component({
   selector: 'deviation-finder-chart',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [PlayChartUpdaterComponent, FormsModule, CommonModule],
   templateUrl: './deviation-finder-chart.component.html',
   styleUrl: './deviation-finder-chart.component.scss'
 })
@@ -15,6 +17,8 @@ import { Chart, ChartItem, registerables } from 'chart.js';
 export class DeviationChartFinderComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() activeF2C: string;
   @Input() chartData: any;
+  @Input() chartConfig: string;
+
   charts: {
     '2': Chart,
     '3': Chart,
@@ -67,13 +71,16 @@ export class DeviationChartFinderComponent implements AfterViewInit, OnDestroy, 
     'split': 'Remove Split',
   };
   isSplittable: boolean;
+  chartName: string;
+  showUpdaterUI: boolean = false;
   
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
+    this.chartName = this.chartConfig.split('-')[1];
     const f2cRay: string[] = this.activeF2C.split('');
-    Chart.register(...registerables); 
     this.isSplittable = f2cRay.length === 2 && f2cRay[0] === f2cRay[1] && this.activeF2C !== '11';
+    Chart.register(...registerables); 
   }
 
   ngAfterViewInit(): void {
@@ -167,21 +174,61 @@ export class DeviationChartFinderComponent implements AfterViewInit, OnDestroy, 
     this.createCharts();
   }
   
-  eraseChartKey(activeF2C: string) {
-    console.log('This will erase all the data for', activeF2C);
+  eraseChartKey(f2c: string) {
+    let allDeviationChartsData = this.localStorageService.getItemOfVariation(LocalStorageItemsEnum.DEVIATION_CHART, LocalStorageVariationKeys.CLASSIC);
+    allDeviationChartsData[this.chartConfig][f2c] = this.getF2CObject(f2c);
+    this.localStorageService.setBaseItemOfVariation(LocalStorageVariationKeys.CLASSIC, LocalStorageItemsEnum.DEVIATION_CHART, allDeviationChartsData);
+  }
+
+  getF2CObject(f2c: string) {
+    const f2cRay: string[] = f2c.split('');
+    let isSplittable: boolean = f2cRay.length === 2 && f2cRay[0] === f2cRay[1] && f2c !== '11';
+    let pwcObj = {};
+    this.chartKeys.forEach(key => {
+      pwcObj[key] = { '0': { 
+        hit: { instances: 0, totalWon: 0 },
+        stay: { instances: 0, totalWon: 0 },
+        double: { instances: 0, totalWon: 0 },
+      }}
+      if(isSplittable) {
+        pwcObj[key]['0'].split = { instances: 0, totalWon: 0 };
+      }
+    })
+    return pwcObj;
+  }
+
+  updatePlayChart() {
+    this.showUpdaterUI = true;
   }
 
   eraseUpcardData(activeF2C: string, upCard: string) {
+    // I no longer see the value in this - but I'm still considering
     console.log('This will erase all the data for', activeF2C, 'against', upCard);
   }
 
   setActiveF2C(f2c: string) {
     this.activeF2C = f2c;
-    this.createCharts()
+    const f2cRay: string[] = this.activeF2C.split('');
+    this.isSplittable = f2cRay.length === 2 && f2cRay[0] === f2cRay[1] && this.activeF2C !== '11';
+    this.createCharts();
   }
 
   filterCountLabels() {
     this.createCharts();
+  }
+
+  cancelPlayChartUpdate() {
+    this.showUpdaterUI = false;
+  }
+  
+  updatePlayChartContent(combos) {
+    const comboKeys = Object.keys(combos);
+    let playCharts = this.localStorageService.getItemOfVariation(
+      LocalStorageItemsEnum.PLAY, LocalStorageVariationKeys.CLASSIC
+    );
+    comboKeys.forEach(key => playCharts[this.chartName].combos[key] = combos[key])
+    this.localStorageService.setBaseItemOfVariation(LocalStorageVariationKeys.CLASSIC, LocalStorageItemsEnum.PLAY, playCharts);
+    this.showUpdaterUI = false;
   }
 
   ngOnDestroy(): void {

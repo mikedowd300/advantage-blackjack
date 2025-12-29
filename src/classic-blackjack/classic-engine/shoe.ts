@@ -115,11 +115,15 @@ export class Shoe {
     }
   }
 
-  shuffleCheck(): void {
+  shuffleCheck(forceShuffle: boolean = false): void {
     const isShuffleTime: boolean = this.discardTray.length >= this.shufflePoint;
-    if(isShuffleTime) {
+    if(isShuffleTime || forceShuffle) {
       this.cards = this.shuffle([...this.cards, ...this.discardTray]);
-      this.updateLocalStorageShoe();
+      if(forceShuffle) {
+        // This is a huge resourse drain and should only be done once after the sim is complete
+        console.log('UPDATING LS');
+        this.updateLocalStorageShoe(); 
+      }
       this.discardTray = [];
       this.isFreshShoe = true;
       this.handsCount = 1;
@@ -129,7 +133,8 @@ export class Shoe {
     }
   }
 
-  // This shuffle algorithm is purely random and not likely an ordering that would be created from a natural shuffle, but that won't change the game or win rate at all
+  // This shuffle algorithm is purely random and not likely an ordering that would be
+  // created from a natural shuffle,but that won't change the game or win rate at all
   // Since the same deck is reused from session to session via local storage, the shuffle is even less important
   shuffle(shoe: Card[], limit: number = this.cardsPerDeck * this.decksPerShoe, incShoeCount: boolean = true): Card[] {
     const newShoe= [];
@@ -147,6 +152,29 @@ export class Shoe {
     // this.verifyShuffle(newShoe);
     newShoe.forEach((c, i) => c.id = i);
     return newShoe;
+  }
+
+  get10sPercentage(plusOne: boolean) {
+    let tens: number = this.discardTray[0]?.cardValue === 10 ? 1 : 0;
+    tens = plusOne ? tens + 1 : tens;
+    this.cards.forEach(c => {
+      if(c.cardValue === 10) {
+        tens += 1
+      }
+    });
+    // console.log('**', tens, Math.round((tens * 100) / (this.cards.length + 1)) / 100);
+    return Math.round((tens * 10000) / (this.cards.length + 2)) / 100;
+  }
+
+  getAceCount(plusOne) {
+    let aces: number = this.discardTray[0]?.cardValue === 1 ? 1 : 0;
+    aces = plusOne ? aces + 1 : aces;
+    this.cards.forEach(c => {
+      if(c.cardValue === 1) {
+        aces += 1
+      }
+    });
+    return aces;
   }
 
   verifyShuffle(newShoe) {
