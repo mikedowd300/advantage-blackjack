@@ -1,3 +1,1 @@
-export const deviation20Index = {
-  "20": {},
-}
+export const deviation20Index = {};

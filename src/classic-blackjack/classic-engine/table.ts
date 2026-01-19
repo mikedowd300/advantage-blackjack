@@ -16,6 +16,8 @@ export class Table {
   players: Player[] = [];
   shared
   lostInsuranceEV: number = 0;
+  hasChartKeyError: boolean = false;
+  invalidChartKey: string;
   
   constructor(
     private recordService: TableRecordService,
@@ -48,6 +50,7 @@ export class Table {
       dealerPushesWith22: () => this.dealerHand.pushesWith22(),
       logTable: () => this.logSelf(),
       getPlayedRounds: () => this.getPlayedRounds(),
+      setChartKeyError: (key: string) => this.setChartKeyError(key),
     };
     this.initializeTable();
     this.play();
@@ -65,6 +68,11 @@ export class Table {
     this.dealerHand = new DealerHand(this.shared);
   }
 
+  setChartKeyError(chartKey: string) {
+    this.hasChartKeyError = true;
+    this.invalidChartKey = chartKey;
+  }
+
   getPlayerSpotMap(players: PlayerTableInfo[]): { [k: string]: number } {
     let playerSpotMap: { [k: string]: number } = {};
     players.forEach(p => playerSpotMap[p.playerConfigTitle] = p.seatNumber);
@@ -75,7 +83,7 @@ export class Table {
     let hasSpots: boolean = this.spotManager.spots
       .filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
     const isNHC = this.conditions.holeCardPolicy !== HoleCardType.STANDARD;
-    while(this.playedRounds < this.iterations && hasSpots) {
+    while(this.playedRounds < this.iterations && hasSpots && !this.hasChartKeyError) {
       this.initializeRound();
       this.initializeRecord();
       this.deal(isNHC);
@@ -107,6 +115,10 @@ export class Table {
       console.log(`${p.handle}, bankroll:${p.bankroll}, total-bet:${p.totalBet} roi: ${Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100}%`));
     console.log(this);
     console.log('LOST INSURANCE EV:', this.lostInsuranceEV);
+    // if(this.hasChartKeyError) {
+    //   console.log('You played', this.playedRounds - 1, 'hands before the simulation ended due to no playing decision existing for', this.invalidChartKey);
+    //   console.log('Navigate to error page or pop a modal explaining the chart key and the error it has');
+    // }
   }
 
   initializeRound(): void  {

@@ -3,9 +3,11 @@ import {
   Component, 
   EventEmitter, 
   Input, 
+  OnChanges, 
   OnDestroy,
   OnInit, 
-  Output 
+  Output, 
+  SimpleChanges
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -20,7 +22,7 @@ import { LocalStorageVariationKeys, LocalStorageItemsEnum } from '../../../../..
   styleUrl: './play-chart-updater.component.scss'
 })
 
-export class PlayChartUpdaterComponent implements AfterViewInit, OnDestroy, OnInit {
+export class PlayChartUpdaterComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @Input() chartName: string;
   @Input() f2c: string;
   @Output() cancel = new EventEmitter<any>();
@@ -38,14 +40,14 @@ export class PlayChartUpdaterComponent implements AfterViewInit, OnDestroy, OnIn
     this.oldCombos = { ...this.localStorageService.getItemOfVariation(
       LocalStorageItemsEnum.PLAY, LocalStorageVariationKeys.CLASSIC
     )[this.chartName].combos };
-    this.upCards.forEach(c => {
-      const key = `${c}-${this.f2c}`;
-      this.newCombos[key] = { ...this.oldCombos[key] };
-      this.newComboKeys.push(key);
-    });
+    this.updateNewCombos();
   }
 
   ngAfterViewInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateNewCombos();
+  }
 
   updatePlayChart(): void {
     this.update.emit(this.newCombos);
@@ -53,6 +55,15 @@ export class PlayChartUpdaterComponent implements AfterViewInit, OnDestroy, OnIn
   
   cancelUpdate(): void {
     this.cancel.emit();
+  }
+
+  updateNewCombos() {
+    this.newComboKeys = [];
+    this.upCards.forEach(c => {
+      const key = `${c}-${this.f2c}`;
+      this.newCombos[key] = { ...this.oldCombos[key] };
+      this.newComboKeys.push(key);
+    });
   }
 
   ngOnDestroy(): void {}

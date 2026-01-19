@@ -88,7 +88,7 @@ export class Hand {
     };
   }
 
-  placeInsuranceBet(amount: number = (this.betAmount / 2)): void  {
+  placeInsuranceBet(amount: number = (this.betAmount / 2)): void {
     if(this.player.insurancePlan.alwaysInsure) {
       this.insuranceAmount = amount;
     } else if(this.player.insurancePlan.neverInsure) {
@@ -107,7 +107,7 @@ export class Hand {
     this.player.insureTip(this.isFromWong());
   }
 
-  payInsurance(): void  {
+  payInsurance(): void {
     const amount: number = this.shared.dealerHasBlackjack() 
       ? this.insuranceAmount * 2 
       : (-(this.insuranceAmount));
@@ -116,7 +116,7 @@ export class Hand {
     this.player.incTotalInsurancePaid(amount);
   }
 
-  playHand(): void  {
+  playHand(): void {
     if(this.isFromSplit && this.cards.length === 1) {
       this.cards.push(this.shared.deal());
     }
@@ -142,32 +142,35 @@ export class Hand {
     while(conditions.length < options.length) {
       conditions.push('?');
     }
-    const tempOptions = [ ...options ];
     let actionConditions: any[] = options
       .map((op, i) => ({ [op]: (conditions[i] ? this.evaluateCondition(conditions[i]) : true) }))
       .filter((x, i) => this.options.includes(options[i]));
-    let i = 0;
-    let action: string = Object.keys(actionConditions[0])[0];
-    while(!actionConditions[i][Object.keys(actionConditions[i])[0]]) {
-      i++;
-      action = Object.keys(actionConditions[i])[0];
-    }
-    // if(isForEarlySurrender && action === 'surrender') {
-    //   // TODO: Remove this if statement after testing
-    //   console.log(this.player.handle, 'EARLY SURRENDER');
-    //   console.log(`Dealer has an ace`, this.shared.dealerShowsAce());
-    //   this.cards.forEach(c => console.log(c.name))
-    // }
-    if(!isForEarlySurrender || action === 'surrender') {
-      if(!action) {
-        console.log(`There seems to be a problem with your playchart for the chart key: ${chartKey}.`);
-        console.log('No play action was found.');
-        console.log('There is a TODO to handle this in the UI');
-        // TODO: Make a UI for a chartkey error
+    
+    if(actionConditions.length === 0) {
+      this.shared.setChartKeyError(chartKey);
+    } else {    let i = 0;
+      let action: string = Object.keys(actionConditions[0])[0];
+      while(!actionConditions[i][Object.keys(actionConditions[i])[0]]) {
+        i++;
+        action = Object.keys(actionConditions[i])[0];
       }
-      this.record.actions.push(action as HandActionEnum);
-      this.decisionMap[action]();
-    } 
+      // if(isForEarlySurrender && action === 'surrender') {
+      //   // TODO: Remove this if statement after testing
+      //   console.log(this.player.handle, 'EARLY SURRENDER');
+      //   console.log(`Dealer has an ace`, this.shared.dealerShowsAce());
+      //   this.cards.forEach(c => console.log(c.name))
+      // }
+      if(!isForEarlySurrender || action === 'surrender') {
+        if(!action) {
+          console.log(`There seems to be a problem with your playchart for the chart key: ${chartKey}.`);
+          console.log('No play action was found.');
+          console.log('There is a TODO to handle this in the UI');
+          // TODO: Make a UI for a chartkey error
+        }
+        this.record.actions.push(action as HandActionEnum);
+        this.decisionMap[action]();
+      }
+    }
   }
 
   evaluateCondition(condition: string): boolean {
@@ -210,9 +213,9 @@ export class Hand {
       : `${ this.dealerCardMap[this.shared.getDealerUpCard()] }-A${ this.getSoftValue() - 1 }`;
   }
 
-  stand(): void  {}
+  stand(): void {}
 
-  hit(): void  {
+  hit(): void {
     this.cards.push(this.shared.deal());
     if(this.isBust()) {
       this.payBust();
@@ -533,7 +536,7 @@ export class Hand {
     return this.getValue() >= min && this.getValue() <= max;
   }
 
-  isDoubleable() {
+  isDoubleable(): boolean {
     const { allowTripleDownOn3Cards, 
       allowTripleDownOnAnyAmountOfCards, 
       allowDoubleDownOnAnyNumberOfCards,
