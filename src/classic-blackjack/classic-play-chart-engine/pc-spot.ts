@@ -50,10 +50,31 @@ export class PlayChartSpot {
 
   playHands() {
     this.hands[0]?.playHand();
+
+    // if(this.hands[0] && this.playerHandle === 'split') {
+    //   console.log('0:', this.hands[0].cards.map(c => c.name))
+    // }
+
     this.hands[1]?.playHand();
+
+    // if(this.hands[1] && this.playerHandle === 'split') {
+    //   console.log('1:', this.hands[1].cards.map(c => c.name))
+    // }
     this.hands[2]?.playHand();
+
+    // if(this.hands[2] && this.playerHandle === 'split') {
+    //   console.log('2:', this.hands[2].cards.map(c => c.name))
+    // }
     this.hands[3]?.playHand();
+
+    // if(this.hands[3] && this.playerHandle === 'split') {
+    //   console.log('3:', this.hands[3].cards.map(c => c.name))
+    // }
     this.hands[4]?.playHand();
+
+    // if(this.hands[4] && this.playerHandle === 'split') {
+    //   console.log('4:', this.hands[4].cards.map(c => c.name))
+    // }
     this.hands[5]?.playHand();
     this.hands[6]?.playHand(); 
     this.hands[7]?.playHand(); 

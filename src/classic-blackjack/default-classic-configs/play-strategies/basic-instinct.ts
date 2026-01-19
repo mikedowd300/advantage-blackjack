@@ -24,7 +24,7 @@ export const instinct: PlayStrategy = {
       conditions: ""
     },
     "2-66": {
-      options: "P S",
+      options: "P H",
       conditions: ""
     },
     "2-55": {

@@ -1,4 +1,22 @@
 <div class="classic-bankroll-chart page">
+  <div class="modal" [class.show]="showInvalidChartKeyModal">
+    @let content = (gameData.invalidChartKey$ | async);    
+    <div class="modal-content">
+      <div class="top-row flex">
+        <h2>Missing Play Action Error</h2>
+        <button class="close-button" (click)="closeInvalidChartKeyModal()">X</button>
+      </div>
+      <p>The simulation ended early due to no playable action for a players {{ content?.playersCards }} against a dealers {{ content?.dealersUpcard}}.</p>
+      <p>The remaining simmed data is based off the first {{ content?.roundsPlayed }} rounds.</p>
+      <p>Please edit the play options for this <abj-anchor
+          text="play chart sytrategy."
+          routerLink="/classic/play-chart"
+          [showTextLink]="true"
+        ></abj-anchor>
+      </p>
+      <p>View the replay<button class="review-button" (click)="goToHandReview()">here</button>.</p>
+    </div>
+  </div>
   <div class="content flex-column">
     <div class="chart-content flex">
       <div class="page-link" (click)="navigate('classic/bankroll-chart')">

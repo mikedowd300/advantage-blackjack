@@ -32,5 +32,12 @@ export class GameEngine {
     );
     this.simulationComplete$.next(true);
     this.gameData.playerResults$.next(this.table.getPlayerResults());
+    if(this.table.invalidChartKey?.split('-')[0]) {
+      this.gameData.invalidChartKey$.next({ 
+        playersCards: this.table.invalidChartKey?.split('-')[1],
+        dealersUpcard: this.table.invalidChartKey?.split('-')[0],
+        roundsPlayed: this.table.playedRounds - 1 
+      }); // Type this
+    }
   }
 }

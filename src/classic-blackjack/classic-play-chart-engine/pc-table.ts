@@ -30,6 +30,8 @@ export class PlayChartTable {
   trueCountType: TrueCountTypeEnum;
   countingMethod: CountingMethod;
   tcAtTimeOfAction
+
+  loggit: boolean = false; // TESTING ONLY - REMOVE THIS
   
   constructor(
     private pcDataService: PlayChartDataStorageService,
@@ -50,6 +52,10 @@ export class PlayChartTable {
       getDealerHandValue: () => this.dealerHand.getValue(),
       getDidDealerBust: () => this.dealerHand.isBust(),
       updateTCatTimeOfAction: (x, y) => this.updateTCatTimeOfAction(x, y),
+      // getTCatTimeOfAction: (x) => this.getTCatTimeOfAction(x),
+      // getLoggit: () => this.loggit,
+      // getCardsLeftInShoe: () => this.shoe.cards.length,
+
       // getDealersCardLength: () => this.getDealersCardLength(),
       // isFreshShoe: () => this.shoe.getIsFreshShoe(),
       // dealerShowsAce: () => this.dealerHand.showsAce(),
@@ -67,6 +73,7 @@ export class PlayChartTable {
     if(this.splittableF2c) {
       handles.push('split');
     }
+    console.log(handles);
     handles.forEach(h => this.spots.push(new PlayChartSpot(h, this.updatePlayStrategy(h), this.shared, this.conditions)));
   }
 
@@ -91,9 +98,9 @@ export class PlayChartTable {
     const chartKeys: string[] = upCardsValues.map(v => `${v}-${this.first2Cards}`);
     const playStrategy = { ...this.playStrategy, combos: { ...this.playStrategy.combos } };
     chartKeys.forEach(key => playStrategy.combos[key] = { 
-      options: `${this.actionMap[action]} S`, 
-      conditions: ""
-    });
+        options: `${this.actionMap[action]} S`, 
+        conditions: ""
+      });
     return playStrategy;
   }
 
@@ -133,6 +140,10 @@ export class PlayChartTable {
     this.tcAtTimeOfAction[key] = value.toString();
   }
 
+  getTCatTimeOfAction(key: string) {
+    return this.tcAtTimeOfAction[key]
+  }
+
   finalizeRound(): void  {
     this.spots.forEach(s => s.resetHands());
     this.dealerHand.clearCards();
@@ -158,8 +169,18 @@ export class PlayChartTable {
         s.hands[0].clearCards();
         s.hands = [];
       }
+      // if(s.hands[0] && s.playerHandle === 'split') {
+      //   this.loggit = true;
+      //   let cards = '';
+      //   s.hands[0]?.cards.forEach(c => cards += `${c.name} `)
+      //   console.log(cards, 'DEALER:', this.getDealerUpCard(), 'TC:', this.shared.getTrueCount());
+      // }
       s.playHands();
     })
+    // if(this.loggit) {
+    //   console.log('-----------------');
+    //   this.loggit = false;
+    // }
   }
 
   payHands(): void  {

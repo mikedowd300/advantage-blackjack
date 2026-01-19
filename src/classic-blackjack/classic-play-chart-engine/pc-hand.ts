@@ -23,7 +23,7 @@ export class PlayChartHand {
     'P': 'split',
     'R': 'surrender',
     'H': 'hit',
-    'D': 'double'
+    'D': 'double',
   };
   cardMap = { 1: 'A', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: 'T' };
   dealerCardMap = { 1: 'A', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: '10' };
@@ -96,6 +96,10 @@ export class PlayChartHand {
       i++;
       action = Object.keys(actionConditions[i])[0];
     }
+    // if(this.shared.getLoggit()) {
+    //   console.log(chartKey, action, `(${this.shared.getTrueCount()}, ${this.shared.getCardsLeftInShoe()})`, this.cards.map(c => c.name));
+    // }
+
     if(!isForEarlySurrender || action === 'surrender') {
       this.decisionMap[action]();
     } 
@@ -157,13 +161,13 @@ export class PlayChartHand {
   }
 
   stand(): void  {
-    if(this.cards.length === 2) {
+    if(this.cards.length === 2 && !this.isFromSplit) {
       this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
     }
   }
 
   hit(): void  {
-    if(this.cards.length === 2) {
+    if(this.cards.length === 2 && !this.isFromSplit) {
       this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
     }
     this.cards.push(this.shared.deal());
@@ -177,7 +181,7 @@ export class PlayChartHand {
   }
 
   doubleDown() {
-    if(this.cards.length === 2) {
+    if(this.cards.length === 2 && !this.isFromSplit) {
       this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
     }
     // if(this.cards.length > 2 && this.hasDoubled) {
@@ -194,7 +198,8 @@ export class PlayChartHand {
   }
 
   split(): void {
-    if(this.cards.length === 2) {
+    if(this.cards.length === 2 && !this.isFromSplit) {
+      // console.log(this.isFromSplit);
       this.shared.updateTCatTimeOfAction(this.shared.getHandle(), this.shared.getTrueCount());
     }
     this.shared.addHand(true, 100);
@@ -258,6 +263,9 @@ export class PlayChartHand {
   payBust(): void {
     this.shared.payPlayer(-(this.betAmount))
     this.hasBeenPaid = true;
+    // if(this.shared.getHandle() === 'split') {
+    //   console.log(-(this.betAmount), 'PLAYER BUSTED');
+    // }
   }
 
   getOptions(): void {
@@ -352,7 +360,7 @@ export class PlayChartHand {
       // if(charliePayout !== PayRatio.N_A && charlieType !== CharlieType.NONE && this.getValue() < 21) {
       //   return this.cards.length < this.charlieTypeMap[charlieType];
       // }
-      return this.getValue() < 21 && !this.hasDoubled;
+      return this.getValue() < 21 && !this.hasDoubled && !this.isFromSplitAces();
     }
     return false;
   }
@@ -386,7 +394,7 @@ export class PlayChartHand {
   isSplittable(): boolean {
     if(this.shared.getHandsLength() < this.conditions.mhfs 
       && this.cards[0]?.cardValue === this.cards[1]?.cardValue) {
-      return this.isFromSplitAces() ? this.conditions.RSA : true;
+      return this.isFromSplitAces() ? this.conditions.rsa : true;
     }
     return false;
   }
@@ -415,8 +423,8 @@ export class PlayChartHand {
     //   return true;
     // }
     if(this.cards.length !== 2
-      || (this.isFromSplitAces() && !this.conditions.DSA)
-      || (this.isFromSplit && !this.conditions.DAS)
+      // || (this.isFromSplitAces() && !this.conditions.DSA)
+      || (this.isFromSplit && !this.conditions.das)
     ) {
       return false;
     }
@@ -432,7 +440,7 @@ export class PlayChartHand {
     if(canDoubleOn === DoubleDownOn.EIGHT_thru_ELEVEN) {
       return this.isInRange(8, 11);
     }
-    return true;
+    return !this.isFromSplitAces();
   }
 
   isInRange(min: number, max: number): boolean {
@@ -459,12 +467,28 @@ export class PlayChartHand {
       // } else 
       if(dealerBusted) {
         this.shared.payPlayer(this.betAmount);
+
+        // if(this.shared.getHandle() === 'split') {
+        //   console.log(this.betAmount, 'Dealer Busted');
+        // }
       } else if(this.getValue() > dealerHandValue) {
-        this.shared.payPlayer(this.betAmount);
+        this.shared.payPlayer(this.betAmount, this.shared.getDealerHandValue());
+
+        // if(this.shared.getHandle() === 'split') {
+        //   console.log(this.betAmount, this.shared.getDealerHandValue());
+        // }
       } else if(this.getValue() < dealerHandValue) {
         this.shared.payPlayer(-(this.betAmount));
+
+        // if(this.shared.getHandle() === 'split') {
+        //   console.log(-(this.betAmount), this.shared.getDealerHandValue());
+        // }
       } 
       this.hasBeenPaid = true;
+
+      // if(this.shared.getHandle() === 'split') {
+      //   console.log('********************');
+      // }
     }
   }
 }

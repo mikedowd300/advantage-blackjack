@@ -1,21 +1,23 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { EmailjsService } from '../../../services/emailjs.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { BehaviorSubject, combineLatest, filter, last, map, Subject, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, tap } from 'rxjs';
 import { GameEngineData } from '../../../services/game-engine-data';
-import { WinRateInfo, WinRateByBettingUnit, PlayersWinRateByBettingUnit } from '../../../models';
+import { PlayersWinRateByBettingUnit } from '../../../models';
 import { ABJSimDetailsComponent } from '../../../shared-components/abj-sim-details/abj-sim-details.component';
 import { ABJAccordionComponent } from '../../../shared-components/abj-accordion/abj-accordion.component';
 import { ABJHourlyWinRateComponent } from '../../../shared-components/abj-hourly-win-rate/abj-hourly-win-rate.component';
+import { ABJAnchorComponent } from '../../../shared-components/abj-anchor/abj-anchor.component';
 
 @Component({
   selector: 'simulation-results-dashboard',
   standalone: true,
   imports: [
     FormsModule,
+    ABJAnchorComponent,
     ABJSimDetailsComponent,
     ABJAccordionComponent,
     ABJHourlyWinRateComponent,
@@ -35,6 +37,8 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
   ctx: HTMLElement = null;
   playerResults = null;
   playersWinRateByBettingUnit: PlayersWinRateByBettingUnit = {};
+  showInvalidChartKeyModal: boolean = false;
+  invalidChartKeyContent: any;
   
   constructor(
     private emailjs: EmailjsService,
@@ -45,7 +49,16 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.emailjs.setPreviousScreen$.next('Classic Simulation Results');
     this.handles = this.gameData.playerInfo.map(p => p.playerConfigTitle);
-    this.activeHandle = this.handles[0]; 
+    this.activeHandle = this.handles[0];
+
+    this.gameData.invalidChartKey$
+
+    this.gameData.invalidChartKey$
+      .pipe(
+        filter(x => !!x), 
+        tap(data => this.invalidChartKeyContent = { ...data }),
+      )
+      .subscribe(() => this.showInvalidChartKeyModal = true);
 
     this.gameData.playerResults$.pipe(filter(x => !!x)).subscribe(results => {
       this.playerResults = results;
@@ -79,5 +92,15 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
 
   navigate(url: string): void {
     this.router.navigate([url]);
+  }
+
+  closeInvalidChartKeyModal() {
+    this.showInvalidChartKeyModal = false;
+    this.gameData.invalidChartKey$.next(null);
+  }
+
+  goToHandReview() {
+    this.gameData.replayHandAtIndex$.next(this.invalidChartKeyContent.roundsPlayed - 1);
+    this.router.navigate(['classic/hand-review']);
   }
 }

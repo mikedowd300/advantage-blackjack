@@ -16,6 +16,7 @@ export class GameEngineData {
   records$: BehaviorSubject<TableRecord[]> = new BehaviorSubject<TableRecord[]>([]);
   replayHandAtIndex$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   playerResults$: BehaviorSubject<any> = new BehaviorSubject<AnalyserNode>(null); // Type this
+  invalidChartKey$: BehaviorSubject<any> = new BehaviorSubject<any>(null); // Type this
 
   constructor() {}
   
