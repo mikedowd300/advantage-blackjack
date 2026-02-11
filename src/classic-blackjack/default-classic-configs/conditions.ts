@@ -10,7 +10,7 @@ import {
 export const classicDefaultConditions: AbbreviatedClassicConditions = {
   title: "Default Conditions",
   S17: false,
-  RSA:  false,
+  RSA:  true,
   MHFS: 4,
   DSA: false,
   DRSA: false,

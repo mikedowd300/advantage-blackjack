@@ -84,8 +84,8 @@ export class Spot {
     this.hands.forEach(h => h.surrenderEarly());
   }
 
-  offerInsurance(): void {
-    this.hands.forEach(h => h.placeInsuranceBet());
+  offerInsurance(percentageOfTens: number): void {
+    this.hands.forEach(h => h.placeInsuranceBet(percentageOfTens));
   }
 
   payInsurance(): void {

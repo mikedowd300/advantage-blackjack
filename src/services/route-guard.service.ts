@@ -14,15 +14,10 @@ export class RouteGuardService implements CanActivate {
       if(state.url === '/classic') {
         this.router.navigate(['/classic/home']);
         return false;
+      } else if(state.url === '/doubleup') {
+        this.router.navigate(['/doubleup/home']);
+        return false;
       }
       return true;
-
-      // if(state.url === '/doubleup') {
-      //   this.router.navigate(['/']);
-      //   return false;
-      // }
-      // else {
-      //   return true;
-      // }
   }
 }

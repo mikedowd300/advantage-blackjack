@@ -1,0 +1,99 @@
+<div class="doubleup-instructions page" [class.no-overflow]="showIframeModal">
+  <div class="iframe-modal flex-column" [class.show]="showIframeModal">
+    <div class="button-wrapper flex">
+      <button (click)="toggleIframeModal()">X</button>
+    </div>
+    <div class="modal-content">
+      <iframe src="https://wizardofodds.com/games/double-up-blackjack"></iframe>
+    </div>
+  </div>
+  <div class="instruction-header flex">
+    <h2>How do you play this game?</h2>
+    <button class="back-button" (click)="goBack()">Back</button>
+  </div>
+  <div class="instruction-content">
+    <p class="alternate">
+      In a Blackjack Variant you lose EV with one rule but then gain it back with some new, juicy twist.
+    </p>
+    <p class="alternate">But is it a fair trade?</p>
+    <p class="alternate">In Double Up Blackjack, it definately is!</p>
+  </div>
+  <div class="instruction-content">
+    <p class="alternate">
+      The juicy twist is that, after your first 2 cards, along with the usual play options, you have the additional option to <b><i>Double Up</i></b>.
+    </p>
+    <p class="alternate">
+      This means you can make a seperate <i>double up</i> bet, up to the size of your original bet, and <b><i>you don't even take another card</i></b>.
+    </p>
+    <p class="alternate">
+      This second, <b>double up</b> bet only wins if the player's hand <b>beats</b> the dealer's hand. A push looses.
+    </p>
+    <p class="alternate">For the original bet, though, a push is still a push.</p>
+  </div>
+  <div class="instruction-content">
+    <p class="alternate">Then there's the negative EV rule...</p>
+    <p class="alternate">If the dealer hits to 16, all hands push.</p>
+    <p class="alternate">This includes a push on the double up bet as well.</p>
+    <p class="alternate">
+      But, and this adds EV back on the juicy side, hands that hit or double down to 21 <b>do</b> win.
+    </p>
+  </div>
+  <div class="instruction-content">
+    <p class="alternate">
+      You might equate the <b>push on 16</b> rule to the <b>pushing on 22</b> rule that other blackjack variants have.
+    </p>
+    <p class="alternate">
+      To be clear, that is a very bad rule, but here's a little food for thought on why the <b>push on 16</b> rule is not the same EV killer.
+    </p>
+    <p class="alternate">
+      Pushing on a 22 is a push on a hand that 100% would have been a win in classic blackjack, but pushing on 16 is a push that would only have <i>most likely</i> been a win.
+    </p>
+    <p class="alternate">
+      Also, since hands that hit to 21 <i>do</i> get paid, <i>including double downs</i>, those hands win 100% of the time. In classic Blackjack, they would push 1 in 13 times.
+    </p>
+    <p class="alternate">Those things add up.</p>
+    <p class="alternate">
+      Another little EV gem is that doubling up is allowed after splitting. So, aces turn into 21s and small fortunes.
+    </p>
+    <p class="alternate">
+      But, don't forget, a push is a <b>loss</b> on the double up bet, and it can be a heart breaker.
+    </p>
+  </div>
+  <h2>How do you beat this game?</h2>
+  <div class="instruction-content">
+    <p class="alternate">
+      The Wizard of Odds has done the leg work for the Basic Strategy chart, as you can see 
+      <button (click)="toggleIframeModal()">here.</button>
+    </p>
+    <p class="alternate">
+      And, it turns out that this game is very beatable just using Hi Lo with The Wiard's Basic Strategy Chart.
+    </p>
+    <p class="alternate">
+      You can see this for yourself by running simulations in ABJs simulator.
+    </p>
+    <p class="alternate">
+      It gets better though. Discover <b><i>play deviations</i></b> with ABJ's Deviation Finder Tool, and...
+    </p>
+    <p class="alternate">
+      run simulations with different counting systems with ABJ <b>custom count maker</b> tool for even more EV.
+    </p>
+    <p class="alternate">
+      Just a hint on what to consider that may or may not make it worth it to switch from Hi Lo...
+    </p>
+    <p class="alternate">
+      In regular blackjack the 5 is the dealer's best friend since it will never bust the dealer. Well, since a 16 is a push here, the 6 becomes the dealer's new best friend.
+    </p>
+    <p class="alternate">
+      Now, couple that with the fact that the 6 has a second advantage to the house with it's tendency to turn what in classic blackjack is a positive EV 16, into a 0 EV hand.
+    </p>
+    <p class="alternate">
+      With this in mind, you might play around customizing a counting system that give the 6 more weight than just +1, and then you could find the deviations for that count.
+    </p>
+    <p class="alternate">
+      Run simulations to compare different results for players with different counting systems to find the system that generates the most EV.
+    </p>
+    <p class="alternate">
+      It's worth taking a look and ABJ gives you the tools to do it.
+    </p>
+  </div>
+</div>

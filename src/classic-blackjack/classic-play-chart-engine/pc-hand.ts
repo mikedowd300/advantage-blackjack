@@ -462,33 +462,14 @@ export class PlayChartHand {
     if(!this.hasBeenPaid) {
       const dealerHandValue = this.shared.getDealerHandValue();
       const dealerBusted = this.shared.getDidDealerBust();
-      // if(this.shared.dealerPushesWith22()) {
-      //   this.shared.getPlayedRounds();
-      // } else 
       if(dealerBusted) {
         this.shared.payPlayer(this.betAmount);
-
-        // if(this.shared.getHandle() === 'split') {
-        //   console.log(this.betAmount, 'Dealer Busted');
-        // }
       } else if(this.getValue() > dealerHandValue) {
-        this.shared.payPlayer(this.betAmount, this.shared.getDealerHandValue());
-
-        // if(this.shared.getHandle() === 'split') {
-        //   console.log(this.betAmount, this.shared.getDealerHandValue());
-        // }
+        this.shared.payPlayer(this.betAmount);
       } else if(this.getValue() < dealerHandValue) {
         this.shared.payPlayer(-(this.betAmount));
-
-        // if(this.shared.getHandle() === 'split') {
-        //   console.log(-(this.betAmount), this.shared.getDealerHandValue());
-        // }
       } 
       this.hasBeenPaid = true;
-
-      // if(this.shared.getHandle() === 'split') {
-      //   console.log('********************');
-      // }
     }
   }
 }

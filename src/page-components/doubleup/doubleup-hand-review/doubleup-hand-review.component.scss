@@ -1,0 +1,197 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+  .doubleup-hand-review {
+
+    .content {
+      width: 100%;
+      color: $doubleup-font-color;
+
+      .dealer-wrapper {
+        width: 100%;
+        border-bottom: 1px solid $doubleup-font-color;
+
+        .cards-wrapper {
+          justify-content: center;
+          overflow-x: scroll;
+
+          .card-image-wrapper {
+            max-width: 100px;
+            min-width: 58px;
+
+            img {
+              width: 100%;
+              box-sizing: border-box;
+              border: 2px solid $doubleup-font-color;
+              border-radius: 9px;
+            }
+          }
+
+          @media only screen and (max-width: 499px) {
+            justify-content: start;
+          }
+        }
+      }
+
+      .button-wrapper {
+        justify-content: space-between;
+        margin: 8px 0;
+
+        button {
+          padding: 8px;
+          background-color: $doubleup-font-color;
+          color: white;
+          font-size: 18px;
+          border-radius: 3px;
+        }
+
+        .cards-remaining {
+          margin: 0 6px;
+          text-align: center;
+        }
+      }
+
+      .spots-wrapper {
+        margin-top: 4px;
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: start;
+        overflow: scroll;
+        flex-direction: row-reverse;
+
+        .spot {
+          flex-wrap: nowrap;
+          width: 100%;
+          min-width: 120px;
+          border-left: 1px solid $doubleup-font-color;
+          justify-content: space-between;
+
+          &:last-child {
+            border: none;
+          }
+
+          .hands-wrapper {
+            height: 100%;
+            overflow-x: scroll;
+
+            .hand {
+              width: 100%;
+              align-items: center;
+              min-width: 60px;
+              justify-content: space-between;
+
+              .cards-wrapper {
+                justify-content: space-between;
+
+                .card-image-wrapper {
+                  max-width: 100px;
+
+                  img {
+                    width: 90%;
+                    box-sizing: border-box;
+                    border: 2px solid $doubleup-font-color;
+                    border-radius: 9px;
+                  }
+
+                  &:nth-child(even) img {
+                    margin-left: 12%;
+                  }
+
+                  &:nth-child(odd) {
+                    margin-right: 12%;
+                  }
+
+                  &:not(:first-child) img {
+                    margin-top: -90%;
+                  }
+                }
+              }
+
+              .hand-details {
+                align-items: center;
+                margin-top: 12px;
+
+                p {
+                  margin: 0;
+                }
+
+                .detail {
+                  padding: 2px 4px;
+                  border-radius: 3px;
+                  text-align: center;
+
+                  .underline {
+                    text-decoration: underline;
+                  }
+
+                  &:nth-child(odd) {
+                    background-color: rgba($doubleup-lite, .6);
+                  }
+                }
+              }
+
+              &:nth-child(even) {
+                background-color: rgba($doubleup-lite, .3);
+              }
+            }
+          }
+
+          .player-details {
+            padding-top: 8px;
+            border-top: 1px solid $doubleup-font-color;
+            margin-top: 8px;
+            text-align: center;
+            box-sizing: border-box;
+
+            .details {
+              margin: 0 6px;
+              padding: 2px 4px;
+              border-radius: 3px;
+              text-align: center;
+              box-sizing: border-box;
+
+              &:nth-child(odd) {
+                background-color: rgba($doubleup-lite, .6);
+              }
+            }
+          }
+        }
+      }
+
+      .hand-input-wrapper {
+        margin-top: 6px;
+        padding-top: 6px;
+        box-sizing: border-box;
+        align-items: center;
+        border-top: 1px solid $doubleup-font-color;
+        font-size: 16px;
+
+        .input-wrapper {
+          background-color: white;
+          border-radius: 3px;
+          width: 94px;
+          box-sizing: border-box;
+          margin: 0 8px;
+
+          input {
+            padding: 4px 6px;
+            border: none;
+            width: 94px;
+            box-sizing: border-box;
+            font-size: 18px;
+            border-radius: 3px;
+          }
+        }
+
+        span {
+          color: red;
+        }
+      }
+    }
+  }
+}

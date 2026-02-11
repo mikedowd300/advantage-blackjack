@@ -28,6 +28,7 @@ export class FooterComponent implements OnInit {
   showSetDefaultButton$: Observable<boolean> = of(false);
   currentUrl$: Observable<string> = of('/');
   storableHomePageText: string = null;
+  footerClass: string;
 
   constructor(
     private router: Router,
@@ -43,6 +44,7 @@ export class FooterComponent implements OnInit {
     this.links = this.headerFooterService.footerLinks;
     this.storedVariation = this.localStorageService.getPreferredVariation();
     this.headerFooterService.currentVariation$.pipe().subscribe(v => this.currentVariation = v);
+    this.headerFooterService.fullPageUrl$.pipe().subscribe(url => this.footerClass = url?.split('/')[0]);
     this.showSetDefaultButton$ = this.headerFooterService.currentVariation$
       .pipe(
         tap(v => this.storableHomePageText = this.headerFooterService.storeablePagesReadableTextMap[v]),

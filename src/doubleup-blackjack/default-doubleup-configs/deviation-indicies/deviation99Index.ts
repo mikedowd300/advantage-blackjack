@@ -1,0 +1,1 @@
+export const duDeviation99Index = {};

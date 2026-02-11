@@ -32,7 +32,7 @@ import { HeaderFooterService } from '../../../../services/header-footer.service'
   styleUrl: './classic-customizations-unit-resizing.component.scss'
 })
 export class ClassicCustomizationsUnitResizingComponent implements OnInit {
-  title: string = "Add, Edit or Delete a Bet Spread strategy";
+  title: string = "Add, Edit or Delete a Unit Resizing strategy";
   defaultStrategy: UnitResizeStrategy = { ...classicDefaultUnitResizeStrategy };
   activeStrategy: UnitResizeStrategy = { ...classicDefaultUnitResizeStrategy };
   activeStrategy$: BehaviorSubject<UnitResizeStrategy> = new BehaviorSubject<UnitResizeStrategy>(classicDefaultUnitResizeStrategy);

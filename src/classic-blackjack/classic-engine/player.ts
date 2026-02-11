@@ -12,11 +12,12 @@ import {
   WongStrategy 
 } from '../classic-models/classic-strategies.models';
 import { 
+  InsurancePackage,
   LocalStorageItemsEnum, 
   LocalStorageVariationKeys,
   SpotStatusEnum,
   TableSpot,
-  TrueCountTypeEnum, 
+  TrueCountTypeEnum,
 } from '../../models';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { classicPlayers } from "../default-classic-configs/player-config";
@@ -53,7 +54,7 @@ export class Player {
   totalBet: number = 0;
   totalWon: number = 0;
   totalInsuranceBet: number = 0;
-  totalInsurancePaid: number = 0;
+  // totalInsurancePaid: number = 0;
   spotId: number;
   hadBlackjackLastHand: boolean = false;
   hadBlackjackThisHand: boolean = false;
@@ -64,6 +65,14 @@ export class Player {
   // insuranceHistory: InsuranceHistory = new InsuranceHistory();
   hasUpdatedInsuranceHistory: boolean = false;
   record: PlayerRecord;
+  insuranceInfo: InsurancePackage = {
+    claimedNegativeEVInsurance: 0,
+    claimedPositivetiveEVInsurance: 0,
+    missedNegativeEVInsurance: 0,
+    missedPositivetiveEVInsurance: 0,
+    totalInsuranceBet: 0,
+    insuranceAmountWonAV: 0,
+  }
 
   constructor(
     playerInfo: PlayerTableInfo, 
@@ -71,6 +80,17 @@ export class Player {
     public shared
   ){
     this.initializePlayer(playerInfo);
+  }
+
+  getInsuranceInfo(): InsurancePackage {
+    return {
+      claimedNegativeEVInsurance: Math.abs(Math.round(this.insuranceInfo.claimedNegativeEVInsurance * 100) / 100),
+      claimedPositivetiveEVInsurance: Math.abs(Math.round(this.insuranceInfo.claimedPositivetiveEVInsurance * 100) / 100),
+      missedNegativeEVInsurance: Math.abs(Math.round(this.insuranceInfo.missedNegativeEVInsurance * 100) / 100),
+      missedPositivetiveEVInsurance: Math.abs(Math.round(this.insuranceInfo.missedPositivetiveEVInsurance * 100) / 100),
+      totalInsuranceBet: this.insuranceInfo.totalInsuranceBet,
+      insuranceAmountWonAV: this.insuranceInfo.insuranceAmountWonAV,
+    }
   }
 
   getItemOfItems(title: string, lsKey: LocalStorageItemsEnum, hardCodedSource) {
@@ -108,6 +128,25 @@ export class Player {
     this.shared.addCountingMethod(this.countingMethod, this.shared.getConditions().decksPerShoe);
   }
 
+  recordInsuranceEV(percentageOfTens: number, insuranceAmount: number) {
+    const atTCof = this.insurancePlan.atTCof;
+    const tc = this.shared.getTrueCountByTenth(this.countingMethod);
+    const ev = Math.round((((this.betSize * percentageOfTens * 3) / 200) - (this.betSize / 2)) * 100) / 100;
+    this.insuranceInfo.totalInsuranceBet += insuranceAmount;
+    if(tc >= atTCof && percentageOfTens < 33.3333) {
+      this.insuranceInfo.claimedNegativeEVInsurance += ev;
+    }
+    if(tc < atTCof && percentageOfTens > 33.3333) {
+      this.insuranceInfo.missedPositivetiveEVInsurance += ev;
+    }
+    if(tc >= atTCof && percentageOfTens >= 33.3333) {
+      this.insuranceInfo.claimedPositivetiveEVInsurance += ev;
+    }
+    if(tc < atTCof && percentageOfTens <= 33.3333) {
+      this.insuranceInfo.missedNegativeEVInsurance += ev;
+    }
+  }
+
   getTrueCountType(): TrueCountTypeEnum {
     if(this.countingMethod.useHalfCount) {
       if(this.countingMethod.roundingMethod === RoundingMethodEnum.ROUND) {
@@ -127,31 +166,32 @@ export class Player {
   }
 
   resizeRound(size: number): number {
-    const roundingMethod = this.unitResizingStrategy.roundingMethod;
-    const roundToNearest = this.unitResizingStrategy.roundToNearest;
-    const ROUND_UP = RoundingMethodEnum.CEILING;
-    const ROUND_DOWN = RoundingMethodEnum.FLOOR;
-    const WHITE_CHIP = ChipTypeEnum.WHITE;
-    const RED_CHIP = ChipTypeEnum.RED;
-    let betAmount = size;
-    if(roundingMethod === ROUND_UP && roundToNearest === WHITE_CHIP && size % 1 === .5) {
-      betAmount += .5;
-    }
-    if(roundingMethod === ROUND_DOWN && roundToNearest === WHITE_CHIP && size % 1 === .5) {
-      betAmount -= .5;
-    }
-    if(roundingMethod === ROUND_UP && roundToNearest === RED_CHIP && size % 5 === 2.5) {
-      betAmount += 2.5;
-    }
-    if(roundingMethod === ROUND_DOWN && roundToNearest === RED_CHIP && size % 5 === 2.5) {
-      betAmount -= 2.5;
-    }
-    if(roundingMethod === ROUND_UP && roundToNearest === RED_CHIP && size % 5 === .5) {
-      betAmount = Math.ceil(size / 5) * 5;
-    }
-    if(roundingMethod === ROUND_DOWN && roundToNearest === RED_CHIP && size % 5 === .5) {
-      betAmount = Math.floor(size / 5) * 5;
-    }
+    // const roundingMethod = this.unitResizingStrategy.roundingMethod;
+    // const roundToNearest = this.unitResizingStrategy.roundToNearest;
+    // const ROUND_UP = RoundingMethodEnum.CEILING;
+    // const ROUND_DOWN = RoundingMethodEnum.FLOOR;
+    // const WHITE_CHIP = ChipTypeEnum.WHITE;
+    // const RED_CHIP = ChipTypeEnum.RED;
+    let betAmount = this.roundToNearest5(size);
+    // if(roundingMethod === ROUND_UP && roundToNearest === WHITE_CHIP && size % 1 === .5) {
+    //   betAmount += .5;
+    // }
+    // if(roundingMethod === ROUND_DOWN && roundToNearest === WHITE_CHIP && size % 1 === .5) {
+    //   betAmount -= .5;
+    // }
+    // if(roundingMethod === ROUND_UP && roundToNearest === RED_CHIP && size % 5 === 2.5) {
+    //   betAmount += 2.5;
+    // }
+    // if(roundingMethod === ROUND_DOWN && roundToNearest === RED_CHIP && size % 5 === 2.5) {
+    //   betAmount -= 2.5;
+    // }
+    // if(roundingMethod === ROUND_UP && roundToNearest === RED_CHIP && size % 5 === .5) {
+    //   betAmount = Math.ceil(size / 5) * 5;
+    // }
+    // if(roundingMethod === ROUND_DOWN && roundToNearest === RED_CHIP && size % 5 === .5) {
+    //   betAmount = Math.floor(size / 5) * 5;
+    // }
+    ;
     return betAmount;
   }
 
@@ -193,11 +233,14 @@ export class Player {
       const decreaseAtProgression = [ ...this.unitResizingStrategy.decreaseAtMultiple ];
       const resizeProgression = [ ...this.resizeProgression ];
       const currentIndex = resizeProgression.indexOf(this.bettingUnit);
+      // console.log(increaseAtProgression, decreaseAtProgression, currentIndex, this.bettingUnit);
       if(this.bankroll > increaseAtProgression[currentIndex] && resizeProgression[currentIndex + 1]) {
         this.bettingUnit = resizeProgression[currentIndex + 1];
+        // this.bettingUnit = this.roundToNearest5(resizeProgression[currentIndex + 1]);
         // console.log('RESIZE UP, FROM', resizeProgression[currentIndex], 'TO:', this.bettingUnit, 'BANKROLL:', this.bankroll);
       } else if(decreaseAtProgression[currentIndex] && this.bankroll < decreaseAtProgression[currentIndex]) {
         this.bettingUnit = resizeProgression[currentIndex - 1];
+        // this.bettingUnit = this.roundToNearest5(resizeProgression[currentIndex - 1]);
         // console.log('RESIZE DOWN, FROM', resizeProgression[currentIndex], 'TO:', this.bettingUnit, 'BANKROLL:', this.bankroll, decreaseAtProgression[currentIndex]);
       }
     }
@@ -326,9 +369,15 @@ export class Player {
     this.totalWon += amount;
   }
 
-  incTotalInsurancePaid(amount: number): void {
-    this.totalInsurancePaid += amount;
+  payInsuranceBet(amount: number): void {
+    this.bankroll = this.bankroll + amount;
+    this.totalWon += amount;
+    this.insuranceInfo.insuranceAmountWonAV += amount;
   }
+
+  // incTotalInsurancePaid(amount: number): void {
+  //   this.totalInsurancePaid += amount;
+  // }
 
   tipSplitHands(fromWong: boolean): void {
     const { tipSplitHandToo, tipWongHands } = this.tippingStrategy;
@@ -384,5 +433,12 @@ export class Player {
     this.wongSpotIds.forEach(id => this.shared.getSpotById(id).removePlayer());
     this.spotIds = [this.spotId];
     this.wongSpotIds = [];
+  }
+
+  private roundToNearest5(value): number {
+    const multOf5 = Math.floor(value / 5) * 5;
+    const remainder = value % 5;
+    // console.log(value, multOf5, remainder, remainder >= 2.5 ? multOf5 + 5 : multOf5);
+    return remainder >= 2.5 ? multOf5 + 5 : multOf5;
   }
 }

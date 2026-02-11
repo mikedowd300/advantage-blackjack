@@ -1,0 +1,111 @@
+import { SpotStatusEnum, TableSpot } from '../../models';
+import { DuHand } from './du-hand';
+import { DuCard } from './du-card';
+import { SpotRecord } from './du-record-store/record-models';
+
+export class DuSpot {
+  status: SpotStatusEnum = SpotStatusEnum.AVAILABLE;
+  controlledBy: string = null;
+  hands: DuHand[] = [];
+  id: number;
+  record: SpotRecord;
+
+  constructor(spotInfo: TableSpot, public shared) {
+    this.initializeSpot(spotInfo);
+    this.shared = { 
+      ...this.shared,
+      getHandCount: () => this.getHandCount(),
+      addHand: (x, y) => this.addHand(x, y), 
+      seedSplitHand: (x) => this.seedSplitHand(x),
+      getHandsLength: () => this.getHandsLength(),
+    };
+  }
+
+  getHandsLength(): number {
+    return this.hands.length;
+  }
+
+  removePlayer(): void {
+    this.status = SpotStatusEnum.AVAILABLE;
+    this.controlledBy = null;
+    this.hands = [];
+  }
+
+  addHand(isFromSplit: boolean = false, originalBetSize: number = null): void {
+    const player = this.shared.getPlayerBySpotId(this.id) || this.shared.getPlayerByHandle(this.controlledBy);
+    let betSize = originalBetSize || player.betSize;
+    if(isFromSplit && ((betSize * 2) > player.bankroll)) {
+      betSize = player.bankroll - betSize;
+    }
+    this.hands.push(new DuHand(this.id, this.shared, betSize, isFromSplit));
+  }
+
+  seedSplitHand(card: DuCard): void {
+    const index = this.hands.length - 1;
+    this.hands[index].cards.push(card);
+  }
+
+  getHandCount(): number {
+    return this.hands.length;
+  }
+
+  initializeSpot({ status, controlledBy, id }: TableSpot): void {
+    this.status = status;
+    this.controlledBy = controlledBy;
+    if(!this.id) {
+      this.id = id + 1;
+    }
+  }
+
+  hasUnpaidHands(): boolean {
+    return this.hands.filter(h => !h.hasBeenPaid).length > 0;
+  }
+
+  getUnpaidHands(): DuHand[] {
+    return this.hands.filter(h => !h.hasBeenPaid)
+  }
+
+  resetHands(): void {
+    this.hands.forEach(hand => hand.clearCards());
+    this.hands = [];
+  }
+
+  unassignSpot(): void {
+    this.status = SpotStatusEnum.AVAILABLE;
+    this.controlledBy = null;
+  }
+
+  assignSpot(controlledBy: string): void {
+    this.status = SpotStatusEnum.TAKEN;
+    this.controlledBy = controlledBy;
+  }
+
+  offerEarlySurrender(): void {
+    this.hands.forEach(h => h.surrenderEarly());
+  }
+
+  offerInsurance(percentageOfTens: number): void {
+    this.hands.forEach(h => h.placeInsuranceBet(percentageOfTens));
+  }
+
+  payInsurance(): void {
+    this.hands.forEach(h => h.payInsurance());
+  }
+
+  payDealersBlackjack(isENHC: boolean = false): void {
+    this.hands.forEach(h => h.payDealersBlackjack(isENHC));
+  }
+
+  payBlackjack(): void {
+    this.hands[0].payBlackjack();
+  }
+
+  setRecord(record: SpotRecord): void {
+    this.record = { ...record };
+  }
+
+  getFinalRecord(): SpotRecord {
+    this.hands.forEach(h => this.record.hands.push(h.getHandRecord()));
+    return this.record;
+  }
+}

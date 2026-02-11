@@ -1,0 +1,42 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+  width: 100%;
+  box-sizing: border-box;
+
+  .doubleup-customizations-conditions.page {
+    width: 100%;
+    box-sizing: border-box;
+    color: $doubleup-font-color;
+    background-color: $doubleup-background;
+
+    .conditions-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+
+      .condition-wrapper {
+        background-color: rgba(255, 255, 255, .7);
+        padding: 12px;
+        position: relative;
+
+        &:hover {
+          border: 0.5px solid gray;
+          box-sizing: border-box;
+        }
+
+        &:nth-child(odd) {
+          background-color: rgba(255, 255, 255, .9);
+        }
+      }
+    }
+
+    @media only screen and (max-width: 529px) {
+      padding: 12px;
+    }
+  }
+}

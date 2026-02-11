@@ -1,0 +1,36 @@
+<div class="doubleup-bankroll-chart page">
+  <div class="content">
+    <div class="row row-wrapper flex">
+      @if(handles.length > 1) {
+        <div class="checkbox-group flex-column">
+        @for(handle of handles; track handle) {
+          <div class="checkbox-wrapper flex">
+            <label for="">{{ handle }}</label>
+            <input type="checkbox" (change)="handleHandleSelection(handle)" [checked]="isChecked[handle]">
+          </div>
+        }
+          <div class="checkbox-wrapper flex">
+            <label for="">Select All</label>
+            <input type="checkbox" (change)="handleHandleSelection('all')">
+           </div>
+        </div>
+      }
+        <button class="back-button" (click)="navigate('doubleup/simulation-results-dashboard')">Back</button>
+      <div class="header-wrapper flex-column">
+        @if(!isZoomMode) {
+        <p>Click here to <button class="zoom-in" (click)="setZoomMode()">Zoom In</button></p>
+        <p>Click any blue point to see that hands details.</p>
+        }
+        @if(zoomIndices.length === 0 && isZoomMode) {
+        <span>Click the zoom start point on the blue line.</span>
+        }
+        @if(zoomIndices.length === 1) {
+        <span>Click the zoom end point on the blue line.</span>
+        }
+      </div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="myChart" (click)="onCanvasClick($event)"></canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="doubleup-home page">
+@if(showPreNavigationModal$ | async) {
+  <h1>This may take a minute</h1>
+  <div class="pre-navigation-modal">
+    <div class="outer-spinner"></div>
+  </div>
+}
+@if(!(showPreNavigationModal$ | async)) {
+  <div class="content-wrapper flex">      
+    <button (click)="navigate('how-to-play')">
+      <p class="button-label">How do you play Double Up</p>
+      <div>
+        <p class="button-description">
+          How is Double Up Blackjack different than Classic Blackjack?
+        </p>
+        <p class="button-description">and</p>
+        <p class="button-description">How do you <b>beat</b> Double Up?</p>
+      </div>
+    </button>
+
+    <button (click)="navigate('customizations')">
+      <p class="button-label">Customizations</p>
+      <p class="button-description">
+        Customize the finer details of a simulation. For players, customize their profiles when it comes to bet spreads, resizing betting units, counting systems, the complexity of the play chart, when to wong and more. For the table, set the conditions you want and add the players you want.
+      </p>
+    </button>
+    
+    <button (click)="navigate('simulation')">
+      <p class="button-label">Simulation</p>
+      <p class="button-description">
+        After you customize a set of table conditions, a player profile and add those conditions and that player to a table, you are ready to simulate what happens after hundreds of thousands of hands. Or add players with different profiles to the same table to compare.
+      </p>
+    </button>
+
+    <button
+      [class.hide]="!showDataDrivenPages"
+      (click)="navigate('hand-review', true)"
+    >
+      <p class="button-label">Playback Your Hands</p>
+      <p class="button-description">
+        That simulation you just ran played real hands. What were those hands? Were they actually played right? Dit it actually play they way you told it to? You can step through each and every hand to see that it played exactly the way you told it to.
+      </p>
+    </button>
+
+    <button (click)="navigate('create-deviation-chart')">
+      <p class="button-label">Create Custom Deviation Charts</p>
+      <p class="button-description">
+        How did they come up with basic strategy? And deviation charts? How do we know they are right? Did they miss any? What about counts for charts for counting system other than Hi Lo?
+      </p> 
+      <p class="button-description">
+        These are good questions. Luckily, teasing the answers out of millions of simulations is easier than you think.
+      </p>
+    </button>
+
+    <button (click)="navigate('speed-practice')">
+      <p class="button-label">Speed Practice</p>
+      <p class="button-description">
+        Focus just on the what to do on the first 2 cards. Test the proper deviation play for the true count ranges you want. Practice against different counting systems, including ones you created. Focus on the hands you need and filter out the rest. Get instant feedback when you make a mistake.
+      </p>
+    </button>
+
+    <button [class.hide]="!showDataDrivenPages" (click)="navigate('simulation-results-dashboard', true)">
+      <p class="button-label">Simulation Results Dashboard</p>
+      <p class="button-description">
+        This is where you see the results from your simulation. You will find more than just you hourly, see your bankroll chart from hand to hand, zoom in on the chart or click to see the actual cards dealt from any hand on the chart.
+      </p>
+    </button>
+  </div>
+}
+</div>

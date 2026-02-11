@@ -1,0 +1,114 @@
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ABJStrategySelectorComponent } from '../../../../shared-components/abj-strategy-selector/abj-strategy-selector.component';
+import { ABJCheckboxComponent } from '../../../../shared-components/abj-checkbox/abj-checkbox.component';
+import { TippingPlan } from '../../../../doubleup-blackjack/doubleup-models/doubleup-strategies.models';
+import { CheckboxConfig, LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../../../models';
+import { doubleupTippingTitles, doubleupTippingPlans, doubleupDefaultTippingPlan} from "../../../../doubleup-blackjack/default-doubleup-configs/tipping-plan";
+import { BehaviorSubject } from 'rxjs';
+import { HeaderFooterService } from '../../../../services/header-footer.service';
+
+@Component({
+  selector: 'doubleup-customizations-tipping',
+  standalone: true,
+  imports: [ABJStrategySelectorComponent, ABJCheckboxComponent, FormsModule],
+  templateUrl: './doubleup-customizations-tipping.component.html',
+  styleUrl: './doubleup-customizations-tipping.component.scss'
+})
+export class DoubleupCustomizationsTippingComponent implements OnInit {
+  title: string = "Add, Edit or Delete a Custom Tipping Approach";
+  defaultStrategy: TippingPlan = { ...doubleupDefaultTippingPlan };
+  activeStrategy: TippingPlan = { ...doubleupDefaultTippingPlan };
+  activeStrategy$: BehaviorSubject<TippingPlan> = new BehaviorSubject<TippingPlan>(doubleupDefaultTippingPlan);
+  localStorageItemsEnum = LocalStorageItemsEnum;
+  localStorageVariationKeys = LocalStorageVariationKeys;
+  strategies: { [k: string]: TippingPlan } = doubleupTippingPlans;
+  strategyTitles: string[] = doubleupTippingTitles;
+  checkBoxConfigs: CheckboxConfig[];
+
+  constructor( private headerFooterService: HeaderFooterService ) {}
+
+  ngOnInit(): void {
+    this.headerFooterService.updateTheTagline$.next("If you're gonna tip, at least know the cost.");
+    this.activeStrategy$.pipe().subscribe(strategy => {
+      this.activeStrategy = strategy;
+      this.setCheckBoxConfigs();
+    });
+  }
+
+  handleCheck(key: string, value: boolean): void {
+    this.activeStrategy[key] = value;
+  }
+
+  setCheckBoxConfigs() {
+    this.checkBoxConfigs = [
+      {
+        label: 'After blackjack',
+        whatsThis: '',
+        key: 'afterBlackjack',
+        value: this.activeStrategy.afterBlackjack,
+      },
+      {
+        label: 'Dealer joins table',
+        whatsThis: "Tip a new dealer's first hand",
+        key: 'dealerJoins',
+        value: this.activeStrategy.dealerJoins,
+      },
+      {
+        label: 'Dealer leaves table',
+        whatsThis: "Tip a dealer's last hand before being tapped out.",
+        key: 'dealerLeaves',
+        value: this.activeStrategy.dealerLeaves,
+      },
+      {
+        label: 'First hand of shoe',
+        whatsThis: 'Tip the first hand of a new shoe.',
+        key: 'tipFirstHandOfShoe',
+        value: this.activeStrategy.tipFirstHandOfShoe,
+      },
+      {
+        label: 'Tip split hand',
+        whatsThis: 'If you tip, and end up splitting, tip the split hand as well.',
+        key: 'tipSplitHandToo',
+        value: this.activeStrategy.tipSplitHandToo,
+      },
+      {
+        label: 'Double the tip',
+        whatsThis: 'If you tip and end up doubling, double the tip as well.',
+        key: 'doubleDownTip',
+        value: this.activeStrategy.doubleDownTip,
+      },
+      {
+        label: 'Tip wonged hand',
+        whatsThis: 'Apply the same tipping approach to wonged hands.',
+        key: 'tipWongHands',
+        value: this.activeStrategy.tipWongHands,
+      },
+      {
+        label: 'Insure tip',
+        whatsThis: 'If you tip and end up insuring the hand, insure the tip as well.',
+        key: 'insureTip',
+        value: this.activeStrategy.insureTip,
+      },
+    ];
+  }
+
+  addTippingPoint() {
+    const maxIndex = this.activeStrategy.tippingBreakpoints.length
+    const ofOrBelow: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][0];
+    const above: number = this.activeStrategy.tippingBreakpoints[maxIndex - 1][1];
+    if(this.activeStrategy.maxTip !== 0 ) {
+      this.activeStrategy.tippingBreakpoints.push([ofOrBelow + 1, above + 50]);
+    }
+    this.activeStrategy.maxTip = ofOrBelow + (this.activeStrategy.maxTip === 0 ? 1 : 2);
+  }
+
+  deleteTippingPoint() {
+    if(this.activeStrategy.tippingBreakpoints.length > 1) {
+      const oldBreakPoint = this.activeStrategy.tippingBreakpoints.pop();
+      this.activeStrategy.maxTip = oldBreakPoint[0];
+    } else if(this.activeStrategy.tippingBreakpoints.length === 1) {
+      this.activeStrategy.maxTip = 0;
+    }
+  }
+}

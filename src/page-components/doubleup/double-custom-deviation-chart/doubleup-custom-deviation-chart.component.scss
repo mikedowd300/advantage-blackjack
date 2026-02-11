@@ -1,0 +1,585 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+
+  .doubleup-custom-deviation-chart {
+    background-color: $doubleup-background;
+    color: $doubleup-font-color;
+
+    .spinner-modal {
+      width: 100%;
+      box-sizing: border-box;
+      height: calc(100vh - 300px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      .outer-spinner {
+        background-color: white;
+        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+        border-top: 30px solid $doubleup-font-color;
+        border-bottom: 30px solid $doubleup-font-color;
+        box-sizing: border-box;
+        animation: spin 1.5s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg); /* Start at 0 degrees rotation */
+        }
+        100% {
+          transform: rotate(360deg); /* End at 360 degrees rotation */
+        }
+      }
+    }
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+
+    .tagline {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    label {
+      font-size: 18px;
+    }
+
+    input[type="radio"] {
+      accent-color: $doubleup-font-color;
+      width: 24px;
+      height: 24px;
+    }
+
+    .radio-wrapper {
+      align-items: center;
+      margin-right: 12px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .accordion-content {
+      border-radius: 3px;
+      background-color: white;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+
+      &.instructions {
+
+        h3 {
+          margin: 6px;
+          padding-top: 12px;
+          border-top: 1px solid $doubleup-font-color;
+
+          &:first-child {
+            margin-top: 0;
+            border: none;
+          }
+        }
+
+        .statement {
+          display: inline-block;
+          padding: 8px 6px;
+          border-radius: 3px;
+          margin: 0;
+          font-size: 18px;
+
+          &:nth-child(even) {
+            background-color: rgba($doubleup-font-color, .05);
+          }
+        }
+      }
+
+      .button-wrapper {
+        margin-top: 6px;
+      }
+
+      &.setup {
+        background-color: $doubleup-font-color;
+        color: white;
+
+        .input-row {
+          justify-content: space-around;
+          align-items: center;
+
+          .select-wrapper {
+            width: 50%;
+
+            ::ng-deep .select-dropdown-wrapper {
+              width: 100%;
+              padding-right: 0;
+              max-width: none;
+
+              label {
+                font-size: 15px;
+                margin-bottom: 0;
+              }
+
+              label, select {
+                max-width: none;
+                width: 100%;
+              }
+            }
+          }
+          
+          .input-wrapper {
+            width: 50%;
+          }
+          
+          .conjunction {
+            margin: 0 12px;
+          }
+
+          @media only screen and (max-width: 585px) {
+            flex-direction: column;
+            margin-bottom: 4px;
+
+            .select-wrapper, .input-wrapper {
+              width: 100%;
+            }
+
+            .conjunction {
+              margin: 0 0 4px;
+            }
+          }
+        }
+
+        .required-config {
+          margin-top: 6px;
+          padding-top: 6px;
+          border-top: 1px solid white;
+          justify-content: space-between;
+
+          .left, .right {
+            width: 50%;
+            justify-content: space-between;
+            box-sizing: border-box;
+
+            .rsa-wrapper, .x17-wrapper {
+              border-bottom: 1px solid $doubleup-mid;
+              border-top: 1px solid $doubleup-mid;
+            }
+
+            .counting-method-wrapper.condition-input-wrapper.input-wrapper {
+              margin-top: 0;
+              padding: 0 0 4px;
+
+              abj-select {
+                width: 100%;
+              }
+
+              ::ng-deep .select-dropdown-wrapper {
+                padding-top: 0;
+                padding-right: 10px;
+                width: 100%;
+                max-width: none;
+
+                select {
+                  width: 100%;
+                  max-width: none;
+                  font-size: 17px;
+                }
+
+                @media only screen and (max-width: 585px) {
+                  padding-right: 0;
+                }
+              }
+            }
+
+            .mhfs-wrapper.condition-input-wrapper.input-wrapper {
+              padding-top: 0;
+
+              input {
+                text-align: center;
+                box-sizing: border-box;
+                padding: 6px 2px 6px 6px;
+                font-size: 18px;
+                border-radius: 4px;
+                width: 100%;
+                max-width: 100px;
+              }
+            }
+
+            .more-config-button {
+              background-color: white;
+              color: black;
+              padding: 6px 4px;
+              border-radius: 3px;
+              box-sizing: border-box;
+              width: 100%;
+              font-size: 18px;
+
+              @media only screen and (max-width: 585px) {
+                margin: 4px 0;
+                width: calc(100% - 4px);
+              }
+            }
+
+            .condition-input-wrapper {
+              padding: 6px 4px;
+              border-radius: 3px;
+
+              &:last-child {
+                border: none;
+              }
+            }
+
+            .input-wrapper {
+              width: 100%;
+              box-sizing: border-box;
+              justify-content: space-between;
+              align-items: center;
+
+              &.two-conditions {
+                justify-content: space-between;
+                border-bottom: 1px solid $doubleup-mid;
+
+                .decks-wrapper, .max-min-count-wrapper {
+                  align-items: center;
+                  width: 50%;
+                  justify-content: flex-start;
+
+                  p {
+                    text-align: center;
+                    font-size: 12px;
+                    margin: 0 0 8px;
+                  }
+
+                  label {
+                    font-size: 16px;
+                    margin-bottom: 8px;
+                  }
+
+                  input {
+                    text-align: center;
+                    box-sizing: border-box;
+                    padding: 6px 2px 6px 6px;
+                    font-size: 18px;
+                    border-radius: 4px;
+                    width: 100%;
+                    max-width: 100px;
+                  }
+                }
+
+                .max-min-count-wrapper {
+                  border-right: 1px solid $doubleup-mid;
+                  padding-right: 8px;
+
+                  input {
+                    margin-bottom: 8px;
+                  }
+                }
+
+                .create-play-strategy {
+                  background-color: white;
+                  color: black;
+                  box-sizing: border-box;
+                  width: 100%;
+                  height: 100%;
+                  justify-content: space-between;
+                  padding: 4px;
+
+                  p {
+                    font-size: 12px;
+                  }
+
+                  button {
+                    width: 100%;
+                    padding: 4px;
+                    box-sizing: border-box;
+                    background-color: $doubleup-font-color;
+                    color: white;
+                    border-radius: 3px;
+
+                    &:hover {
+                      cursor: pointer;
+                      border: 1px solid $doubleup-font-color;
+                      background-color: white;
+                      color: $doubleup-font-color;
+                    }
+                  }
+                }
+
+                @media only screen and (max-width: 585px) {
+
+                  .decks-wrapper {
+                    width: 40%;
+                  }
+
+                  .create-play-strategy {
+                    color: $doubleup-font-color;
+                    box-sizing: border-box;
+                    width: 100%;
+                    height: 100%;
+
+                    button {
+
+                      &:nth-child(2) {
+                        margin-top: 24px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .hole-card-rules-wrapper {
+              width: 100%;
+              margin-bottom: 2px;
+
+              .title-label {
+                margin: auto;
+                padding-right: 8px;
+              }
+
+              .response-wrapper {
+                width: 100%;
+
+                .radio-wrapper {
+                  width: 100%;
+                  justify-content: space-between;
+                  margin-right: 8px;
+                }
+              }
+            }
+          }
+
+          .left {
+            padding-right: 12px;
+            border-right: 1px solid white;
+          }
+
+          .right {
+            padding-left: 12px;
+          }
+
+          @media only screen and (max-width: 585px) {
+            flex-direction: column;
+            
+            .left, .right {
+              width: 100%;
+              padding-right: 0;
+              padding-left: 0;
+              border: none;
+            }
+          }
+        }
+
+        .optional-configs {
+
+          .bonuses-rules-config {
+            width: 100%;
+
+            .bonuses-config {
+              margin-top: 6px;
+              padding-top: 6px;
+              border-top: 1px solid white;
+
+              .condition-input-wrapper {
+                justify-content: space-between;
+                align-items: center;
+
+                p {
+                  margin: 8px 0 0;
+                }
+
+                .response-wrapper {
+                  justify-content: space-between;
+
+                  .radio-wrapper {
+                    align-items: center;
+
+                    label {
+                      margin-right: 4px;
+                    }
+
+                    &:first-child {
+                      margin-right: 8px;
+                    }
+                  }
+                }
+
+                .payout-ratios-wrapper {
+                  margin-top: 6px;
+                  
+                  .ratio-wrapper {
+                    margin-right: 8px;
+
+                    &:last-child {
+                      margin-right: 0;
+                    }
+                  }
+                }
+              }
+            }
+
+            &.with-weird-rules {
+              width: 50%;
+              padding-right: 8px;
+              border-right: 1px solid $doubleup-mid;
+
+              @media only screen and (max-width: 865px) {
+                width: 100%;
+              }
+            }
+          }
+
+          .weird-rules-config {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid white;
+            width: 100%;
+
+            &.with-bonus-config {
+              width: 50%;
+              padding-left: 8px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+
+              @media only screen and (max-width: 865px) {
+                width: 100%;
+                margin-top: 16px;
+                padding-left: 0;
+              }
+            }
+
+            .condition-input-wrapper {
+              align-items: center;
+              padding: 6px;
+              border-radius: 3px;
+              justify-content: space-between;
+
+              label {
+                margin-right: 12px;
+              }
+
+              &:nth-child(even) {
+                background-color: rgba($doubleup-lite, .4);
+              }
+            }
+          }
+
+          @media only screen and (max-width: 865px) {
+            flex-direction: column;
+          }
+        }
+
+        .start-sim  {
+          background-color: $doubleup-font-color;
+          color: white;
+
+          .content-wrapper {
+            width: 50%;
+            margin-top: 4px;
+            box-sizing: border-box;
+
+            &.left {
+              padding-right: 8px;
+              border-right: 1px solid white;
+
+              &.content-wrapper p {
+                margin-top: 0;
+              }
+            
+              button {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 6px 4px;
+                border-radius: 3px;
+                font-size: 18px;
+              }
+            }
+
+            &.right {
+              padding: 0 0 0 12px;
+              justify-content: space-between;
+
+              abj-select {
+                ::ng-deep .select-dropdown-wrapper {
+                  padding-top: 0;
+                  width: 100%;
+                  max-width: none;
+                  box-sizing: border-box;
+
+                  label {
+                    display: none;
+                  }
+
+                  select {
+                    width: 100%;
+                    max-width: none;
+                    box-sizing: border-box;
+                  }
+                }
+              }
+
+              .input-button-wrapper {
+                justify-content: space-between;
+
+                .input-wrapper {
+                  align-items: center;
+                  margin: 8px 12px 0 0;
+                  justify-content: space-between;
+
+                  label {
+                    font-size: 14px;
+                  }
+
+                  input {
+                    padding: 8px;
+                    margin-top: 2px;
+                    text-align: center;
+                    font-size: 18px;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                    width: 112px;
+                    min-width: 112px;
+                  }
+                }
+
+                .button-wrapper {
+                  width: 50%;
+                  box-sizing: border-box;
+                  justify-content: flex-end;
+
+                  button {
+                    box-sizing: border-box;
+                    background-color: white;
+                    border: 1px solid transparent;
+                    color: black;
+                    font-size: 16px;
+                    padding: 8px;
+                    border-radius: 3px;
+                    margin: 8px 0 1px;
+                    width: 100%;
+                    height: 38px;
+
+                    &:hover {
+                      cursor: pointer;
+                      background-color: $doubleup-font-color;
+                      border: 1px solid white;
+                      color: white;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

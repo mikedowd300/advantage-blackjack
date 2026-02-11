@@ -1,0 +1,287 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+  width: 100%;
+  box-sizing: border-box;
+
+  .doubleup-customizations-unit-resizing {
+    width: 100%;
+    box-sizing: border-box;
+    color: $doubleup-font-color;
+    background-color: $doubleup-background;
+
+    .unit-resizing-content {
+      width: 100%;
+      max-width: 500px;
+      min-width: 300px;
+
+      .icon-group-wrapper {
+        justify-content: space-between;
+
+        .instructions {
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin: 0 6px;
+          font-weight: normal;
+          font-size: 20px;
+        }
+
+        .icon-wrapper {
+
+          span {
+            width: 48px;
+            height: 48px;
+            font-size: 48px;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .column-header {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+
+        p {
+          font-size: 22px;
+          width: 40%;
+          margin: 4px 0;
+          text-align: center;
+
+          &:nth-child(1) {
+            width: 30%;
+            padding-right: 12px;
+            border-right: 1px solid $doubleup-mid;
+          }
+
+          &:nth-child(2) {
+            padding: 0 8px;
+            border-right: 1px solid $doubleup-mid;
+          }
+
+          &:nth-child(3) {
+            padding-left: 8px;
+          }
+
+          @media only screen and (max-width: 400px) {
+            font-size: 18px;
+            font-weight: 700;
+          }
+        }
+      }
+
+      .chart-wrapper {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 22px;
+
+        .row-wrapper {
+          position: relative;
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: space-between;
+          margin-bottom: 4px;
+
+          &:nth-child(odd) {
+            background-color: rgba(0, 0, 0, .1);
+            padding: 4px 0;
+            border-radius: 3px;
+          }
+
+          .tip-input-wrapper {
+            box-sizing: border-box;
+            width: 115px;
+            align-items: center;
+
+            ::ng-deep abj-tooltip .abj-tooltip {
+              right: 0;
+              top: -38px;
+              font-size: 18px;
+              width: 350px;
+              padding: 4px 12px;
+            }
+
+            .input-wrapper {
+
+              input {
+                width: 60px;
+                min-width: 60px;
+                box-sizing: border-box;
+                border: none;
+              }
+            }
+
+            .tool-tip-wrapper {
+              display: flex;
+              align-items: center;
+              margin: 0 8px 0 6px;
+
+              span {
+                font-size: 36px;
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          .input-wrapper {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0;
+            border: 1px solid $doubleup-font-color;
+            border-radius: 3px;
+            background-color: white;
+
+            &:not(.units) {
+              width: 108px;
+            }
+
+            input {
+              width: 108px;
+              box-sizing: border-box;
+              border: none;
+              font-size: 22px;
+              padding: 6px 6px;
+              background-color: transparent;
+            }
+
+            &.input-placeholder {
+              box-sizing: border-box;
+              background-color: transparent;
+              background-color: $doubleup-font-color;
+            }         
+          }
+        }
+      }
+
+      .rounding-details {
+        justify-content: center;
+        position: relative;
+
+        .round-to-chip, .round-method {
+          padding: 4px;
+          border: 1px solid $doubleup-font-color;
+        }
+      }
+    }
+  }
+
+  .accordion-wrapper {
+    min-width: 300px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+
+    .accordion-content {
+      min-width: 300px;
+      box-sizing: border-box;
+
+      .striped {
+        margin: 0;
+        padding: 6px;
+
+        .center {
+          text-align: center;
+          font-size: 22px;
+        }
+    
+        &:nth-child(odd) {
+          background-color: rgba($doubleup-font-color, .1);
+        }
+
+        .demo {
+          background-color: $doubleup-background;
+          padding: 12px;
+          width: 100%;
+          box-sizing: border-box;
+
+          .demo-header {
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: space-between;
+
+            p {
+              font-size: 22px;
+              width: 40%;
+              margin: 4px 0;
+              text-align: center;
+              color: $doubleup-font-color;
+              text-shadow: none;
+
+              &:nth-child(1) {
+                width: 30%;
+                padding-right: 12px;
+                border-right: 1px solid grey;
+              }
+
+              &:nth-child(2) {
+                padding: 0 8px;
+                border-right: 1px solid grey;
+              }
+
+              &:nth-child(3) {
+                padding-left: 8px;
+              }
+
+              @media only screen and (max-width: 450px) {
+                font-size: 15px;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .demo-input-wrapper {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0;
+            justify-content: space-between;
+
+            input, .input-placeholder {
+              width: 108px;
+              font-size: 22px;
+              padding: 6px 6px;
+              border-radius: 3px;
+              margin: 6px 0;
+              margin-right: 12px;
+
+              &.demo-first {
+                width: 54px;
+                margin-left: 30px;
+              }
+
+              &.demo-last {
+                margin-right: 6px;
+              }
+
+              @media only screen and (max-width: 450px) {
+                width: 64px;
+
+                &.demo-first {
+                  margin-left: 6px;
+                }
+              }
+            }
+
+            .input-placeholder {
+              background-color: $doubleup-font-color;
+            }
+
+            &:nth-child(even) {
+              background-color: rgba($doubleup-font-color, .1);
+            }
+          }
+        }
+      }
+    }
+  }
+}

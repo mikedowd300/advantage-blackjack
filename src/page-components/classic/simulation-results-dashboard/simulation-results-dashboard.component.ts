@@ -39,6 +39,7 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
   playersWinRateByBettingUnit: PlayersWinRateByBettingUnit = {};
   showInvalidChartKeyModal: boolean = false;
   invalidChartKeyContent: any;
+  insuranceSummary: { text: string, value: number }[] = []
   
   constructor(
     private emailjs: EmailjsService,
@@ -62,6 +63,7 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
 
     this.gameData.playerResults$.pipe(filter(x => !!x)).subscribe(results => {
       this.playerResults = results;
+      this.setInsuranceSummary();
     });
 
     this.handles.forEach(h => this.playersWinRateByBettingUnit[h] = {
@@ -84,6 +86,77 @@ export class ClassicSimulationResultsDashboardComponent implements OnInit {
         }));
         this.handles.forEach(h => this.playersWinRateByBettingUnit[h].chartKeys = Object.keys(this.playersWinRateByBettingUnit[h].winRateByBettingUnit));
       });  
+  }
+
+  // export interface WinRateInfo {
+  //   roundsPlayed: number,
+  //   winnings: number,
+  //   average?: number,
+  //   hoursPlayed?: number,
+  // }
+
+  // export interface WinRateByBettingUnit {
+  //   [k: string]: WinRateInfo,
+  // }
+
+  // export interface PlayersWinRateByBettingUnit {
+  //   [k: string]: {
+  //     winRateByBettingUnit: WinRateByBettingUnit,
+  //     chartKeys?: string[],
+  //   }
+  // }
+
+  setInsuranceSummary() {
+    const { 
+      claimedPositivetiveEVInsurance,
+      missedPositivetiveEVInsurance,
+      missedNegativeEVInsurance,
+      claimedNegativeEVInsurance,
+      totalInsuranceBet,
+      insuranceAmountWonAV 
+    } = this.playerResults[this.activeHandle].insuranceInfo;
+    this.insuranceSummary = [
+      {
+        text: 'Total amount of EV claimed by taking insurance:',
+        value: claimedPositivetiveEVInsurance
+      }, 
+      {
+        text: 'Total amount of EV missed by not taking insurance:',
+        value: missedPositivetiveEVInsurance,
+      }, 
+      {
+        text: 'Total amount of negative EV avoided by not taking insurance:',
+        value: missedNegativeEVInsurance,
+      }, 
+      {
+        text: 'Total amount of negative EV claimed by taking insurance:',
+        value: claimedNegativeEVInsurance,
+      }, 
+      {
+        text: 'Total EV generated with this insurance strategy:',
+        value: Math.round((claimedPositivetiveEVInsurance - claimedNegativeEVInsurance) * 100) / 100,
+      },  
+      {
+        text: 'Total AV generated with this insurance strategy:',
+        value: insuranceAmountWonAV,
+      },
+      {
+        text: 'EV of always taking insurance:',
+        value: Math.round((claimedPositivetiveEVInsurance + missedPositivetiveEVInsurance - missedNegativeEVInsurance - claimedNegativeEVInsurance) * 100) / 100,
+      }, 
+      {
+        text: 'EV of never taking insurance:',
+        value: 0,
+      }, 
+      {
+        text: 'Insurance EV ROI Percentage:',
+        value: Math.round(((claimedPositivetiveEVInsurance - claimedNegativeEVInsurance) / totalInsuranceBet) * 10000) / 100,
+      }, 
+      {
+        text: 'Insurance AV ROI Percentage:',
+        value: Math.round((insuranceAmountWonAV / totalInsuranceBet) * 10000) / 100,
+      },
+    ];
   }
 
   handleSelectHandle({ target }) {

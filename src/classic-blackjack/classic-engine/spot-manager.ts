@@ -30,8 +30,8 @@ export class SpotManager {
     return this.spots.filter(({ status }) => status === SpotStatusEnum.TAKEN);
   }
 
-  offerInsurance(): void {
-    this.getTakenSpots().forEach(spot => spot.offerInsurance());
+  offerInsurance(percentageOfTens: number): void {
+    this.getTakenSpots().forEach(spot => spot.offerInsurance(percentageOfTens));
   }
 
   offerEarlySurrender(): void {

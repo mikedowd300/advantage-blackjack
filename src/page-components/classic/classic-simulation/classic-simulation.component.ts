@@ -147,7 +147,7 @@ export class ClassicSimulationComponent implements OnDestroy, OnInit {
     rules.top.push(S17 ? 'S17' : 'H17');
     rules.top.push(`${ penn }%`);
     rules.top.push(`MHFS:${MHFS}`);
-    rules.bottom.push(surrender ? 'Late Surrender' : 'No Surrender');
+    rules.bottom.push(surrender === 'notAllowed' ? 'No Surrender' : 'Late Surrender');
     rules.bottom.push(`${ decksPerShoe } deck`);
     rules.bottom.push(this.payRatioMap[blackjackPayRatio]);
     rules.bottom.push(`${ minBet } min / ${ maxBet } max`);

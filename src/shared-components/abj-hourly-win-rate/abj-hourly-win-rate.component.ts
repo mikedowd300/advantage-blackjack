@@ -33,7 +33,11 @@ export class ABJHourlyWinRateComponent implements OnInit {
       this.playersWinRateByBettingUnit[h].chartKeys.forEach(key => {
         const hours: number = Math.round(100 * this.enhancedPlayersWinRate[h].winRateByBettingUnit[key].roundsPlayed / this.roundsPerHour) / 100;
         const averagePerHour = Math.round(100 * this.enhancedPlayersWinRate[h].winRateByBettingUnit[key].winnings / hours) / 100;
-        this.enhancedPlayersWinRate[h].winRateByBettingUnit[key] = { ...this.enhancedPlayersWinRate[h].winRateByBettingUnit[key], average: averagePerHour, hoursPlayed: hours };
+        this.enhancedPlayersWinRate[h].winRateByBettingUnit[key] = {
+          ...this.enhancedPlayersWinRate[h].winRateByBettingUnit[key],
+          average: averagePerHour,
+          hoursPlayed: hours
+        };
       })
     })
   }

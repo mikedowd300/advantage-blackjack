@@ -1,0 +1,312 @@
+import {
+  AbbreviatedDoubleupConditions,
+  CountingMethod,
+  HoleCardType,
+  PlayerTableInfo,
+  SurrenderTypes,
+  TableConfig
+} from '../doubleup-models/doubleup-strategies.models';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { DuShoe } from './du-shoe';
+import { DuSpotManager } from './du-spot-manager';
+import { SpotStatusEnum, TableSpotsInformation, TrueCountTypeEnum } from '../../models';
+import { DuPlayer } from './du-player';
+import { DuDealerHand } from './du-dealer-hand';
+import { TableRecordService } from './du-record-store/table-record-service';
+
+export class DuTable {
+  totalRoundsDealt: number = 0;
+  spotCount: number;
+  spotManager: DuSpotManager;
+  dealerHand: DuDealerHand;
+  playedRounds: number = 0;
+  players: DuPlayer[] = [];
+  shared
+  lostInsuranceEV: number = 0;
+  hasChartKeyError: boolean = false;
+  invalidChartKey: string;
+  
+  constructor(
+    private recordService: TableRecordService,
+    private localStorageService: LocalStorageService, 
+    public config: TableConfig,
+    public conditions: AbbreviatedDoubleupConditions,
+    public playersInfo: PlayerTableInfo[],
+    public shoe: DuShoe,
+    public iterations: number,
+  ){
+    this.shared = {
+      addCountingMethod: (x: CountingMethod, y: number) => this.shoe.addCountingMethod(x, y),
+      getPlayerBySpotId: (x) => this.getPlayerBySpotId(x),
+      discard: (x) => this.shoe.discard(x),
+      deal: () => this.shoe.deal(),
+      getTrueCount: (x: CountingMethod, y: TrueCountTypeEnum) => this.shoe.getTrueCount(x, y),
+      getTrueCountByTenth: (x: CountingMethod) => this.shoe.getTrueCountByTenth(x),
+      getRunningCount: (x: string) => this.shoe.getRunningCountsByMethodName(x),
+      dealerHasBlackjack: () => this.dealerHasBlackjack(),
+      getDealerUpCard: () => this.getDealerUpCard(),
+      getDidDealerBust: () => this.getDidDealerBust(),
+      getDealersCardLength: () => this.getDealersCardLength(),
+      getDealerHandValue: () => this.getDealerHandValue(),
+      getOccupiedActiveSpotCount: () => this.getOccupiedActiveSpotCount(),
+      getSpotById: (x) => this.spotManager.getSpotById(x),
+      isFreshShoe: () => this.shoe.getIsFreshShoe(),
+      isSpotAvailable: (x) => this.spotManager.isSpotAvailable(x),
+      dealerShowsAce: () => this.dealerHand.showsAce(),
+      getTotalRoundsDealt: () => this.totalRoundsDealt,
+      logTable: () => this.logSelf(),
+      getPlayedRounds: () => this.getPlayedRounds(),
+      setChartKeyError: (key: string) => this.setChartKeyError(key),
+    };
+    this.initializeTable();
+    this.play();
+  }
+
+  initializeTable(): void  {
+    this.spotCount = this.conditions.spotsPerTable;
+    const spotInfo: TableSpotsInformation = { 
+      spotsPertable: this.conditions.spotsPerTable,
+      playerSpotMap: this.getPlayerSpotMap(this.playersInfo),
+    };
+    this.shared.getConditions = () => this.conditions;
+    this.spotManager = new DuSpotManager(spotInfo, this.shared);
+    this.playersInfo.forEach(p => this.players.push(new DuPlayer(p, this.localStorageService, this.shared)));
+    this.dealerHand = new DuDealerHand(this.shared);
+  }
+
+  setChartKeyError(chartKey: string) {
+    this.hasChartKeyError = true;
+    this.invalidChartKey = chartKey;
+  }
+
+  getPlayerSpotMap(players: PlayerTableInfo[]): { [k: string]: number } {
+    let playerSpotMap: { [k: string]: number } = {};
+    players.forEach(p => playerSpotMap[p.playerConfigTitle] = p.seatNumber);
+    return playerSpotMap;
+  }
+
+  play(): void  {
+    let hasSpots: boolean = this.spotManager.spots
+      .filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
+    const isNHC = this.conditions.holeCardPolicy !== HoleCardType.STANDARD;
+    while(this.playedRounds < this.iterations && hasSpots && !this.hasChartKeyError) {
+      this.initializeRound();
+      this.initializeRecord();
+      this.deal(isNHC);
+      this.offerEarlySurrender();
+      this.offerInsurance();
+      if(!isNHC  ) {
+        this.payInsurance();
+        this.handleDealerBlackjack();
+        this.payPlayersBlackjacks();
+        this.playHands();
+        this.playDealersHand();
+        this.payHands();
+      } else {
+        this.playHands();
+        this.dealEnhcHoleCard();
+        this.payInsurance();
+        this.handleDealerBlackjack();
+        this.payPlayersBlackjacks();
+        this.playDealersHand(isNHC);
+        this.payHands();
+      }
+      this.finalizeRecord();
+      this.finalizeRound();
+      hasSpots = this.spotManager.spots.filter(s => s.status === SpotStatusEnum.TAKEN).length > 0;
+    }
+    this.shoe.shuffleCheck(true);
+    this.getPlayerResults();
+    this.players.forEach(p => 
+      console.log(`${p.handle}, bankroll:${p.bankroll}, total-bet:${p.totalBet} roi: ${Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100}%`));
+  }
+
+  initializeRound(): void  {
+    this.players.forEach(p => p.initializeRound());
+  }
+  
+  getPlayerResults() {
+    let results = {};
+    this.players.forEach(p => results[p.handle] = {
+      startingBankroll: p.originalBankroll,
+      finalBankroll: p.bankroll,
+      totalMoneyBet: p.totalBet,
+      totalWon: p.bankroll - p.originalBankroll,
+      roi: Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100,
+      tippedAway: p.tippedAwayTotal,
+      insuranceInfo: p.getInsuranceInfo(),
+    });
+    return results;
+  };
+
+  finalizeRound(): void  {
+    this.spotManager.getTakenSpots().forEach(spot => spot.resetHands());
+    this.dealerHand.clearCards();
+    this.shoe.shuffleCheck();
+    this.playedRounds += 1;
+    this.removeBrokePlayers();
+    this.players.forEach(p => p.finalizeRound());
+  }
+
+  getOccupiedActiveSpotCount(): number {
+    return this.spotManager.spots.filter(s => s.status === SpotStatusEnum.TAKEN).length;
+  }
+
+  deal(isNHC: boolean = false): void  {
+    this.shoe.incHandCount();
+    this.spotManager.getTakenSpots().forEach(spot => spot.addHand());
+    this.spotManager.getTakenSpots()
+      .forEach(({ hands }) => hands
+      .forEach(({ cards }) => cards.push(this.shoe.deal())));
+    this.dealerHand.cards.push(this.shoe.deal());
+    this.spotManager.getTakenSpots()
+      .forEach(({ hands }) => hands
+      .forEach(({ cards }) => cards.push(this.shoe.deal())));
+    if(!isNHC) {
+      this.dealerHand.cards.push(this.shoe.dealHoleCard());
+    }
+    this.totalRoundsDealt++;
+  }
+
+  getPlayerBySpotId(spotId: number): DuPlayer {
+    return this.players.find(({ spotIds }) => spotIds.includes(spotId))
+  }
+
+  getPlayerByHandle(handle: string): DuPlayer {
+    return this.players.find(p => p.handle === handle)
+  }
+
+  removePlayerFromSpotsByHandle(handle): void  {
+    const spotIds = this.getPlayerByHandle(handle).spotIds
+    spotIds.forEach(id => this.spotManager.getSpotById(id).removePlayer());
+  }
+
+  removeBrokePlayers(): void  {
+    let brokePlayerHandles: string[] = []
+    this.players
+      .filter(p => p.bankroll < this.conditions.minBet)
+      .forEach(p => {
+        brokePlayerHandles.push(p.handle);
+        this.removePlayerFromSpotsByHandle(p.handle)
+      });
+    this.players = this.players.filter(p => !brokePlayerHandles.includes(p.handle));
+  }
+
+  offerEarlySurrender() {
+    if(this.conditions.surrender == SurrenderTypes.EARLY 
+      || (this.conditions.surrender == SurrenderTypes.EARLY_NOT_AGAINST_A && !this.dealerHand.showsAce())) {
+        this.spotManager.offerEarlySurrender();
+    }
+  }
+
+  offerInsurance(): void  {
+    const { holeCardPolicy, cardsBurned } = this.conditions
+    const percentageOfTens = this.shoe.get10sPercentage(this.dealerHand.hasBlackjack(), holeCardPolicy, cardsBurned);
+    if(this.dealerHand.showsAce()) {
+      this.spotManager.offerInsurance(percentageOfTens);
+    }
+  }
+
+  payInsurance(): void  {
+    if(this.dealerHand.showsAce()) {
+      this.spotManager.payInsurance();
+    }
+  }
+
+  dealerHasBlackjack(): boolean {
+    return this.dealerHand.hasBlackjack();
+  }
+
+  handleDealerBlackjack(): void  {
+    if(this.dealerHand.hasBlackjack()) { 
+      this.spotManager.payDealersBlackjack(this.conditions.holeCardPolicy === HoleCardType.ENHC);
+    }
+  }
+
+  payPlayersBlackjacks(): void {
+    this.spotManager.payBlackjacks();
+  };
+
+  playHands(): void  {
+    if(!this.dealerHand.hasBlackjack()) {
+      this.spotManager.playHands()
+    }
+  }
+
+  payHands(): void  {
+    if(this.conditions.holeCardPolicy === HoleCardType.ENHC) {
+      this.payPlayersBlackjacks();
+    }
+    if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
+      this.spotManager.payHands();
+    }
+  }
+
+  getDealerUpCard(): string {
+    return this.dealerHand.cards[0].cardValue.toString();
+  }
+
+  getUnseenCards(): number {
+    return this.shoe.cards.length + this.conditions.cardsBurned;
+  }
+
+  initializeRecord(): void {
+    this.recordService.initializeNewRecord(this.getUnseenCards());
+    this.spotManager.spots.forEach(s => {
+      if(s.status === SpotStatusEnum.TAKEN) {
+        s.setRecord({
+          status: SpotStatusEnum.TAKEN,
+          spotId: s.id,
+          playerHandle: s.controlledBy,
+          hands: [],
+          insuredAmount: null,
+          countWhenInsured: null,
+        })
+      } else {
+         s.setRecord(null);
+      };
+    })
+  }
+
+  finalizeRecord(): void  {
+    this.recordService.record.dealer = this.dealerHand.getDealerHandRecord();
+    this.spotManager.spots.forEach(s => this.recordService.record.spots.push(s.getFinalRecord()))
+    this.players.forEach(p => this.recordService.record.players.push(p.getFinalRecord()));
+    this.recordService.getNextRecord();
+  }
+
+  playDealersHand(isNHC: boolean = false): void  {
+    if(!isNHC) {
+      this.shoe.flipHoleCard(this.dealerHand.cards[1]);
+    }
+    if(!this.dealerHand.hasBlackjack() && this.spotManager.getTakenUnpaidSpots().length > 0) {
+      this.dealerHand.playHand();
+    } 
+  }
+
+  dealEnhcHoleCard(): void {
+    if(this.spotManager.getTakenUnpaidSpots().length > 0) {
+      this.dealerHand.dealEnhcHoleCard();
+    }
+  }
+
+  getDealerHandValue(): number {
+    return this.dealerHand.getValue();
+  }
+
+  getDidDealerBust(): boolean  {
+    return this.dealerHand.isBust();
+  }
+
+  getDealersCardLength(): number {
+    return this.dealerHand.cards.length;
+  }
+
+  logSelf(): void {
+    console.log(this);
+  }
+
+  getPlayedRounds(): void {
+    console.log(this.playedRounds, this.dealerHasBlackjack());
+  }
+}

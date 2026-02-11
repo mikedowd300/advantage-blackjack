@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { EmailjsService } from '../../../services/emailjs.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Subject } from 'rxjs';
 import { Chart, ChartItem, registerables } from 'chart.js';
 import { GameEngineData } from '../../../services/game-engine-data';
 
@@ -46,12 +46,10 @@ export class ClassicRoiChartsComponent implements OnDestroy, OnInit {
     this.emailjs.setPreviousScreen$.next('Classic ROI Charts');
     this.handles = this.gameData.playerInfo.map(p => p.playerConfigTitle);
     this.activeHandle = this.handles[0];
-    // This data would ideally come from indexDB, but for now is held in the browsers memory for now
     setTimeout(() => { combineLatest([this.gameData.records$, this.undateChartRange$])
       .pipe(
         map(([rs, range]) => ({playerRecords: rs.map(r => r.players), range})),
         map(({ playerRecords, range }) => {
-          console.log(range, range, range)
           let psResult = {};
           this.handles.forEach(h => psResult[h] = {});
           playerRecords.forEach(r => r.forEach(p => {

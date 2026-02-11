@@ -1,0 +1,91 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+
+  .doubleup-home.page {
+    background-color: $doubleup-background;
+    color: $doubleup-font-color;
+
+    .pre-navigation-modal {
+      width: 100%;
+      box-sizing: border-box;
+      height: calc(100vh - 300px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      .outer-spinner {
+        background-color: white;
+        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+        border-top: $doubleup-dark;
+        border-bottom: $doubleup-dark;
+        box-sizing: border-box;
+        animation: spin 1.5s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg); /* Start at 0 degrees rotation */
+        }
+        100% {
+          transform: rotate(360deg); /* End at 360 degrees rotation */
+        }
+      }
+    }
+
+    .content-wrapper {
+      flex-wrap: wrap;
+
+      button {
+        padding: 12px;
+        margin: 12px;
+        font-size: 24px;
+        box-sizing: border-box;
+        width: calc(50% - 24px);
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        border: 1px solid $doubleup-dark;
+        color: $doubleup-font-color;
+
+        &.hide {
+          display: none;
+        }
+
+        .button-label {
+          font-weight: bold;
+          font-size: 20px;
+          margin: 0 0 12px;
+          color: $doubleup-header-font-color;
+        }
+
+        .button-description {
+          font-size: 18px;
+          margin: 0;
+          color: $doubleup-font-color;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: $doubleup-dark;
+
+          .button-description {
+            color: white;
+          }
+        }
+        
+        @media only screen and (max-width: 479px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

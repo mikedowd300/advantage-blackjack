@@ -1,0 +1,46 @@
+<div class="doubleup-customizations-conditions page">
+  <abj-strategy-selector
+    [title]="title"
+    [activeTitle]="activeStrategy.title"
+    [activeStrategy$]="activeStrategy$"
+    [defaultTitles]="doubleupConditionTitles"
+    [defaultConfig]="defaultStrategy"
+    [includedStrategies]="includedStrategies"
+    [configurationType]="localStorageItemsEnum.CONDITIONS"
+    [variation]="localStorageVariationKeys.DOUBLE_UP"
+  ></abj-strategy-selector>
+  <div class="conditions-wrapper standard">
+  @for(condition of featureGroupConditions.checkBox; track condition) {
+    <div class="condition-wrapper checkbox">
+      <abj-checkbox
+        [condition]="condition"
+        [checked]="condition.value"
+        [checkboxId]="'chk'+$index"
+        (action)="handleCheckAction($event, condition.key)"
+      ></abj-checkbox>
+    </div>
+  }
+  @for(condition of featureGroupConditions.numberInput; track condition) {
+    <div class="condition-wrapper">
+      <abj-number-input
+        [condition]="condition"
+        [value]="condition.value"
+        placeHolder="placeHolder"
+        [inputId]="'nmbr'+$index"
+        (changeEvent)="handleNumberInputAction($event, condition.key)"
+      ></abj-number-input>
+    </div>
+  }
+  @for(condition of featureGroupConditions.radioGroup; track condition) {
+    <div class="condition-wrapper">
+      <abj-radio-group
+        [condition]="condition"
+        [group]="condition.radioGroup"
+        [value]="condition.value"
+        [radioGroupId]="'radioGrp'+$index"
+        (changeEvent)="handleRadioGroupAction($event, condition.key)"
+      ></abj-radio-group>
+    </div>
+  }
+  </div>
+</div>

@@ -47,7 +47,6 @@ export class PlayChartDataStorageService {
         .map(key => key.toString())
         .forEach(key => scopedObj[uc][key] = { ...f2cData[uc][key] });
     })
-    console.log(JSON.stringify(scopedObj));
   }
 
   getPlayStrategy(title: string) {

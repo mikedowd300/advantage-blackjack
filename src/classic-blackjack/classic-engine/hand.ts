@@ -88,7 +88,7 @@ export class Hand {
     };
   }
 
-  placeInsuranceBet(amount: number = (this.betAmount / 2)): void {
+  placeInsuranceBet(percentageOfTens: number, amount: number = (this.betAmount / 2)): void {
     if(this.player.insurancePlan.alwaysInsure) {
       this.insuranceAmount = amount;
     } else if(this.player.insurancePlan.neverInsure) {
@@ -105,15 +105,16 @@ export class Hand {
       this.record.totalBetAmountThisHand += this.insuranceAmount;
     }
     this.player.insureTip(this.isFromWong());
+    this.shared.getPlayerBySpotId(this.spotId).recordInsuranceEV(percentageOfTens, this.insuranceAmount);
   }
 
   payInsurance(): void {
     const amount: number = this.shared.dealerHasBlackjack() 
       ? this.insuranceAmount * 2 
       : (-(this.insuranceAmount));
-    this.player.payBankroll(amount);
+    this.player.payInsuranceBet(amount);
     this.record.winnings += amount;
-    this.player.incTotalInsurancePaid(amount);
+    // this.player.incTotalInsurancePaid(amount);
   }
 
   playHand(): void {

@@ -19,19 +19,19 @@
   </div>
   <div class="content flex-column">
     <div class="chart-content flex">
-      <div class="page-link" (click)="navigate('classic/bankroll-chart')">
+      <div class="page-link flex-column" (click)="navigate('classic/bankroll-chart')">
         <img src="classic-result-images/bankroll-chart.png" alt="bankroll chart image">
         <p>Bankroll Chart</p>
       </div>
-      <div class="page-link" (click)="navigate('classic/hand-review')">
+      <div class="page-link flex-column" (click)="navigate('classic/hand-review')">
         <img src="classic-result-images/playback-hands.png" alt="hand review image">
         <p>Watch and Review Hands</p>
       </div>
-      <div class="page-link" (click)="navigate('classic/roi-charts')">
+      <div class="page-link flex-column" (click)="navigate('classic/roi-charts')">
         <img src="classic-result-images/roi-charts.png" alt="ROI charts image">
         <p>Roi Charts</p>
       </div>
-      <div class="page-link">
+      <div class="page-link flex-column">
         <img src="classic-result-images/bankroll-chart.png" alt="bankroll chart image">
         <p>Break Even Streaks</p>
       </div>
@@ -67,8 +67,28 @@
         [playersWinRateByBettingUnit]="playersWinRateByBettingUnit"
       ></abj-hourly-win-rate>
     </abj-accordion>
-    <abj-accordion displayedContent="Break Even Streaks">
-      Under Construction
+    <abj-accordion displayedContent="Insurance Efficiency">
+      <p class="explanation">
+        Using the true count to dictate when to take insurance is a fair approximation, but there are 2 factors that keep it from being exact.
+      </p>
+      <p class="explanation">
+        To accurately know if taking insurance is the correct play, the player needs to know how many 10s remain in the shoe as well ad how many total cards are left in the show.
+      </p>
+      <p class="explanation">
+        Aces and 10s are both counted in the same in many counting systems so the exact number of 10s is not accounted.
+      </p>
+      <p class="explanation">
+        The number of non-counted cards, 7 - 9 in Hi Lo, are also assumed to come out in proportion to the rest of the cards, but this is not always the case.
+      </p>
+      <p class="explanation">
+        Since this simulation has the exact number of cards remaining as well as the exact number of 10s remaining, the exact percentage of 10s remaining in the deck can be calculated and from that the <i>exact</i> EV for each instance is the simulation where insurance was offered.
+      </p>
+      <p class="explanation">The results look like this:</p>
+      <div class="result-data-wrapper">
+      @for(item of insuranceSummary; track $index) {
+        <span class="result-data flex"><p>{{ item.text }}</p> <b>{{ item.value }}</b></span>
+      }
+      </div>
     </abj-accordion>
     <abj-accordion displayedContent="Break Even Streaks">
       What if...?

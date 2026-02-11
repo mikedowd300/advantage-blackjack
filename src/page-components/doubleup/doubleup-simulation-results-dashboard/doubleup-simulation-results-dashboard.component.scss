@@ -1,0 +1,199 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+  position: relative;
+
+  .doubleup-bankroll-chart {
+    background-color: $doubleup-background;
+
+    .modal {
+      display: none;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($doubleup-font-color, .75);
+      position: fixed;
+      left: 0;
+      top: 0;
+
+      ::ng-deep abj-anchor div p {
+        color: blue;
+      }
+      
+      &.show {
+        display: flex;
+        justify-content: center;
+        padding-top: 160px;
+      }
+
+      .modal-content {
+        width: 75%;
+        height: fit-content;
+        min-width: 318px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        background-color: white;
+        padding: 16px;
+        background-color: $doubleup-background;
+
+        .review-button {
+          color: blue;
+          background-color: transparent;
+          border: none;
+          font-size: 18px;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .top-row {
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: space-between;
+
+          h2 {
+            color: red;
+            font-size: 21px;
+            margin: 0;
+          }
+
+          .close-button {
+            background-color: transparent;
+            border: none;
+            font-size: 18px;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    .content {
+
+      .chart-content {
+        width: 100%;
+        max-width: 650px;
+        flex-wrap: wrap;
+        border-bottom: 1px solid $doubleup-font-color;
+        margin: 0 auto 12px;
+        padding-bottom: 12px;
+
+        .page-link {
+          width: 48%;
+          box-sizing: border-box;
+          max-width: 312px;
+          border-radius: 3px;
+          background-color: white;
+          margin: 8px;
+          justify-content: space-between;
+
+          &:nth-child(odd) {
+            margin-left: 0;
+          }
+
+          &:nth-child(even) {
+            margin-right: 0;
+          }
+
+          img {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 8px 0;
+          }
+
+          p {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            display: inline-block;
+            padding: 8px;
+            text-align: center;
+            color: white;
+            background-color: $doubleup-font-color;
+          }
+        }
+
+        @media only screen and (max-width: 435px) {
+          justify-content: center;
+          
+          .page-link {
+            width: 100%;
+            max-width: 100%;
+            min-width: 312px;
+            margin: 8px 0;
+          }
+        }
+      }
+
+      .select-wrapper {
+        width: 250px;
+        background-color: white;
+        border-radius: 3px;
+        padding: 2px 4px;
+
+        select {
+          width: 250px;
+          border: none;
+          font-size: 18px;
+          padding: 10px 2px;
+          box-sizing: border-box;
+        }
+
+
+        @media only screen and (max-width: 435px) {
+          width: 100%;
+          box-sizing: border-box;
+
+          select {
+            width: 100%;
+          }
+        }
+      }
+
+      abj-accordion {
+        margin-top: 12px;
+      }
+
+      .explanation {
+        font-size: 14px;
+        background-color: rgba(0, 0, 0, .15);
+        margin: 0;
+        padding: 6px 8px;
+
+        &:nth-child(odd) {
+          background-color: rgba(0, 0, 0, .05);
+        }
+      }
+
+      .result-data-wrapper {
+        padding: 4px;
+        border: 1px solid $doubleup-font-color;
+
+        .result-data {
+          font-size: 16px;
+          background-color: rgba($doubleup-font-color, .1);
+          margin: 4px 0 0;
+          padding: 6px 8px;
+          border-radius: 3px;
+          justify-content: space-between;
+
+          p {
+            margin: 0;
+          }
+
+          &:nth-child(odd) {
+            background-color: rgba($doubleup-font-color, .02);
+          }
+        }
+      }
+    }
+  }
+}

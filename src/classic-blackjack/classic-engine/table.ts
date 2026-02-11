@@ -1,4 +1,11 @@
-import { AbbreviatedClassicConditions, CountingMethod, HoleCardType, PlayerTableInfo, SurrenderTypes, TableConfig } from '../classic-models/classic-strategies.models';
+import {
+  AbbreviatedClassicConditions,
+  CountingMethod,
+  HoleCardType,
+  PlayerTableInfo,
+  SurrenderTypes,
+  TableConfig
+} from '../classic-models/classic-strategies.models';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Shoe } from './shoe';
 import { SpotManager } from './spot-manager';
@@ -113,12 +120,7 @@ export class Table {
     this.getPlayerResults();
     this.players.forEach(p => 
       console.log(`${p.handle}, bankroll:${p.bankroll}, total-bet:${p.totalBet} roi: ${Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100}%`));
-    console.log(this);
-    console.log('LOST INSURANCE EV:', this.lostInsuranceEV);
-    // if(this.hasChartKeyError) {
-    //   console.log('You played', this.playedRounds - 1, 'hands before the simulation ended due to no playing decision existing for', this.invalidChartKey);
-    //   console.log('Navigate to error page or pop a modal explaining the chart key and the error it has');
-    // }
+    // console.log(this);
   }
 
   initializeRound(): void  {
@@ -133,7 +135,8 @@ export class Table {
       totalMoneyBet: p.totalBet,
       totalWon: p.bankroll - p.originalBankroll,
       roi: Math.round(((p.bankroll - p.originalBankroll) * 10000) / p.totalBet) / 100,
-      tippedAway: p.tippedAwayTotal
+      tippedAway: p.tippedAwayTotal,
+      insuranceInfo: p.getInsuranceInfo(),
     });
     return results;
   };
@@ -199,28 +202,10 @@ export class Table {
   }
 
   offerInsurance(): void  {
-    const tc = this.players[0].getTrueCountByTenth();
-    const percentTens = this.shoe.get10sPercentage(this.dealerHand.hasBlackjack());
-    const betSize = this.players[0].betSize;
-    const ev = Math.round((((betSize * percentTens * 3) / 200) - (betSize / 2)) * 100) / 100;
+    const { holeCardPolicy, cardsBurned } = this.conditions
+    const percentageOfTens = this.shoe.get10sPercentage(this.dealerHand.hasBlackjack(), holeCardPolicy, cardsBurned);
     if(this.dealerHand.showsAce()) {
-      if(tc >= 2.5 && percentTens < 33.34) {
-        // console.log('++++++++++++++++++++')
-        this.lostInsuranceEV -= ev
-      }
-      if(tc < 2.5 && percentTens > 33.33) {
-        // console.log('*****************')
-        this.lostInsuranceEV += ev
-      }
-      // console.log(
-      //   'TC:', tc, 
-      //   '%', percentTens,
-      //   'CARDS', this.shoe.cards.length + 2,
-      //   'ACES', this.shoe.getAceCount(this.dealerHand.cards[1].cardValue === 1),
-      //   'Bet Amount', this.players[0].betSize,
-      //   'EV:', ev
-      // ); 
-      this.spotManager.offerInsurance();
+      this.spotManager.offerInsurance(percentageOfTens);
     }
   }
 

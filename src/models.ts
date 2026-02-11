@@ -31,6 +31,12 @@ export interface ShoeConditions {
   countBottomCard: boolean;
 }
 
+export interface DuShoeConditions {
+  decksPerShoe: number;
+  cardsBurned: number;
+  shufflePoint: number;
+}
+
 export enum LocalStorageKeys {
   VARIATION = 'variation',
 };
@@ -115,6 +121,7 @@ export enum HandOptionEnums {
   SPLIT = 'split',
   SURRENDER = 'surrender',
   DOUBLE = 'double',
+  DOUBLE_UP = 'doubleUp',
 }
 
 export interface WinRateInfo {
@@ -140,4 +147,13 @@ export interface ChartDataSet {
   data: any,
   borderWidth: number,
   borderColor: string;
+}
+
+export interface InsurancePackage {
+  claimedNegativeEVInsurance: number,
+  claimedPositivetiveEVInsurance: number,
+  missedNegativeEVInsurance: number,
+  missedPositivetiveEVInsurance: number,
+  totalInsuranceBet: number,
+  insuranceAmountWonAV: number,
 }

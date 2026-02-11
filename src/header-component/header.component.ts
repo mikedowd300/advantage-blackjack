@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
   title: string;
   tagLine: string;
   showSetDefaultButton: boolean = false;
+  headerClass: string;
 
   constructor(
     private router: Router,
@@ -49,6 +50,7 @@ export class HeaderComponent implements OnInit {
       this.headerFooterService.fullPageUrl$
     ])
       .pipe().subscribe(([v, isFooterPage, variationLinks, fullPageUrl]) => {
+        this.headerClass = fullPageUrl?.split('/')[0];
         this.currentVariation = v;
         this.urlLinks = isFooterPage 
           ? variationLinks

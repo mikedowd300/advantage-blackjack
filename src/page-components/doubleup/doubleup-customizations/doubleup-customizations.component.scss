@@ -1,0 +1,83 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
+:host {
+
+  .doubleup-customizations.page {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 644px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    
+    .button-wrapper {
+      box-sizing: border-box;
+      background-color: $doubleup-font-color;
+      border: 1px solid $doubleup-font-color;
+      color: white;
+      padding: 8px;
+      border-radius: 3px;
+      box-shadow: 3px 3px 3px white;
+      width: 300px;
+      margin-bottom: 12px;
+      height: 107px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      h4 {
+        font-size: 24px;
+        margin: 0;
+      }
+
+      p {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      &:hover {
+        color: $doubleup-font-color;
+        background-color: white;
+        box-shadow: 0 0 white;
+      }
+    }
+
+    @media only screen and (max-width: 619px) {
+      width: 540px;
+
+      .button-wrapper {
+        width: 250px;
+        padding: 6px;
+      }
+    }
+
+    @media only screen and (max-width: 515px) {
+      width: 100%;
+      justify-content: center;
+
+      .button-wrapper {
+        height: unset;
+        width: 400px;
+        padding: 8px;
+
+        h4 {
+          margin-bottom: 8px;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 415px) {
+
+      .button-wrapper {
+        width: calc(100vw - 24px);
+        max-width: 390px;
+      }
+    }
+  }
+}

@@ -4,11 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { AbbreviatedClassicConditions, AnyStrategy } from '../../classic-blackjack/classic-models/classic-strategies.models';
+import {
+  AbbreviatedClassicConditions,
+  AnyStrategy 
+} from '../../classic-blackjack/classic-models/classic-strategies.models';
+import {
+  AbbreviatedDoubleupConditions,
+  AnyStrategy as AnyDoubleupStrategy
+} from '../../doubleup-blackjack/doubleup-models/doubleup-strategies.models';
 import { ABJSelectComponent } from '../abj-select/abj-select.component';
 import { ABJButtonComponent } from '../abj-button/abj-button.component';
 import { ABJTextInputComponent } from '../abj-text-input/abj-text-input.component';
 import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../models';
+import { HeaderFooterService } from '../../services/header-footer.service';
 
 @Component({
   selector: 'abj-strategy-selector',
@@ -29,11 +37,11 @@ import { LocalStorageItemsEnum, LocalStorageVariationKeys } from '../../models';
 export class ABJStrategySelectorComponent implements OnInit {
   @ViewChild('newStrategy') newStrategy: ElementRef;
   @Input() title: string;
-  @Input() activeStrategy$: BehaviorSubject<AnyStrategy>;
+  @Input() activeStrategy$: BehaviorSubject<AnyStrategy | AnyDoubleupStrategy>;
   @Input() activeTitle: string;
   @Input() defaultTitles: string[];
   @Input() centerAlign: boolean = false;
-  @Input() defaultConfig: AnyStrategy;
+  @Input() defaultConfig: AnyStrategy | AnyDoubleupStrategy;
   @Input() includedStrategies: any;
   @Input() configurationType: LocalStorageItemsEnum;
   @Input() variation: LocalStorageVariationKeys;
@@ -43,22 +51,24 @@ export class ABJStrategySelectorComponent implements OnInit {
   showDeleteButton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   showSaveButton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
   showEditableTitle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
-  // hasNewTitle$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   newTitle: string;
-  activeStrategy: AnyStrategy;
+  activeStrategy: AnyStrategy | AnyDoubleupStrategy;
   localStorageItemsEnum = LocalStorageItemsEnum;
-  allStrategiesObj: AbbreviatedClassicConditions;
-  storedStrategies: AbbreviatedClassicConditions;
+  allStrategiesObj: AbbreviatedClassicConditions | AbbreviatedDoubleupConditions;
+  storedStrategies: AbbreviatedClassicConditions | AbbreviatedDoubleupConditions;
   allStrategyTitles: string[];
   storedConditionTitles: string[];
   titleList: string[];
+  variationUrl: string;
 
   constructor(
     private localStorageService: LocalStorageService, 
+    private headerFooterService: HeaderFooterService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.headerFooterService.fullPageUrl$.pipe().subscribe(url => this.variationUrl = url?.split('/')[0]);
     this.activeStrategy$.pipe().subscribe(strategy => this.activeStrategy = strategy)
     this.activeStrategy$.next({ ...this.defaultConfig });
     this.getStrategies();
@@ -129,13 +139,12 @@ export class ABJStrategySelectorComponent implements OnInit {
   }
 
   handleTitleEdit(newTitle: string): void {
-    this.newTitle = newTitle; 
-    // this.hasNewTitle$.next(newTitle.length >= 3); // I think this is not used
+    this.newTitle = newTitle;
     this.showSaveButton$.next(newTitle.length >= 3);
   }
 
   goBack(): void {
-    this.router.navigate(['/classic/customizations']);
+    this.router.navigate([`/${this.variationUrl}/customizations`]);
   }
 }
 

@@ -1,4 +1,4 @@
-<div class="abj-header flex-column">
+<div class="abj-header flex-column {{ headerClass }}">
   <div class="header-text flex-column">
     <h1>{{title}}</h1>
     <p><i>{{ (headerFooterService.updateTheTagline$ | async) || tagLine }}</i></p>

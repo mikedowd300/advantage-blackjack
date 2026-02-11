@@ -1,5 +1,23 @@
+$doubleup-background: #CBB9F9;
+$doubleup-header-font-color: #f76b8a;
+$doubleup-font-color: #2e013f;
+$doubleup-dark: #6643b5;
+$doubleup-mid: #8594e4;
+$doubleup-lite: #d5def5;
+
 :host {
-  .doubleup {
-    border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $doubleup-background;
+  color: $doubleup-font-color;
+  min-height: calc(100vh - 220px);
+
+  .doubleup.with-nav {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: scroll;
   }
 }

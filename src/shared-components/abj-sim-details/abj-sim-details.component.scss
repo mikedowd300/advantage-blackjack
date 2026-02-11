@@ -4,5 +4,21 @@
     background-color: white;
     color: black;
     font-size: 20px;
+
+    .alternate {
+      background-color: rgba(0, 0, 0, .14);
+      border-radius: 3px;
+      padding: 6px 4px;
+      margin: 0 0 4px;
+      justify-content: space-between;
+
+      &:nth-child(odd) {
+        background-color: rgba(0, 0, 0, .04);
+      }
+
+      span:nth-child(odd) {
+        font-weight: 600;
+      }
+    }
   }
 }

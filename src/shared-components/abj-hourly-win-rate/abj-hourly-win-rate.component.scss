@@ -2,5 +2,63 @@
 
   .abj-hourly-win-rate {
     font-size: 20px;
+
+    .content {
+
+      span {
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        
+        p {
+          margin: 0;
+        }
+
+        .input-wrapper {
+          width: 60px;
+          border: 1px solid black;
+          box-sizing: border-box;
+          margin: 0 8px;
+
+          input {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            font-size: 18px;
+          }
+        }
+      }
+
+      .row-wrapper {
+        border: 1px solid black;
+        border-radius: 3px;
+        padding: 6px;
+
+        .alternate {
+          background-color: rgba(0, 0, 0, .15);
+          padding: 8px 4px;
+          margin-bottom: 4px;
+          border-radius: 3px;
+
+          &:nth-child(odd) {
+            background-color: rgba(0, 0, 0, .05);
+          }
+        }
+      }
+    }
   }
 }
+
+    // <span class="flex">
+    //   <p>At </p>
+    //   <div class="input-wrapper">
+    //     <input
+    //       type="number"
+    //       [(ngModel)]="roundsPerHour"
+    //       (change)="updateWinRateByBettingUnit()"
+    //     >
+    //   </div>
+    //   <p>rounds per hour.</p>
+    // </span>

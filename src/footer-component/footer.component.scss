@@ -1,3 +1,5 @@
+$doubleup-footer-color: #2e013f;
+
 :host {
   
   .abj-footer {
@@ -5,7 +7,7 @@
     color: white;
     padding: 14px 0;
     text-align: center;
-      align-items: center;
+    align-items: center;
 
     .links-wrapper {
       justify-content: center;
@@ -43,6 +45,14 @@
         display: none;
         align-items: center;
         font-size: 16px;
+      }
+    }
+
+    &.doubleup {
+      background-color: $doubleup-footer-color;
+
+      .homepage-setter {
+        color: $doubleup-footer-color;
       }
     }
 

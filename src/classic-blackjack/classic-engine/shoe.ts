@@ -5,7 +5,7 @@ import {
   ShoeConditions
 } from '../../models';
 import { Card } from "./card";
-import { CountingMethod } from '../classic-models/classic-strategies.models';
+import { CountingMethod, HoleCardType } from '../classic-models/classic-strategies.models';
 
 export class Shoe {
   private suites: string[] = ['S', 'H', 'C', 'D'];
@@ -154,16 +154,19 @@ export class Shoe {
     return newShoe;
   }
 
-  get10sPercentage(plusOne: boolean) {
-    let tens: number = this.discardTray[0]?.cardValue === 10 ? 1 : 0;
+  get10sPercentage(plusOne: boolean, holeCardPolicy: HoleCardType, cardsBurned: number) {
+    let tens: number = 0;
+    for(let c = 0; c < cardsBurned; c++) {
+      tens += this.discardTray[c]?.cardValue === 10 ? 1 : 0;
+    }
     tens = plusOne ? tens + 1 : tens;
     this.cards.forEach(c => {
       if(c.cardValue === 10) {
         tens += 1
       }
     });
-    // console.log('**', tens, Math.round((tens * 100) / (this.cards.length + 1)) / 100);
-    return Math.round((tens * 10000) / (this.cards.length + 2)) / 100;
+    const additionalUnseenCards = cardsBurned + (holeCardPolicy === HoleCardType.STANDARD ? 1 : 0);
+    return Math.round((tens * 10000) / (this.cards.length + additionalUnseenCards)) / 100;
   }
 
   getAceCount(plusOne) {
