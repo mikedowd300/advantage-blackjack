@@ -25,6 +25,8 @@ export class DuPlayChartDataStorageService {
     this.f2c = f2c;
     this.playStrategy = this.playStrategy || this.getPlayStrategy(playTitle);
     this.deviationF2cData = this.getDeviationData(deviationDataTitle);
+    console.log(f2c);
+    console.log(JSON.stringify(this.deviationF2cData));
   }
 
   handleSimEnd(deviationChartKey: string) {

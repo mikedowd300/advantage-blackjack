@@ -99,7 +99,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "cname": "advantageblackjack.com"
+            "baseHref": "/advantage-blackjack/"
           }
         }
       }
